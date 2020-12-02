@@ -22,3 +22,7 @@ arp -a
 arp -d 172.16.30.254
 
 ## 7. Start Wireshark in tuxy3.eth0 and start capturing packets
+## 8. In tuxy3, ping tuxy4 for a few seconds
+## 9. Stop capturing packets
+## 10. Save log study it at home
+# Check tux33-packets-captured.pcapng
