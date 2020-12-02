@@ -79,3 +79,8 @@ end
 show running-config interface fastethernet 0/3
 show interfaces fastethernet 0/3 switchport
 ```
+
+#### 10. Repeat steps 7, 8 and 9, but now do ping broadcast in tuxy2 (ping -b 172.16.y1.255)
+```sh
+ping -b 172.16.31.255
+```
