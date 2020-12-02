@@ -1,3 +1,3 @@
 ifconfig eth0 up
 ifconfig
-ifconfig eth0 192.168.0.0/24
+ifconfig eth0 172.16.30.254/24
