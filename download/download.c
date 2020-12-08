@@ -10,6 +10,11 @@
 
 #define SERVER_PORT 21
 
+/*
+ex.: 
+download ftp://netlab1.fe.up.pt/pub.txt
+*/
+
 struct hostent* get_ip(char *hostname){
 	struct hostent *h;
 	/*
@@ -68,8 +73,8 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		memcpy(url_path, _url  + strlen(user) + strlen(pwd) + 2 + strlen(host), strlen(_url) - strlen(host));
 	}
 	else{
-		user[0] = '\0';
-		pwd[0] = '\0';
+		strcpy(user, "anonymous");
+		strcpy(pwd, "pwd");
 		// Get host
 		strcpy(_url_cpy, _url);
 		strcpy(host, strtok(_url_cpy, "/"));
@@ -84,6 +89,45 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 	printf("url-path: %s\n", url_path);
 }
 
+// writes a command
+void write_cmd(int sockfd, char *cmd, char *arg){
+	write(sockfd, "user ", strlen(cmd));
+	write(sockfd, arg, strlen(arg));
+	write(sockfd, "\n", 1);
+	printf("Wrote: %s %s\n", cmd, arg);
+}
+
+// write pasv cmd and returns port from pasv
+int write_pasv(int sockfd){
+	char first_byte[4];
+	char second_byte[4];
+	
+	write(sockfd, "pasv\n", strlen("pasv\n"));
+	printf("Wrote: pasv\n");
+	
+	char *res = malloc(100);
+	read(sockfd, res, 100);
+	printf("Reply: %s", res);
+
+	strtok(res, "(");
+	strcpy(res, strtok(NULL, "("));
+	strcpy(res, strtok(res, ")"));
+	strtok(res, ",");
+	for(int i=0; i<4; i++) strcpy(first_byte, strtok(NULL, ","));
+	strcpy(second_byte, strtok(NULL, ","));
+
+	free(res);
+	return atoi(first_byte)*256 + atoi(second_byte);
+}
+
+// reads a reply from server
+void read_reply(int sockfd){
+	char *r = malloc(100);
+	read(sockfd, r, 100);
+	printf("Reply: %s\n", r);
+	free(r);
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc != 2) {  
@@ -93,7 +137,6 @@ int main(int argc, char *argv[])
 	
     int sockfd;
 	struct sockaddr_in server_addr;
-	int bytes;
 
 	char *user     = (char*)malloc(256); // optional
 	char *pwd      = (char*)malloc(256); // optional
@@ -128,15 +171,22 @@ int main(int argc, char *argv[])
 	}
 
 	// TODO login host
+	read_reply(sockfd);
 
-	write(sockfd, "user ", 5);
-	bytes = write(sockfd, "rcom", strlen("rcom"));
-	printf("Bytes escritos %d\n", bytes);
+	write_cmd(sockfd, "user ", user);
+	read_reply(sockfd);
+
+	write_cmd(sockfd, "pass ", pwd);
+	read_reply(sockfd);
+
+	// Enter passive mode
+	int port = write_pasv(sockfd);
+	printf("Port: %d\n", port);
 	
-	// TODO read server reply
-	char r[100];
-	read(sockfd, r, 100);
-	printf("Reply: %s\n", r);
+	// TODO Get file path
+
+
+	// TODO Save file if successfull
 
 	close(sockfd);
 	exit(0);
