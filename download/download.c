@@ -80,7 +80,7 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		strcpy(host, strtok(_url_cpy, "/"));
 	
 		// Get url_path
-		memcpy(url_path, _url  + strlen(host), strlen(_url) - strlen(host));
+		memcpy(url_path, _url  + strlen(host) + 1, strlen(_url) - strlen(host) - 2);
 	}
 	
 	printf("user: %s\n", user);
@@ -91,10 +91,10 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 
 // writes a command
 void write_cmd(int sockfd, char *cmd, char *arg){
-	write(sockfd, "user ", strlen(cmd));
+	write(sockfd, cmd, strlen(cmd));
 	write(sockfd, arg, strlen(arg));
 	write(sockfd, "\n", 1);
-	printf("Wrote: %s %s\n", cmd, arg);
+	printf("Wrote: %s%s\n", cmd, arg);
 }
 
 // write pasv cmd and returns port from pasv
@@ -128,6 +128,17 @@ void read_reply(int sockfd){
 	free(r);
 }
 
+void download_file(int fd, char *url_path){
+	FILE *f = fopen(url_path, "wb+");
+
+	char buffer[1024];
+	int bytes_read;
+	while((bytes_read = read(fd, buffer, 1024)) > 0){
+		fwrite(buffer, bytes_read, 1, f);
+	}
+	fclose(f);
+}
+
 int main(int argc, char *argv[])
 {
 	if (argc != 2) {  
@@ -136,7 +147,9 @@ int main(int argc, char *argv[])
     }
 	
     int sockfd;
-	struct sockaddr_in server_addr;
+	int sockfd_b;
+	struct sockaddr_in server_addr_a;
+	struct sockaddr_in server_addr_b;
 
 	char *user     = (char*)malloc(256); // optional
 	char *pwd      = (char*)malloc(256); // optional
@@ -149,10 +162,10 @@ int main(int argc, char *argv[])
 
 	/*server address handling*/
 
-	bzero((char *)&server_addr, sizeof(server_addr));
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)h->h_addr))); /*32 bit Internet address network byte ordered*/
-	server_addr.sin_port = htons(SERVER_PORT); /*server TCP port must be network byte ordered */
+	bzero((char *)&server_addr_a, sizeof(server_addr_a));
+	server_addr_a.sin_family = AF_INET;
+	server_addr_a.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)h->h_addr))); /*32 bit Internet address network byte ordered*/
+	server_addr_a.sin_port = htons(SERVER_PORT); /*server TCP port must be network byte ordered */
 
 	/*open an TCP socket*/
 	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -163,14 +176,14 @@ int main(int argc, char *argv[])
 
 	/*connect to the server*/
 	if (connect(sockfd,
-				(struct sockaddr *)&server_addr,
-				sizeof(server_addr)) < 0)
+				(struct sockaddr *)&server_addr_a,
+				sizeof(server_addr_a)) < 0)
 	{
 		perror("connect()");
 		exit(0);
 	}
 
-	// TODO login host
+	// login host
 	read_reply(sockfd);
 
 	write_cmd(sockfd, "user ", user);
@@ -182,12 +195,40 @@ int main(int argc, char *argv[])
 	// Enter passive mode
 	int port = write_pasv(sockfd);
 	printf("Port: %d\n", port);
+
+	// Get file path
+
+	/*server address handling*/
+	bzero((char *)&server_addr_b, sizeof(server_addr_b));
+	server_addr_b.sin_family = AF_INET;
+	server_addr_b.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)h->h_addr)));
+	server_addr_b.sin_port = htons(port);
+
+	/*open an TCP socket*/
+	if ((sockfd_b = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		perror("socket()");
+		exit(0);
+	}
+
+	/*connect to the server*/
+	if (connect(sockfd_b,
+				(struct sockaddr *)&server_addr_b,
+				sizeof(server_addr_b)) < 0)
+	{
+		perror("connect()");
+		exit(0);
+	}
+
+	// Save file if successfull
+	write_cmd(sockfd, "retr ", url_path);
 	
-	// TODO Get file path
+	download_file(sockfd_b, url_path);
 
-
-	// TODO Save file if successfull
+	write_cmd(sockfd, "quit", "");
+	read_reply(sockfd);
 
 	close(sockfd);
+	close(sockfd_b);
 	exit(0);
 }
