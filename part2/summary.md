@@ -1,10 +1,11 @@
 ## Cabling
 
-tux33-eth0 ↔ switch/1  
-tux34-eth0 ↔ switch/2  
-tux32-eth0 ↔ switch/3  
-tux32-tty0 ↔ port23 (crossover RS232)  
-post24 (crossover RS232) ↔ switch config port
+tux33-E0 ↔ switch/1  
+tux34-E0 ↔ switch/2  
+tux32-E0 ↔ switch/3  
+tux34-E1 ↔ switch/4  
+tux32-tty0 ↔ T3 (crossover RS232)  
+T4 (crossover RS232) ↔ Switch Console
 
 ## Reset switch
 
