@@ -2,6 +2,7 @@
 
 Connect router to tux32 through S0, and write in GTKTerm:
 ```sh
+configure terminal
 interface gigabitethernet 0/0
 ip address 172.16.1.39 255.255.255.0
 no shutdown 
