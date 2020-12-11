@@ -1,10 +1,13 @@
 #### 1. Configure commercial router RC and connect it (no NAT) to the lab network (172.16.1.39/24)*
 
+Connect router to tux32 through S0, and write in GTKTerm:
+```sh
 interface gigabitethernet 0/0
 ip address 172.16.1.39 255.255.255.0
 no shutdown 
-exit
+end
 show interface gigabitethernet 0/0
+```
 
 #### 2. Verify routes
 ip route 
