@@ -10,6 +10,9 @@ post24 (crossover RS232) ↔ switch config port
 
 ### tux32, GTKTerm (communicate with switch)
 ```sh
+enable
+8nortel
+
 copy flash:tux3-clean startup-config
 reload
 ```
