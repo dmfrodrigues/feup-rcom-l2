@@ -10,7 +10,7 @@ In GTKTerm:
 enable
 8nortel
 
-# Add port 1
+# Add port 4
 configure terminal
 interface fastethernet 0/4
 switchport mode access
