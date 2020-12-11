@@ -60,7 +60,7 @@ You'll have to write by hand.
 
 `8nortel` is the password.
 
-### tux32, GTKTerm (communicate with switch)
+#### tux32, GTKTerm (communicate with switch)
 ```sh
 # Enable
 enable
