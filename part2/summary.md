@@ -8,7 +8,11 @@ post24 (crossover RS232) ↔ switch config port
 
 ## Reset switch
 
-Ask the teacher
+### tux32, GTKTerm (communicate with switch)
+```sh
+copy flash:tux3-clean startup-config
+reload
+```
 
 ## Configure
 
@@ -52,6 +56,7 @@ You'll have to write by hand.
 
 `8nortel` is the password.
 
+### tux32, GTKTerm (communicate with switch)
 ```sh
 # Enable
 enable
