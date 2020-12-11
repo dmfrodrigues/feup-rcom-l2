@@ -3,7 +3,7 @@
 tux33-E0 ↔ switch/1  
 tux34-E0 ↔ switch/2  
 tux32-E0 ↔ switch/3  
-tux34-E1 ↔ switch/4  
+tux34-E2 ↔ switch/4  
 tux32-tty0 ↔ T3 (crossover RS232)  
 T4 (crossover RS232) ↔ Switch Console
 
@@ -39,9 +39,9 @@ ifconfig eth0 up
 ifconfig
 ifconfig eth0 172.16.30.254/24
 
-ifconfig eth1 up
+ifconfig eth2 up
 ifconfig
-ifconfig eth1 172.16.31.253/24
+ifconfig eth2 172.16.31.253/24
 ```
 
 ### tux32
@@ -133,7 +133,7 @@ route add -net 172.16.31.0/24 gw 172.16.30.254
 
 ### tux32
 ```sh
-ping 172.16.31.253  # ping tux34-eth1
+ping 172.16.31.253  # ping tux34-eth2
 ping 172.16.30.254  # ping tux34-eth0
 ping 172.16.30.1    # ping tux33-eth0
 ```
@@ -141,7 +141,7 @@ ping 172.16.30.1    # ping tux33-eth0
 ### tux33
 ```sh
 ping 172.16.30.254  # ping tux34-eth0
-ping 172.16.31.253  # ping tux34-eth1
+ping 172.16.31.253  # ping tux34-eth2
 ping 172.16.31.1    # ping tux32-eth0
 ```
 
