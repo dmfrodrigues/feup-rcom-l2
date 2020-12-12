@@ -6,7 +6,7 @@ make
 
 Capture with wireshark
 
-./download ftp://ftp.up.pt/pub.txt
+./download ftp://ftp.up.pt/pub/debian/README
 
 #### 3. Verify if file has arrived correctly, stop capturing and save the log
 

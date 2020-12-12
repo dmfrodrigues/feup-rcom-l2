@@ -15,6 +15,7 @@
 /*
 ex.: 
 download ftp://netlab1.fe.up.pt/pub.txt
+download ftp://ftp.up.pt/pub/debian/README
 download ftp://speedtest.tele2.net/1MB.zip
 */
 
