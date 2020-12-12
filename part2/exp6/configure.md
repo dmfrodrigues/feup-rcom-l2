@@ -1,8 +1,16 @@
-#### 1. Compile your dowonload application in tuxy3
+#### 1. Compile your download application in tuxy3
+
+make
 
 #### 2. In tuxy3, restart capturing with Wireshark and run your application download ftp://ftp.up.pt/.... 
 
+Capture with wireshark
+
+./download ftp://ftp.up.pt/pub.txt
+
 #### 3. Verify if file has arrived correctly, stop capturing and save the log
+
+Stop wireshark
 
 #### 4. Using Wireshark observe packets exchanged including:
 
