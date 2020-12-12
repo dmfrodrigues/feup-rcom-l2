@@ -9,10 +9,13 @@
 #include <string.h>
 
 #define SERVER_PORT 21
+#define BUFFER_SIZE 1024
+#define MAX_STR_LEN 256
 
 /*
 ex.: 
 download ftp://netlab1.fe.up.pt/pub.txt
+download ftp://speedtest.tele2.net/1MB.zip
 */
 
 struct hostent* get_ip(char *hostname){
@@ -121,20 +124,24 @@ int write_pasv(int sockfd){
 	return atoi(first_byte)*256 + atoi(second_byte);
 }
 
-// reads a reply from server
-void read_reply(int sockfd){
-	char *r = malloc(100);
-	read(sockfd, r, 100);
+// reads a reply from server, returns first code number
+char read_reply(int sockfd){
+	char code;
+	char *r = malloc(MAX_STR_LEN);
+	read(sockfd, r, MAX_STR_LEN);
+	r[MAX_STR_LEN - 1] = '\0';
+	code = r[0];
 	printf("Reply: %s\n", r);
 	free(r);
+	return code;
 }
 
 void download_file(int fd, char *url_path){
 	FILE *f = fopen(url_path, "wb+");
 
-	char buffer[1024];
+	char buffer[BUFFER_SIZE];
 	int bytes_read;
-	while((bytes_read = read(fd, buffer, 1024)) > 0){
+	while((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0){
 		fwrite(buffer, bytes_read, 1, f);
 	}
 	fclose(f);
@@ -152,10 +159,10 @@ int main(int argc, char *argv[])
 	struct sockaddr_in server_addr_a;
 	struct sockaddr_in server_addr_b;
 
-	char *user     = (char*)malloc(256); // optional
-	char *pwd      = (char*)malloc(256); // optional
-	char *host     = (char*)malloc(256);
-	char *url_path = (char*)malloc(256);
+	char *user     = (char*)malloc(MAX_STR_LEN); // optional
+	char *pwd      = (char*)malloc(MAX_STR_LEN); // optional
+	char *host     = (char*)malloc(MAX_STR_LEN);
+	char *url_path = (char*)malloc(MAX_STR_LEN);
 
 	parse_url(argv[1], user, pwd, host, url_path);
 
@@ -184,18 +191,35 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
+	// Read connect reply
+
+	char reply_code;
+
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
+
 	// login host
-	read_reply(sockfd);
 
 	write_cmd(sockfd, "user ", user);
-	read_reply(sockfd);
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
 
 	write_cmd(sockfd, "pass ", pwd);
-	read_reply(sockfd);
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
 
 	// Enter passive mode
 	int port = write_pasv(sockfd);
-	printf("Port: %d\n", port);
+	printf("Port: %d\n\n", port);
 
 	// Get file path
 
@@ -223,13 +247,25 @@ int main(int argc, char *argv[])
 
 	// Save file if successfull
 	write_cmd(sockfd, "retr ", url_path);
-	read_reply(sockfd);
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
 
 	download_file(sockfd_b, url_path);
-	read_reply(sockfd);
-	
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
+
 	write_cmd(sockfd, "quit", "");
-	read_reply(sockfd);
+	reply_code = read_reply(sockfd);
+	if(reply_code == '4' || reply_code == '5'){
+		close(sockfd); close(sockfd_b);
+		exit(0);
+	}
 
 	close(sockfd);
 	close(sockfd_b);
