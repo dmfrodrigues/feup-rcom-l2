@@ -3,7 +3,7 @@
 tux33-E0 ↔ switch/1  
 tux34-E0 ↔ switch/2  
 tux32-E0 ↔ switch/3  
-tux34-E2 ↔ switch/4  
+tux34-E1 ↔ switch/4  
 tux32-tty0 ↔ T3 (crossover RS232)  
 T4 (crossover RS232) ↔ Switch Console
 
