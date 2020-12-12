@@ -49,8 +49,9 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 	}
 	
 	// url without ftp://
-	char *_url = malloc(strlen(url) - 6);
+	char *_url = (char*)malloc(strlen(url) - 5);
 	memcpy(_url, url + 6, strlen(url) - 6);
+	_url[strlen(_url)] = '\0';
 	
 	char *_url_cpy = malloc(strlen(url) - 6);
 	
@@ -80,13 +81,13 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		strcpy(host, strtok(_url_cpy, "/"));
 	
 		// Get url_path
-		memcpy(url_path, _url  + strlen(host) + 1, strlen(_url) - strlen(host) - 2);
+		memcpy(url_path, _url  + strlen(host) + 1, strlen(_url) - strlen(host) - 1);
 	}
 	
 	printf("user: %s\n", user);
 	printf("pwd: %s\n", pwd);
 	printf("host: %s\n", host);
-	printf("url-path: %s\n", url_path);
+	printf("url-path: %s %d\n", url_path, strlen(url_path));
 }
 
 // writes a command
