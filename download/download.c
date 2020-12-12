@@ -223,9 +223,11 @@ int main(int argc, char *argv[])
 
 	// Save file if successfull
 	write_cmd(sockfd, "retr ", url_path);
-	
-	download_file(sockfd_b, url_path);
+	read_reply(sockfd);
 
+	download_file(sockfd_b, url_path);
+	read_reply(sockfd);
+	
 	write_cmd(sockfd, "quit", "");
 	read_reply(sockfd);
 
