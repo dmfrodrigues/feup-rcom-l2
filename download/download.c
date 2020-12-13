@@ -22,11 +22,12 @@ download ftp://rcom:rcom@netlab1.fe.up.pt/files/pic1.jpg
 download ftp://rcom:rcom@netlab1.fe.up.pt/files/pic2.png
 download ftp://rcom:rcom@netlab1.fe.up.pt/files/crab.mp4
 download ftp://speedtest.tele2.net/1MB.zip
+download ftp://ftp.up.pt/pub/debian/README
 
 Failed:
 
 Sometimes succeeded:
-download ftp://ftp.up.pt/pub/debian/README
+
 
 
 */
@@ -126,6 +127,8 @@ int write_pasv(int sockfd){
 	read(sockfd, res, 100);
 	printf("Reply: %s", res);
 
+	if(res[0] == '3' || res[0] == '4' || res[0] == '5') exit(1);
+
 	strtok(res, "(");
 	strcpy(res, strtok(NULL, "("));
 	strcpy(res, strtok(res, ")"));
@@ -141,7 +144,17 @@ int write_pasv(int sockfd){
 char read_reply(int sockfd){
 	char code;
 	char *r = malloc(MAX_STR_LEN);
-	read(sockfd, r, MAX_STR_LEN);
+	
+	// read(sockfd, r, MAX_STR_LEN);
+	
+	size_t n = 0;
+	ssize_t read;
+	int _sockfd = dup(sockfd);
+	FILE* fp = fdopen(sockfd, "r");
+	while((read = getline(&r, &n, fp)) != -1) {
+		if(r[3] == ' ') break;
+	}
+
 	r[MAX_STR_LEN - 1] = '\0';
 	code = r[0];
 	printf("Reply: %s\n", r);
@@ -219,7 +232,7 @@ int main(int argc, char *argv[])
 
 	reply_code = read_reply(sockfd);
 	if(reply_code == '4' || reply_code == '5'){
-		close(sockfd); close(sockfd_b);
+		close(sockfd);
 		exit(0);
 	}
 
@@ -228,22 +241,20 @@ int main(int argc, char *argv[])
 	write_cmd(sockfd, "user ", user);
 	reply_code = read_reply(sockfd);
 	if(reply_code == '4' || reply_code == '5'){
-		close(sockfd); close(sockfd_b);
+		close(sockfd);
 		exit(0);
 	}
 
 	write_cmd(sockfd, "pass ", pwd);
 	reply_code = read_reply(sockfd);
 	if(reply_code == '4' || reply_code == '5'){
-		close(sockfd); close(sockfd_b);
+		close(sockfd);
 		exit(0);
 	}
 
 	// Enter passive mode
 	int port = write_pasv(sockfd);
 	printf("Port: %d\n\n", port);
-
-	// Get file path
 
 	/*server address handling*/
 	bzero((char *)&server_addr_b, sizeof(server_addr_b));
@@ -281,6 +292,8 @@ int main(int argc, char *argv[])
 		close(sockfd); close(sockfd_b);
 		exit(0);
 	}
+
+	// Quit
 
 	write_cmd(sockfd, "quit", "");
 	reply_code = read_reply(sockfd);
