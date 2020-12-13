@@ -5,18 +5,30 @@
 #include <sys/types.h>
 #include <netinet/in.h> 
 #include <arpa/inet.h>
+#include <libgen.h>
 
 #include <string.h>
 
 #define SERVER_PORT 21
 #define BUFFER_SIZE 1024
-#define MAX_STR_LEN 256
+#define MAX_STR_LEN 1024
 
 /*
 ex.: 
-download ftp://netlab1.fe.up.pt/pub.txt
-download ftp://ftp.up.pt/pub/debian/README
+Succeeded:
+download ftp://netlab1.fe.up.pt/pub.txt 				 
+download ftp://rcom:rcom@netlab1.fe.up.pt/pipe.txt       
+download ftp://rcom:rcom@netlab1.fe.up.pt/files/pic1.jpg
+download ftp://rcom:rcom@netlab1.fe.up.pt/files/pic2.png
+download ftp://rcom:rcom@netlab1.fe.up.pt/files/crab.mp4
 download ftp://speedtest.tele2.net/1MB.zip
+
+Failed:
+
+Sometimes succeeded:
+download ftp://ftp.up.pt/pub/debian/README
+
+
 */
 
 struct hostent* get_ip(char *hostname){
@@ -75,7 +87,7 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		strcpy(host, strtok(_url_cpy, "/"));
 	
 		// Get url_path
-		memcpy(url_path, _url  + strlen(user) + strlen(pwd) + 2 + strlen(host), strlen(_url) - strlen(host));
+		memcpy(url_path, _url  + strlen(user) + strlen(pwd) + 3 + strlen(host), strlen(_url) - strlen(host));
 	}
 	else{
 		strcpy(user, "anonymous");
@@ -91,7 +103,7 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 	printf("user: %s\n", user);
 	printf("pwd: %s\n", pwd);
 	printf("host: %s\n", host);
-	printf("url-path: %s %d\n", url_path, strlen(url_path));
+	printf("url-path: %s\n", url_path);
 }
 
 // writes a command
@@ -138,13 +150,22 @@ char read_reply(int sockfd){
 }
 
 void download_file(int fd, char *url_path){
-	FILE *f = fopen(url_path, "wb+");
+
+	char* filename = basename(url_path);
+
+	FILE *f = fopen(filename, "wb+");
+	
+	if(f == NULL){
+		perror("fopen()");
+		exit(1);
+	}
 
 	char buffer[BUFFER_SIZE];
 	int bytes_read;
 	while((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0){
 		fwrite(buffer, bytes_read, 1, f);
 	}
+
 	fclose(f);
 }
 
