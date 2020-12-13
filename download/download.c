@@ -6,6 +6,8 @@
 #include <netinet/in.h> 
 #include <arpa/inet.h>
 #include <libgen.h>
+#include <regex.h>
+#include <unistd.h>
 
 #include <string.h>
 
@@ -58,13 +60,25 @@ struct hostent* get_ip(char *hostname){
 	return h;
 }
 
+int is_valid_url(char *url){
+	regex_t regex_exp;
+	// https://stackoverflow.com/questions/34189307/ftp-url-regular-expression-in-c-posix
+	// This may need changes
+	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9]+)$", REG_EXTENDED|REG_ICASE)){
+		exit(1);
+	}
+	if(regexec(&regex_exp, url , 0, NULL, 0) == 0) {
+		regfree(&regex_exp);
+		return 0;
+	}
+	else {
+		regfree(&regex_exp);
+		return 1;
+	}
+}
+
 void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 
-	if(strncmp(url, "ftp://", 6) != 0){
-		fprintf(stderr,"Error: url should start with ftp:// \n");
-		exit(0);
-	}
-	
 	// url without ftp://
 	char *_url = (char*)malloc(strlen(url) - 5);
 	memcpy(_url, url + 6, strlen(url) - 6);
@@ -145,11 +159,9 @@ char read_reply(int sockfd){
 	char code;
 	char *r = malloc(MAX_STR_LEN);
 	
-	// read(sockfd, r, MAX_STR_LEN);
-	
 	size_t n = 0;
 	ssize_t read;
-	int _sockfd = dup(sockfd);
+
 	FILE* fp = fdopen(sockfd, "r");
 	while((read = getline(&r, &n, fp)) != -1) {
 		if(r[3] == ' ') break;
@@ -188,6 +200,11 @@ int main(int argc, char *argv[])
         fprintf(stderr,"usage: download ftp://[<user>:<password>@]<host>/<url-path> \n");
         exit(1);
     }
+
+	if(is_valid_url(argv[1]) != 0){
+		fprintf(stderr,"url format: ftp://[<user>:<password>@]<host>/<url-path> \n");
+		exit(1);
+	}
 	
     int sockfd;
 	int sockfd_b;
