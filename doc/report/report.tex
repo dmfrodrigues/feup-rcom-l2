@@ -148,7 +148,21 @@ Class 2, group 4 \vspace{0.5em} \\
 
 \section*{Summary}
 
+This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
+It concerns the configuration of a computer network, and its test and study through a developed FTP client.
+
+All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the requirements in the guidelines.
+
 \section*{Introduction} \label{sec:Introduction}
+
+The present project aims at developing a simple FTP client which is to be tested over a configured network.
+The resulting source code was developed in the C language, targeting Linux devices.
+The network that was configured is composed of three computers, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router; the switch will be used to configure two virtual sub-networks, and the router will provide connectivity to the Internet.
+
+This report has the purpose of guiding the reader through the process used to fulfill the project's goals. As such, this report is divided into two parts.
+In part 1 we address the design, development and testing of the FTP client.
+In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that build incrementally to finally arrive at the goal network configuration.
+This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4 and the available hardware of that rack.
 
 \section{Download application} \label{sec:Part1}
 \subsection{Application architecture} \label{sec:Arc}
@@ -201,9 +215,11 @@ Class 2, group 4 \vspace{0.5em} \\
 \addappheadtotoc
 \chapter{Source code}
 
-The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}. The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
+The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}.
+The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
 
-During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons. It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
+During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons.
+It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
 
 \newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
 \fancyhfoffset{0pt}
