@@ -22,6 +22,4 @@
 #define BUFFER_SIZE 1024
 #define MAX_STR_LEN 1024
 
-
-
 #endif // _DOWNLOAD_H_
