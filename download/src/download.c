@@ -156,5 +156,9 @@ int main(int argc, char *argv[])
 
 	close(sockfd);
 	close(sockfd_b);
+	free(user);
+	free(pwd);
+	free(host);
+	free(url_path);
 	exit(0);
 }

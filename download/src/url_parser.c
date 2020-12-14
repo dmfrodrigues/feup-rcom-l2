@@ -43,8 +43,8 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		
 		// Get host
 		strcpy(_url_cpy, _url);
-		strtok(_url_cpy, "@"); 
-		_url_cpy = strtok(NULL, "@");
+		strtok(_url_cpy, "@");
+		strcpy(_url_cpy, strtok(NULL, "@"));
 	
 		strcpy(host, strtok(_url_cpy, "/"));
 	
@@ -66,4 +66,7 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 	printf("pwd: %s\n", pwd);
 	printf("host: %s\n", host);
 	printf("url-path: %s\n", url_path);
+
+	free(_url_cpy);
+	free(_url);
 }
