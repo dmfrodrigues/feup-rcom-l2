@@ -68,6 +68,18 @@
     keywordstyle=\color{blue}, % keyword color
 	stringstyle=\color{red} % string color
 }
+\lstdefinelanguage{cisco}{
+    keywords = {
+        enable,
+        copy, reload,
+        configure, terminal, end, interface, switchport, mode,
+        access, vlan, show, interfaces, ip, address,
+        no, shutdown, exit, nat, inside, outside, route, list, permit,
+        pool, source, ovrld, overload, running, id
+    },
+    morecomment = [l]{\#}
+}
+
 
 % Tables with bold rows
 \usepackage{tabularx}
@@ -170,6 +182,11 @@ During project development and evaluation the repository remained private, altho
 \restoregeometry
 
 \chapter{Configuration commands}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
 
 \chapter{Logs}
 
