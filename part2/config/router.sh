@@ -1,6 +1,6 @@
 # VLAN31 interface
 conf t
-interface gigabitethernet 0/0 *
+interface gigabitethernet 0/0
 ip address 172.16.31.254 255.255.255.0
 no shutdown
 ip nat inside
@@ -8,7 +8,7 @@ exit
 show interface gigabitethernet 0/0
 
 # Internet interface
-interface gigabitethernet 0/1 *
+interface gigabitethernet 0/1
 ip address 172.16.1.39 255.255.255.0
 no shutdown
 ip nat outside
