@@ -12,7 +12,7 @@
 #include <netinet/in.h> 
 #include <arpa/inet.h>
 #include <libgen.h>
-//#include <unistd.h>
+#include <unistd.h>
 #include <string.h>
 
 #include "url_parser.h"
