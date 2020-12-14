@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 if [ -z "$1" ]; then
+    echo "Usage: tuxy3_config <bench>"
     exit 1
 fi
 y=$1
