@@ -2,9 +2,9 @@ name: test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master , dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ master , dev ]
 
 jobs:
   build:
@@ -24,4 +24,4 @@ jobs:
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
     
     - name: make test
-      run: make test
+      run: make -C download test
