@@ -59,8 +59,10 @@ int main(int argc, char *argv[])
 
 	bzero((char *)&server_addr_a, sizeof(server_addr_a));
 	server_addr_a.sin_family = AF_INET;
-	server_addr_a.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)h->h_addr))); /*32 bit Internet address network byte ordered*/
-	server_addr_a.sin_port = htons(SERVER_PORT); /*server TCP port must be network byte ordered */
+	/// 32 bit Internet address network byte ordered
+	server_addr_a.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)h->h_addr)));
+	/// server TCP port must be network byte ordered
+	server_addr_a.sin_port = htons(SERVER_PORT);
 
 	/*open an TCP socket*/
 	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)

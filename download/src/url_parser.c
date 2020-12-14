@@ -11,7 +11,8 @@ int is_valid_url(char *url){
 	regex_t regex_exp;
 	// https://stackoverflow.com/questions/34189307/ftp-url-regular-expression-in-c-posix
 	// This may need changes
-	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9]+)$", REG_EXTENDED|REG_ICASE)){
+	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9]+)$",
+	  REG_EXTENDED|REG_ICASE)){
 		exit(1);
 	}
 	if(regexec(&regex_exp, url , 0, NULL, 0) == 0) {
@@ -49,7 +50,11 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 		strcpy(host, strtok(_url_cpy, "/"));
 	
 		// Get url_path
-		memcpy(url_path, _url  + strlen(user) + strlen(pwd) + 3 + strlen(host), strlen(_url) - strlen(host));
+		memcpy(
+			url_path,
+			_url + strlen(user) + strlen(pwd) + 3 + strlen(host),
+			strlen(_url) - strlen(host)
+		);
 	}
 	else{
 		strcpy(user, "anonymous");
