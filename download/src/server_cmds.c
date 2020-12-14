@@ -9,7 +9,6 @@
 #include "download.h"
 #include "server_cmds.h"
 
-// writes a command
 void write_cmd(int sockfd, char *cmd, char *arg){
 	write(sockfd, cmd, strlen(cmd));
 	write(sockfd, arg, strlen(arg));
@@ -17,7 +16,6 @@ void write_cmd(int sockfd, char *cmd, char *arg){
 	printf("Wrote: %s%s\n", cmd, arg);
 }
 
-// write pasv cmd and returns port from pasv
 int write_pasv(int sockfd){
 	char first_byte[4];
 	char second_byte[4];
@@ -25,8 +23,8 @@ int write_pasv(int sockfd){
 	write(sockfd, "pasv\n", strlen("pasv\n"));
 	printf("Wrote: pasv\n");
 	
-	char *res = malloc(100);
-	read(sockfd, res, 100);
+	char *res = malloc(MAX_STR_LEN);
+	read(sockfd, res, MAX_STR_LEN);
 	printf("Reply: %s", res);
 
 	if(res[0] == '3' || res[0] == '4' || res[0] == '5') exit(1);
