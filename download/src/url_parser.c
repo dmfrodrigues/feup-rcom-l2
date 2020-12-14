@@ -32,7 +32,7 @@ void parse_url(char *url, char *user, char *pwd, char *host, char *url_path){
 	memcpy(_url, url + 6, strlen(url) - 6);
 	_url[strlen(_url)] = '\0';
 	
-	char *_url_cpy = malloc(strlen(url) - 6);
+	char *_url_cpy = malloc(strlen(url) - 5);
 	
 	// Get user and password if defined
 	if(strchr(_url, '@') != NULL){
