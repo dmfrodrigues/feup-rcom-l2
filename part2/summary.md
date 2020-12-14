@@ -26,7 +26,7 @@ copy flash:tux3-clean startup-config
 reload
 ```
 
-## Configure
+## Configure network
 
 ### tux33
 
@@ -164,22 +164,30 @@ ping 172.16.31.1    # ping tux32-eth0
 Configure router (Rc):
 ```sh
 # VLAN31 interface
-configure terminal
-interface gigabitethernet 0/0
+conf t
+interface gigabitethernet 0/0 *
 ip address 172.16.31.254 255.255.255.0
-no shutdown 
-end
+no shutdown
+ip nat inside
+exit
 show interface gigabitethernet 0/0
 
 # Internet interface
-configure terminal
-interface gigabitethernet 0/1
+interface gigabitethernet 0/1 *
 ip address 172.16.1.39 255.255.255.0
-no shutdown 
-end
+no shutdown
+ip nat outside
+exit
 show interface gigabitethernet 0/1
 
-# Route from tux32 to VLAN30 via tux34
+# Routes
+ip nat pool ovrld 172.16.1.39 172.16.1.39 prefix 24
+ip nat inside source list 1 pool ovrld overload
+
+access-list 1 permit 172.16.30.0 0.0.0.7
+access-list 1 permit 172.16.31.0 0.0.0.7
+
+ip route 0.0.0.0 0.0.0.0 172.16.1.254
 ip route 172.16.30.0 255.255.255.0 172.16.31.253
 end
 ```
@@ -208,4 +216,48 @@ route add default gw 172.16.30.254
 In tux32 and tux34:
 ```sh
 route add default gw 172.16.31.254
+```
+
+In tux32:
+```sh
+echo 1 > /proc/sys/net/ipv4/conf/eth0/accept_redirects
+echo 1 > /proc/sys/net/ipv4/conf/all/accept_redirects
+```
+
+### Tests
+
+In tux33:
+```sh
+ping 172.16.30.254  # tux34-eth0
+ping 172.16.31.253  # tux34-eth1
+ping 172.16.31.1    # tux32-eth0
+ping 172.16.31.254  # Rc-inside
+ping 172.16.1.39    # Rc-outside
+```
+
+### DNS configuration
+
+In tux32, tux33 and tux34:
+```
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1 *" > /etc/resolv.conf
+```
+
+Tests:
+```sh
+ping google.com
+ping example.com
+ping example.org
+ping www.sapo.pt
+```
+
+## Finally
+
+In tux33:
+```sh
+cd download
+make
+make test_all
+./download ftp://ftp.up.pt/pub/debian/README
+./download ftp://rcom:rcom@netlab1.fe.up.pt/files/pic2.png
+./download ftp://rcom:rcom@netlab1.fe.up.pt/files/crab.mp4
 ```
