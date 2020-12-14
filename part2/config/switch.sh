@@ -12,8 +12,9 @@ enable
 copy flash:tux3-clean startup-config
 reload
 
-# Create VLAN30
 configure terminal
+
+# Create VLAN30
 vlan 30
 # Add port 1 to VLAN30
 interface fastethernet 0/1
