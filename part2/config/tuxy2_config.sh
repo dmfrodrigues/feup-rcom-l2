@@ -21,4 +21,4 @@ route add -net 172.16.${y}0.0/24 gw 172.16.${y}1.253
 route add default gw 172.16.${y}1.254
 
 # DNS configuration
-echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1 *" > /etc/resolv.conf
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
