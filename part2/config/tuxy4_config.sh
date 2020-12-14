@@ -12,11 +12,9 @@ ethY=$3
 /etc/init.d/networking restart
 # Setup ethX
 ifconfig $ethX up
-ifconfig
 ifconfig $ethX 172.16.${y}0.254/24
 # Setup ethY
 ifconfig $ethY up
-ifconfig
 ifconfig $ethY 172.16.${y}1.253/24
 
 # Enable IP forwarding

@@ -11,7 +11,6 @@ ethX=$2
 /etc/init.d/networking restart
 # Setup ethX
 ifconfig $ethX up
-ifconfig
 ifconfig $ethX 172.16.${y}1.1/24
 
 # Add route to VLAN y0 through tuxy4
