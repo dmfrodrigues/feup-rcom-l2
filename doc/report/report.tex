@@ -1,0 +1,182 @@
+% Copyright (C) 2020 Diogo Rodrigues, Breno Pimentel
+% Distributed under the terms of the GNU General Public License, version 3
+
+\documentclass[a4paper, 11pt]{report}
+\usepackage[top=35mm,bottom=35mm,left=25mm,right=25mm]{geometry} % Margins
+
+% Change section numbers
+\renewcommand{\thesection}{\arabic{section}}
+
+% Second page
+\usepackage{secondpage}
+\usepackage{datetime}
+
+% Appendix
+\usepackage{appendix}
+
+% Landscape pages
+\usepackage{pdflscape}
+\usepackage{multicol}
+\setlength\columnsep{50pt}
+
+% Decent underlines
+\usepackage[normalem]{ulem}
+
+% Hyper-references
+\usepackage{hyperref}
+
+% Imports
+\usepackage{import}
+
+% Graphics and images
+\usepackage{graphicx} \graphicspath{{./images/}}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata, positioning, arrows}
+\usepackage[justification=centering,font=small,skip=0.5em]{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\usepackage[binary-units=true]{siunitx} %SI units
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\sisetup{
+  round-mode          = places,
+  round-precision     = 2,
+}
+
+% Encodings (to render letters with diacritics and special characters)
+\usepackage[utf8]{inputenc}
+
+% Language
+\usepackage[english]{babel}
+
+% Source code and algorithms
+%\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{listings}
+\lstset{
+	basicstyle=\linespread{0.85}\ttfamily,
+	basewidth  = {0.50em,1em},
+    frame=tbr, % draw frame at top and bottom of the code
+    tabsize=4, % tab space width
+    numbers=left, % display line numbers on the left
+	showstringspaces=false, % don't mark spaces in strings    
+    commentstyle=\color{green}, % comment color
+    keywordstyle=\color{blue}, % keyword color
+	stringstyle=\color{red} % string color
+}
+
+% Tables with bold rows
+\usepackage{tabularx}
+\newcommand\setrow[1]{\gdef\rowmac{#1}#1\ignorespaces}
+\newcommand\clearrow{\global\let\rowmac\relax}
+\clearrow
+\usepackage{multirow}
+
+% Tables with vertical center alignment
+\usepackage{array}
+
+% Lists and items
+\usepackage{enumitem}
+
+% Math stuff
+\usepackage[mathscr]{euscript}
+\usepackage{amssymb, latexsym} %Load math symbols like \blacksquare, but also load normal \leadsto arrows
+\usepackage{mathtools} % For \text{...}
+% \usepackage{enumitem}
+% \usepackage{xcolor}
+\newcommand{\expnumber}[2]{{#1}\mathrm{e}{#2}} % scientific notation
+\newcommand{\degree}{^{\circ}}
+\newcommand*\xor{\oplus}
+\newcommand\expected[1]{\mathbf{E}[#1]}
+
+% Headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{Configuration of a computer network — Report (RCOM 2020/21)}}
+\rhead{\fancyplain{}{Class 2, group 4}}
+\lfoot{\fancyplain{}{\leftmark}}
+\rfoot{\thepage}
+
+% Email
+\newcommand{\email}[1]{
+{\texttt{\href{mailto:#1}{#1}} }
+}
+
+% Metadata
+\title{\Huge Configuration and study of a \\ computer network \\ \vspace*{12pt} \Large Report \\ \vspace*{4pt} \large FEUP - RCOM 2020/21}
+\author{
+Class 2, group 4 \vspace{0.5em} \\
+\begin{tabular}{r l}
+	\email{up201800170@fe.up.pt} & Breno Accioly de Barros Pimentel \\
+	\email{up201806429@fe.up.pt} & Diogo Miguel Ferreira Rodrigues  \\
+\end{tabular}
+}
+\date{23rd of December, 2020}
+
+% Document
+\begin{document}
+\maketitle
+\begin{secondpage}
+    Copyright \copyright 2020--\the\year\ Diogo Rodrigues, Breno Pimentel\par
+    \IfFileExists{VERSION}{Version \input{VERSION}}{Draft version}\par
+    \immediate\write18{./get-commit-info.sh > COMMIT.tex}
+    Built on \today~\currenttime~from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{dmfrodrigues/feup-rcom-l2}, commit \input{COMMIT}\unskip.\par
+    Permission is granted to copy and distribute this document under the terms of the
+    \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
+    public license.
+\end{secondpage}
+\clearpage
+
+\pagenumbering{arabic}
+
+\section*{Summary}
+
+\section*{Introduction} \label{sec:Introduction}
+
+\section{Download application} \label{sec:Part1}
+
+\section{Network configuration and analysis} \label{sec:Part2}
+
+\section*{Conclusion} \label{sec:Conclusion}
+
+\section*{References} \label{sec:References}
+
+\appendix
+\appendixpage
+\addappheadtotoc
+\chapter{Source code}
+
+The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}. The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
+
+During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons. It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
+
+\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+\fancyhfoffset{0pt}
+
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.h}, language=C]{../../download/include/url_parser.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.c}, language=C]{../../download/src/url_parser.c}
+
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.h}, language=C]{../../download/include/server_cmds.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.c}, language=C]{../../download/src/server_cmds.c}
+
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.h}, language=C]{../../download/include/download.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.c}, language=C]{../../download/src/download.c}
+
+\restoregeometry
+
+\chapter{Configuration commands}
+
+\chapter{Logs}
+
+\begin{multicols}{2}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-tau.txt}]{../../stats/vary-tau.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-fre.txt}]{../../stats/vary-fre.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-tau-fre.txt}]{../../stats/vary-tau-fre.txt}
+\end{multicols}
+
+\end{document}

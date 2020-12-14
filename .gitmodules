@@ -1,0 +1,3 @@
+[submodule "latex-files"]
+	path = latex-files
+	url = https://github.com/dmfrodrigues/latex-files.git
