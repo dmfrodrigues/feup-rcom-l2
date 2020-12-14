@@ -1,52 +1,116 @@
 #### 1. Configure commercial router RC and connect it (no NAT) to the lab network (172.16.1.39/24)*
 
-Connect router to tux32 through S0, and write in GTKTerm:
+Configure router:
 ```sh
+# VLAN31 interface
 configure terminal
 interface gigabitethernet 0/0
-ip address 172.16.1.39 255.255.255.0
+ip address 172.16.31.254 255.255.255.0
 no shutdown 
 end
 show interface gigabitethernet 0/0
+
+# Internet interface
+configure terminal
+interface gigabitethernet 0/1
+ip address 172.16.1.39 255.255.255.0
+no shutdown 
+end
+show interface gigabitethernet 0/1
+```
+
+Configure switch:
+```sh
+enable
+8nortel
+
+# Add port 5
+configure terminal
+interface fastethernet 0/5
+switchport mode access
+switchport access vlan 31
+end
+
+show running-config interface fastethernet 0/5
+show interfaces fastethernet 0/5 switchport
 ```
 
 #### 2. Verify routes
-ip route 
 ##### tuxy4 as default router of tuxy3; Rc as default router for tuxy2 and tuxy4
+
+In tux33:
+```sh
+route add default gw 172.16.30.254
+```
+
+In tux32 and tux34:
+```sh
+route add default gw 172.16.31.254
+```
 
 ##### Routes for 172.16.y0.0/24 in tuxy2 and Rc
 
+In tux32:
+```sh
+# Route from tux32 to VLAN30 via tux34
+route                                               # Check if there is a route to 172.16.30.0 already
+route add -net 172.16.30.0/24 gw 172.16.31.253      # Add if not yet added
+```
+
+In Rc:
+```sh
+# Route from tux32 to VLAN30 via tux34
+ip route 172.16.30.0 255.255.255.0 172.16.31.253
+end
+```
+
 #### 3. Using ping commands and wireshark, verify if tuxy3 can ping all the network interfaces of tuxy4, tuxy2 and Rc
 
-ping 172.16.31.0
+In tux33:
+```sh
+ping 172.16.30.254  # tux34-eth0
+ping 172.16.31.253  # tux34-eth1
+ping 172.16.31.1    # tux32-eth0
+ping 172.16.31.254  # Rc-inside
+ping 172.16.1.39    # Rc-outside
+```
 
-ping 172.16.30.253
-
-ping 172.16.30.254
-
-#### 4.
+#### 4. In tuxy2
 
 ##### Do: echo 0 > /proc/sys/net/ipv4/conf/eth0/accept_redirects and echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
 
+In tux32:
+```sh
+echo 0 > /proc/sys/net/ipv4/conf/eth0/accept_redirects
+echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
+```
+
 ##### remove the route to 172.16.y0.0/24 via tuxy4
 
-route del -net 172.16.30.0 netmask 255.255.255.0
+```sh
+route del -net 172.16.30.0/24
+```
 
 ##### In tuxy2, ping tuxy3
 
-ping 
+In tux32:
+```
+ping 172.16.30.1
+```
 
 ##### Using capture at tuxy2, try to understand the path followed by ICMP ECHO and ECHO-REPLY packets (look at MAC addresses)
 
-
-
 ##### In tuxy2, do traceroute tuxy3
 
-traceroute 172.16.30.0
+```sh
+traceroute 172.16.30.1
+```
 
 ##### In tuxy2, add again the route to 172.16.y0.0/24 via tuxy4 and do traceroute tuxy3
 
+```sh
 route add -net 172.16.31.0/24 gw 172.16.31.253
+```
 
 ##### Activate the acceptance of ICMP redirect at tuxy2 when there is no route to 172.16.y0.0/24 via tuxy4 and try to understand what happens
 

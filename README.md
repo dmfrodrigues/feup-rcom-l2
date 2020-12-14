@@ -28,7 +28,7 @@ FEUP, room I321, bench 3
 
 ### Part 1 - download application
 
-A simple application for download over FTP.
+A simple FTP client.
 
 #### Compile
 
