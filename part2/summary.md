@@ -4,8 +4,16 @@ tux33-E0 ↔ switch/1
 tux34-E0 ↔ switch/2  
 tux32-E0 ↔ switch/3  
 tux34-E1 ↔ switch/4  
+3.1 ↔ Router GE0/1  
+Router GE0/0 ↔ switch/5  
+
+### To configure switch
 tux32-tty0 ↔ T3 (crossover RS232)  
 T4 (crossover RS232) ↔ Switch Console
+
+### To configure router
+tux32-tty0 ↔ T3 (crossover RS232)  
+T4 (crossover RS232) ↔ Router Console
 
 ## Reset switch
 
@@ -149,4 +157,55 @@ ping 172.16.31.1    # ping tux32-eth0
 ```sh
 ping 172.16.30.1    # ping tux33-eth0
 ping 172.16.31.1    # ping tux32-eth0
+```
+
+## Outer world
+
+Configure router (Rc):
+```sh
+# VLAN31 interface
+configure terminal
+interface gigabitethernet 0/0
+ip address 172.16.31.254 255.255.255.0
+no shutdown 
+end
+show interface gigabitethernet 0/0
+
+# Internet interface
+configure terminal
+interface gigabitethernet 0/1
+ip address 172.16.1.39 255.255.255.0
+no shutdown 
+end
+show interface gigabitethernet 0/1
+
+# Route from tux32 to VLAN30 via tux34
+ip route 172.16.30.0 255.255.255.0 172.16.31.253
+end
+```
+
+Configure switch:
+```sh
+enable
+8nortel
+
+# Add port 5
+configure terminal
+interface fastethernet 0/5
+switchport mode access
+switchport access vlan 31
+end
+
+show running-config interface fastethernet 0/5
+show interfaces fastethernet 0/5 switchport
+```
+
+In tux33:
+```sh
+route add default gw 172.16.30.254
+```
+
+In tux32 and tux34:
+```sh
+route add default gw 172.16.31.254
 ```
