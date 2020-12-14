@@ -1,21 +1,23 @@
 #!/bin/bash
-set -e
-if [ -z "$1" ]; then
-    echo "Usage: tuxy4_config <bench>"
+set -e -x
+if [ -z "$3" ]; then
+    echo "Usage: tuxy4_config <bench> <ethX> <ethY>"
     exit 1
 fi
 y=$1
+ethX=$2
+ethY=$3
 
 # Restart network
 /etc/init.d/networking restart
-# Setup eth0
-ifconfig eth0 up
+# Setup ethX
+ifconfig $ethX up
 ifconfig
-ifconfig eth0 172.16.${y}0.254/24
-# Setup eth1
-ifconfig eth2 up
+ifconfig $ethX 172.16.${y}0.254/24
+# Setup ethY
+ifconfig $ethY up
 ifconfig
-ifconfig eth2 172.16.${y}1.253/24
+ifconfig $ethY 172.16.${y}1.253/24
 
 # Enable IP forwarding
 echo 1 > /proc/sys/net/ipv4/ip_forward
