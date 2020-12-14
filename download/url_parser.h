@@ -1,3 +1,6 @@
+// Copyright (C) 2020 Diogo Rodrigues, Breno Pimentel
+// Distributed under the terms of the GNU General Public License, version 3
+
 #ifndef _URL_PARSER_H_
 #define _URL_PARSER_H_
 

@@ -1,3 +1,6 @@
+// Copyright (C) 2020 Diogo Rodrigues, Breno Pimentel
+// Distributed under the terms of the GNU General Public License, version 3
+
 #include <stdlib.h>
 #include <regex.h>
 
