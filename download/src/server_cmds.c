@@ -40,7 +40,6 @@ int write_pasv(int sockfd){
 	return atoi(first_byte)*256 + atoi(second_byte);
 }
 
-// reads a reply from server, returns first code number
 char read_reply(int sockfd){
 	char code;
 	char *r = malloc(MAX_STR_LEN);

@@ -9,8 +9,6 @@
 
 int is_valid_url(char *url){
 	regex_t regex_exp;
-	// https://stackoverflow.com/questions/34189307/ftp-url-regular-expression-in-c-posix
-	// This may need changes
 	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9]+)$",
 	  REG_EXTENDED|REG_ICASE)){
 		exit(1);
