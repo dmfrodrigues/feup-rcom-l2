@@ -1,21 +1,23 @@
 # Copyright (C) 2020 Diogo Rodrigues, Breno Pimentel
 # Distributed under the terms of the GNU General Public License, version 3
 
-CFLAFG=-Wall -Wextra -g
+SDIR    =./src
+IDIR    =./include
+ODIR    =./obj
+
+CC      =gcc
+CFLAGS  =-Wall -Wextra -g -I$(IDIR)
 
 all: download
  
-download: download.o url_parser.o server_cmds.o
-	gcc download.o url_parser.o server_cmds.o -o download $(CFLAGS) 
+download: $(ODIR)/download.o $(ODIR)/url_parser.o $(ODIR)/server_cmds.o
+	$(CC) $(ODIR)/download.o $(ODIR)/url_parser.o $(ODIR)/server_cmds.o $(CFLAGS) -o download
 
-download.o: download.c download.h
-	gcc -c download.c $(CFLAGS)
- 
-url_parser.o: url_parser.c url_parser.h
-	gcc -c url_parser.c $(CFLAGS)
+$(ODIR)/%.o: $(SDIR)/%.c | $(ODIR)
+	$(CC) -c $< $(CFLAGS) -o $@
 
-server_cmds.o: server_cmds.c server_cmds.h
-	gcc -c server_cmds.c $(CFLAGS)
+$(ODIR):
+	mkdir $(ODIR)
 
 test: test_novpn
 
@@ -34,4 +36,6 @@ test_novpn:
 	./download ftp://ftp.up.pt/pub/apache/README.html
 
 clean: 
-	rm download download.o url_parser.o server_cmds.o
+	rm -f download
+	rm -rf obj
+	rm -f 1MB.zip crab.mp4 pic1.jpg pic2.png pipe.txt pub.txt README README.html
