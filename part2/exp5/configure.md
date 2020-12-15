@@ -2,7 +2,7 @@
 
 In tux32, tux33 and tux34:
 ```
-echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1 *" > /etc/resolv.conf
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
 ```
 
 #### 2. Verify if names can be used in these hosts (e.g ping hostname, use browser)

@@ -2,20 +2,23 @@
 
 Configure router:
 ```sh
-# VLAN31 interface
+
 configure terminal
+
+# VLAN31 interface
 interface gigabitethernet 0/0
 ip address 172.16.31.254 255.255.255.0
 no shutdown 
-end
-show interface gigabitethernet 0/0
+
+exit
 
 # Internet interface
-configure terminal
 interface gigabitethernet 0/1
 ip address 172.16.1.39 255.255.255.0
 no shutdown 
 end
+
+show interface gigabitethernet 0/0
 show interface gigabitethernet 0/1
 ```
 
@@ -109,7 +112,7 @@ traceroute 172.16.30.1
 ##### In tuxy2, add again the route to 172.16.y0.0/24 via tuxy4 and do traceroute tuxy3
 
 ```sh
-route add -net 172.16.31.0/24 gw 172.16.31.253
+route add -net 172.16.30.0/24 gw 172.16.31.253
 traceroute tux33
 ```
 
@@ -126,13 +129,8 @@ route del -net 172.16.30.0/24
 ping 172.16.30.1
 traceroute 172.16.30.1
 
-# Done with mandatory actions in this question
-# It is good to re-add the route
-
-# Re-add route and test
-route add -net 172.16.31.0/24 gw 172.16.31.253
-ping 172.16.30.1
-traceroute 172.16.30.1
+# Re-add route
+route add -net 172.16.30.0/24 gw 172.16.31.253
 ```
 
 #### 5. In tuxy3, ping the router of the lab I.321 (172.16.1.254)** and try to understand what happens
@@ -146,13 +144,13 @@ ping 172.16.1.254
 
 ```sh
 conf t
-interface gigabitethernet 0/0 *
+interface gigabitethernet 0/0
 ip address 172.16.31.254 255.255.255.0
 no shutdown
 ip nat inside
 exit
 
-interface gigabitethernet 0/1 *
+interface gigabitethernet 0/1
 ip address 172.16.1.39 255.255.255.0
 no shutdown
 ip nat outside

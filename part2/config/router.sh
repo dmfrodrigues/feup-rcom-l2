@@ -1,3 +1,6 @@
+root
+8nortel
+
 # VLAN31 interface
 conf t
 interface gigabitethernet 0/0
