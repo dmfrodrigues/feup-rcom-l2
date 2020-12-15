@@ -80,7 +80,7 @@ ping 172.16.1.39    # Rc-outside
 
 #### 4. In tuxy2
 
-##### Do: echo 0 > /proc/sys/net/ipv4/conf/eth0/accept_redirects and echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
+##### (a) Do: echo 0 > /proc/sys/net/ipv4/conf/eth0/accept_redirects and echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
 
 In tux32:
 ```sh
@@ -88,35 +88,35 @@ echo 0 > /proc/sys/net/ipv4/conf/eth0/accept_redirects
 echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
 ```
 
-##### remove the route to 172.16.y0.0/24 via tuxy4
+##### (b) remove the route to 172.16.y0.0/24 via tuxy4
 
 ```sh
 route del -net 172.16.30.0/24
 ```
 
-##### In tuxy2, ping tuxy3
+##### (c) In tuxy2, ping tuxy3
 
 In tux32:
 ```
 ping 172.16.30.1
 ```
 
-##### Using capture at tuxy2, try to understand the path followed by ICMP ECHO and ECHO-REPLY packets (look at MAC addresses)
+##### (d) Using capture at tuxy2, try to understand the path followed by ICMP ECHO and ECHO-REPLY packets (look at MAC addresses)
 
-##### In tuxy2, do traceroute tuxy3
+##### (e) In tuxy2, do traceroute tuxy3
 
 ```sh
 traceroute 172.16.30.1
 ```
 
-##### In tuxy2, add again the route to 172.16.y0.0/24 via tuxy4 and do traceroute tuxy3
+##### (f) In tuxy2, add again the route to 172.16.y0.0/24 via tuxy4 and do traceroute tuxy3
 
 ```sh
 route add -net 172.16.30.0/24 gw 172.16.31.253
 traceroute tux33
 ```
 
-##### Activate the acceptance of ICMP redirect at tuxy2 when there is no route to 172.16.y0.0/24 via tuxy4 and try to understand what happens
+##### (g) Activate the acceptance of ICMP redirect at tuxy2 when there is no route to 172.16.y0.0/24 via tuxy4 and try to understand what happens
 
 In tux32:
 ```sh
