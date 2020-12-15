@@ -1,0 +1,9 @@
+PING 172.16.30.1 (172.16.30.1) 56(84) bytes of data.
+From 172.16.31.254: icmp_seq=1 Redirect Host(New nexthop: 172.16.31.253)
+64 bytes from 172.16.30.1: icmp_seq=1 ttl=63 time=0.640 ms
+64 bytes from 172.16.30.1: icmp_seq=2 ttl=63 time=0.311 ms
+64 bytes from 172.16.30.1: icmp_seq=3 ttl=63 time=0.306 ms
+
+--- 172.16.30.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 39ms
+rtt min/avg/max/mdev = 0.306/0.419/0.640/0.156 ms

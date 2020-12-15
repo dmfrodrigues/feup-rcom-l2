@@ -1,0 +1,26 @@
+user: rcom
+pwd: rcom
+host: netlab1.fe.up.pt
+url-path: pipe.txt
+Host name  : netlab1.fe.up.pt
+IP Address : 192.168.109.136
+Reply: 220 Welcome to netlab-FTP server
+
+Wrote: user rcom
+Reply: 331 Please specify the password.
+
+Wrote: pass rcom
+Reply: 230 Login successful.
+
+Wrote: pasv
+Reply: 227 Entering Passive Mode (192,168,109,136,173,20).
+Port: 44308
+
+Wrote: retr pipe.txt
+Reply: 150 Opening BINARY mode data connection for pipe.txt (1863 bytes).
+
+Reply: 226 Transfer complete.
+
+Wrote: quit
+Reply: 221 Goodbye.
+
