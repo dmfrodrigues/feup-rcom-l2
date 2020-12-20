@@ -181,12 +181,17 @@ Next, it sends a PASV command to the FTP server so it can transfer data in passi
 After entering passive mode, the download application opens another socket, using the port of the server reply, where the data will be transfered.
 Finally, it copies the file from url-path to the current working directory and finish the connection sending the QUIT command and closes the sockets.
 
-
-\subsection{Report of successful download} \label{sec:Dow}
+To test the aplication and start a download:
 
 \begin{lstlisting}[frame=none, numbers=none, language=sh]
 ./download ftp://[<user>:<password>@]<host>/<url-path>
 \end{lstlisting}
+
+
+\subsection{Report of successful download} \label{sec:Dow}
+
+The application was tested in different FTP servers and with files varying in size and type. The tests made were succesful with or without credentials.
+Reports of successful downloads can be found in \ref{sec:exp6logs}.
 
 \section{Network configuration and analysis} \label{sec:Part2}
 
@@ -611,7 +616,7 @@ It will be made public once all equivalent curricular unit projects have been ev
 \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, caption=\texttt{tux33\_exp5\_pcapng.txt}]{../../part2/exp5/tux33_exp5_pcapng.txt}
 \end{landscape}
 
-\section{Experiment 6}
+\section{Experiment 6}  \label{sec:exp6logs}
 % \begin{multicols}{2}
 \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux32\_exp6\_item5.txt}]{../../part2/exp6/tux32_exp6_item5.txt}
 \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item5.txt}]{../../part2/exp6/tux33_exp6_item5.txt}
