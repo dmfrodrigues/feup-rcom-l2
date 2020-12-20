@@ -189,7 +189,18 @@ Finally, it copies the file from url-path to the current working directory and f
 \subsection{Experiment 1} \label{sec:Exp1}
 \subsubsection{Network architecture} \label{sec:Arc1}
 
-TODO
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[->,>=stealth',node distance=2cm,initial text=$ $,]
+		\node[align=center, draw, minimum width=4cm, minimum height=1.0cm] at (+0, -0.0) (transmitter) {Switch};
+        \node[align=center, draw, minimum width=2cm, minimum height=1.0cm] at (-1.5, -1.8) (receiver) {tux33};
+        \node[align=center, draw, minimum width=2cm, minimum height=1.0cm] at (+1.5, -1.8) (receiver) {tux34};
+		
+		\draw  (-1.5, -0.5) -- (-1.5, -1.2) node [midway, above, sloped] {\small \texttt{.1}};
+		\draw  (+1.5, -0.5) -- (+1.5, -1.2) node [midway, above, sloped] {\small \texttt{.254}};
+	\end{tikzpicture}
+	\caption{tux33 and tux 34 connect by a switch}
+\end{figure}
 
 \subsubsection{Objectives} \label{sec:Obj1}
 
