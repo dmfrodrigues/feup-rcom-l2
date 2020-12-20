@@ -182,7 +182,9 @@ Finally, it copies the file from url-path to the current working directory and f
 
 \subsection{Report of successful download} \label{sec:Dow}
 
+\begin{lstlisting}[frame=none, numbers=none, language=sh]
 ./download ftp://[<user>:<password>@]<host>/<url-path>
+\end{lstlisting}
 
 \section{Network configuration and analysis} \label{sec:Part2}
 
@@ -192,8 +194,6 @@ Finally, it copies the file from url-path to the current working directory and f
 \begin{figure}[H]
 	\centering
     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        % \scriptsize
-
         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
@@ -220,18 +220,13 @@ This experiment consisted in connecting two computers by configuring its IPs.
 
 \subsubsection{Main configuration commands} \label{sec:Com1}
 
-- Activate eth0 interface:
-
-ifconfig eth0 up
-
-- Configure eth0 with 172.16.30.1 and 24 bits mask in tux33
-
-ifconfig eth0 172.16.30.1/24
-
-- In tux34
-
-ifconfig eth0 172.16.30.254/24
-
+\begin{tabular}{l | p{75mm} | l}
+    \textbf{Cmp.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
+    tux33         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
+    tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \texttt{ifconfig eth0 172.16.30.1/24}   \\
+    tux34         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
+    tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \texttt{ifconfig eth0 172.16.30.254/24} \\
+\end{tabular}
 
 \subsubsection{Logs analysis} \label{sec:Log1}
 
@@ -262,8 +257,6 @@ It is important for diagnostics.
 \begin{figure}[H]
 	\centering
     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        % \scriptsize
-
         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
@@ -328,8 +321,6 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 \begin{figure}[H]
 	\centering
     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        % \scriptsize
-
         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
@@ -439,8 +430,6 @@ work as a gateway between both VLANs.
 \begin{figure}[H]
 	\centering
     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        % \scriptsize
-
         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
