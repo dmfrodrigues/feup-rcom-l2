@@ -1,0 +1,61 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      2 1.065589485    Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+      3 2.004902818    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      4 4.010049942    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      5 5.162818801    172.16.30.1           172.16.30.254         ICMP     98     Echo (ping) request  id=0x5eaf, seq=1/256, ttl=64 (reply in 6)
+      6 5.163002135    172.16.30.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eaf, seq=1/256, ttl=64 (request in 5)
+      7 6.014689736    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      8 6.169429906    172.16.30.1           172.16.30.254         ICMP     98     Echo (ping) request  id=0x5eaf, seq=2/512, ttl=64 (reply in 9)
+      9 6.169561418    172.16.30.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eaf, seq=2/512, ttl=64 (request in 8)
+     10 7.193443376    172.16.30.1           172.16.30.254         ICMP     98     Echo (ping) request  id=0x5eaf, seq=3/768, ttl=64 (reply in 11)
+     11 7.193579916    172.16.30.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eaf, seq=3/768, ttl=64 (request in 10)
+     12 8.019600655    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     13 10.024434678   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     14 11.073199038   Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+     15 12.029307672   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     16 13.122443526   172.16.30.1           172.16.31.253         ICMP     98     Echo (ping) request  id=0x5eb6, seq=1/256, ttl=64 (reply in 17)
+     17 13.122618899   172.16.31.253         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eb6, seq=1/256, ttl=64 (request in 16)
+     18 14.034395988   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     19 14.137409225   172.16.30.1           172.16.31.253         ICMP     98     Echo (ping) request  id=0x5eb6, seq=2/512, ttl=64 (reply in 20)
+     20 14.137542413   172.16.31.253         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eb6, seq=2/512, ttl=64 (request in 19)
+     21 15.161409005   172.16.30.1           172.16.31.253         ICMP     98     Echo (ping) request  id=0x5eb6, seq=3/768, ttl=64 (reply in 22)
+     22 15.161575717   172.16.31.253         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eb6, seq=3/768, ttl=64 (request in 21)
+     23 16.039090118   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     24 18.043999918   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     25 18.410582621   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x5eba, seq=1/256, ttl=64 (reply in 26)
+     26 18.410901588   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eba, seq=1/256, ttl=63 (request in 25)
+     27 19.219990484   HewlettP_5a:7d:74     HewlettP_61:24:92     ARP      60     Who has 172.16.30.1? Tell 172.16.30.254
+     28 19.220011716   HewlettP_61:24:92     HewlettP_5a:7d:74     ARP      42     172.16.30.1 is at 00:21:5a:61:24:92
+     29 19.417424762   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x5eba, seq=2/512, ttl=64 (reply in 30)
+     30 19.417719423   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eba, seq=2/512, ttl=63 (request in 29)
+     31 20.048878499   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     32 20.441428523   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x5eba, seq=3/768, ttl=64 (reply in 33)
+     33 20.441673388   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5eba, seq=3/768, ttl=63 (request in 32)
+     34 21.080925290   Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+     35 22.053763435   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     36 23.866571923   172.16.30.1           172.16.31.254         ICMP     98     Echo (ping) request  id=0x5ebe, seq=1/256, ttl=64 (reply in 37)
+     37 23.867096852   172.16.31.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ebe, seq=1/256, ttl=254 (request in 36)
+     38 24.058707388   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     39 24.889408002   172.16.30.1           172.16.31.254         ICMP     98     Echo (ping) request  id=0x5ebe, seq=2/512, ttl=64 (reply in 40)
+     40 24.889862042   172.16.31.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ebe, seq=2/512, ttl=254 (request in 39)
+     41 25.913414138   172.16.30.1           172.16.31.254         ICMP     98     Echo (ping) request  id=0x5ebe, seq=3/768, ttl=64 (reply in 42)
+     42 25.913826832   172.16.31.254         172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ebe, seq=3/768, ttl=254 (request in 41)
+     43 26.063617187   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     44 28.072157283   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     45 30.073295146   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     46 31.088495092   Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+     47 31.874677685   172.16.30.1           172.16.1.39           ICMP     98     Echo (ping) request  id=0x5ec5, seq=1/256, ttl=64 (reply in 48)
+     48 31.875217491   172.16.1.39           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ec5, seq=1/256, ttl=254 (request in 47)
+     49 32.083153293   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     50 32.889406829   172.16.30.1           172.16.1.39           ICMP     98     Echo (ping) request  id=0x5ec5, seq=2/512, ttl=64 (reply in 51)
+     51 32.889832164   172.16.1.39           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ec5, seq=2/512, ttl=254 (request in 50)
+     52 33.913409122   172.16.30.1           172.16.1.39           ICMP     98     Echo (ping) request  id=0x5ec5, seq=3/768, ttl=64 (reply in 53)
+     53 33.913840464   172.16.1.39           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x5ec5, seq=3/768, ttl=254 (request in 52)
+     54 34.083100985   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     55 36.087973348   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     56 38.097861666   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     57 40.097743426   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     58 41.087785026   Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+     59 42.102610481   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     60 44.112494188   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003

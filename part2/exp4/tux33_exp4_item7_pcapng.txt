@@ -1,0 +1,17 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      2 2.004823280    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      3 3.942126553    172.16.30.1           172.16.1.254          ICMP     98     Echo (ping) request  id=0x64ac, seq=1/256, ttl=64 (reply in 4)
+      4 3.942968633    172.16.1.254          172.16.30.1           ICMP     98     Echo (ping) reply    id=0x64ac, seq=1/256, ttl=62 (request in 3)
+      5 4.009672610    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      6 4.970324134    172.16.30.1           172.16.1.254          ICMP     98     Echo (ping) request  id=0x64ac, seq=2/512, ttl=64 (reply in 7)
+      7 4.970966188    172.16.1.254          172.16.30.1           ICMP     98     Echo (ping) reply    id=0x64ac, seq=2/512, ttl=62 (request in 6)
+      8 5.012926609    Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+      9 5.994327518    172.16.30.1           172.16.1.254          ICMP     98     Echo (ping) request  id=0x64ac, seq=3/768, ttl=64 (reply in 10)
+     10 5.994930530    172.16.1.254          172.16.30.1           ICMP     98     Echo (ping) reply    id=0x64ac, seq=3/768, ttl=62 (request in 9)
+     11 6.014577255    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     12 8.019469817    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     13 8.996744762    HewlettP_5a:7d:74     HewlettP_61:24:92     ARP      60     Who has 172.16.30.1? Tell 172.16.30.254
+     14 8.996762921    HewlettP_61:24:92     HewlettP_5a:7d:74     ARP      42     172.16.30.1 is at 00:21:5a:61:24:92
+     15 10.024377185   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     16 12.029217296   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003

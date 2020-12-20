@@ -1,0 +1,16 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      2 2.004889076    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      3 3.375338098    172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) request  id=0x576f, seq=1/256, ttl=64 (reply in 5)
+      4 3.375715793    172.16.31.254         172.16.31.1           ICMP     70     Redirect             (Redirect for host)
+      5 3.375973782    172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) reply    id=0x576f, seq=1/256, ttl=63 (request in 3)
+      6 3.573803136    Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+      7 4.009879330    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      8 4.376635778    172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) request  id=0x576f, seq=2/512, ttl=64 (reply in 10)
+      9 4.376994057    172.16.31.254         172.16.31.1           ICMP     70     Redirect             (Redirect for host)
+     10 4.377232212    172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) reply    id=0x576f, seq=2/512, ttl=63 (request in 8)
+     11 5.400638244    172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) request  id=0x576f, seq=3/768, ttl=64 (reply in 13)
+     12 5.400969286    172.16.31.254         172.16.31.1           ICMP     70     Redirect             (Redirect for host)
+     13 5.401262824    172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) reply    id=0x576f, seq=3/768, ttl=63 (request in 11)
+     14 6.014667376    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     15 8.019554994    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
