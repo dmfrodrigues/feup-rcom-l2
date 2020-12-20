@@ -66,7 +66,9 @@
 	showstringspaces=false, % don't mark spaces in strings    
     commentstyle=\color{green}, % comment color
     keywordstyle=\color{blue}, % keyword color
-	stringstyle=\color{red} % string color
+    stringstyle=\color{red}, % string color
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
 }
 \lstdefinelanguage{cisco}{
     keywords = {
@@ -534,24 +536,34 @@ It will be made public once all equivalent curricular unit projects have been ev
 \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
 \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
 
+\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+\fancyhfoffset{0pt}
 \chapter{Logs}
 
 \begin{center}
     \begin{tabular}{l | l | l}
         \textbf{Interface} & \textbf{MAC address}       & \texttt{IP address}    \\ \hline
-        tux32-eth0         &                            & \texttt{172.16.31.1  } \\
+        tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
         tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
         tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
-        tux34-eth2         &                            & \texttt{172.16.31.253} \\
-        Rc-GE0/0           &                            & \texttt{172.16.31.254} \\
-        Rc-GE0/1           &                            & \texttt{172.16.1.39  } \\
+        tux34-eth2         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
+        Rc-GE0/0           & \texttt{                 } & \texttt{172.16.31.254} \\
+        Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
     \end{tabular}
 \end{center}
 
-\begin{multicols}{2}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-tau.txt}]{../../stats/vary-tau.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-fre.txt}]{../../stats/vary-fre.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{vary-tau-fre.txt}]{../../stats/vary-tau-fre.txt}
-\end{multicols}
+\section{Experiment 1}
+% \begin{multicols}{2}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp1\_item5\_routes.txt}]{../../part2/exp1/tux33_exp1_item5_routes.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp1\_item5\_arp.txt}   ]{../../part2/exp1/tux33_exp1_item5_arp.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux34\_exp1\_item5\_routes.txt}]{../../part2/exp1/tux34_exp1_item5_routes.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux34\_exp1\_item5\_arp.txt}   ]{../../part2/exp1/tux34_exp1_item5_arp.txt}
+% \end{multicols}
+
+\begin{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, caption=\texttt{tux33\_exp1\_item10\_pcapng.txt}]{../../part2/exp1/tux33_exp1_item10_pcapng.txt}
+\end{landscape}
+
+\restoregeometry
 
 \end{document}

@@ -41,4 +41,4 @@ arp -d 172.16.30.254
 #### 8. In tuxy3, ping tuxy4 for a few seconds
 #### 9. Stop capturing packets
 #### 10. Save log study it at home
-Check [tux33-packets-captured.pcapng](tux33-packets-captured.pcapng)
+Check [tux33_exp1_item10.pcapng](tux33_exp1_item10.pcapng)
