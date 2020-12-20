@@ -1,0 +1,34 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      2 1.999552569    Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      3 4.004337404    Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      4 6.014617182    Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      5 8.014416711    Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      6 8.610166399    Cisco_3a:fa:86        Cisco_3a:fa:86        LOOP     60     Reply
+      7 10.019027013   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      8 12.024126555   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+      9 14.028827232   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     10 16.033842126   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     11 18.043729812   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     12 18.609449559   Cisco_3a:fa:86        Cisco_3a:fa:86        LOOP     60     Reply
+     13 19.621978255   Kye_25:26:0a          Broadcast             ARP      42     Who has 172.16.31.1? Tell 172.16.31.253
+     14 19.622095868   HewlettP_61:30:63     Kye_25:26:0a          ARP      60     172.16.31.1 is at 00:21:5a:61:30:63
+     15 19.622113957   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x3d7c, seq=1/256, ttl=63 (reply in 16)
+     16 19.622232060   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x3d7c, seq=1/256, ttl=64 (request in 15)
+     17 20.043601628   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     18 20.653992876   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x3d7c, seq=2/512, ttl=63 (reply in 19)
+     19 20.654108395   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x3d7c, seq=2/512, ttl=64 (request in 18)
+     20 21.677993852   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x3d7c, seq=3/768, ttl=63 (reply in 21)
+     21 21.678110069   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x3d7c, seq=3/768, ttl=64 (request in 20)
+     22 22.048437239   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     23 22.701994688   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x3d7c, seq=4/1024, ttl=63 (reply in 24)
+     24 22.702107972   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x3d7c, seq=4/1024, ttl=64 (request in 23)
+     25 23.725993639   172.16.30.1           172.16.31.1           ICMP     98     Echo (ping) request  id=0x3d7c, seq=5/1280, ttl=63 (reply in 26)
+     26 23.726130738   172.16.31.1           172.16.30.1           ICMP     98     Echo (ping) reply    id=0x3d7c, seq=5/1280, ttl=64 (request in 25)
+     27 24.058430874   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     28 24.710444402   HewlettP_61:30:63     Kye_25:26:0a          ARP      60     Who has 172.16.31.253? Tell 172.16.31.1
+     29 24.710458719   Kye_25:26:0a          HewlettP_61:30:63     ARP      42     172.16.31.253 is at 00:c0:df:25:26:0a
+     30 26.058589670   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     31 28.063165120   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
+     32 28.617274021   Cisco_3a:fa:86        Cisco_3a:fa:86        LOOP     60     Reply
+     33 30.068391705   Cisco_3a:fa:86        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/31/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8006
