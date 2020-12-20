@@ -210,7 +210,7 @@ Finally, it copies the file from url-path to the current working directory and f
                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
             ;
     \end{tikzpicture}
-	\caption{Network diagram for experiment 4}
+	\caption{Network diagram for experiment 1}
 	\label{fig:network_exp4}
 \end{figure}
 
@@ -290,7 +290,7 @@ It is important for diagnostics.
             ;
 
     \end{tikzpicture}
-	\caption{Network diagram for experiment 4}
+	\caption{Network diagram for experiment 2}
 	\label{fig:network_exp4}
 \end{figure}
 
@@ -360,7 +360,7 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
             ;
 
     \end{tikzpicture}
-	\caption{Network diagram for experiment 4}
+	\caption{Network diagram for experiment 3}
 	\label{fig:network_exp4}
 \end{figure}
 
@@ -490,8 +490,16 @@ work as a gateway between both VLANs.
 \end{figure}
 
 \subsubsection{Objectives} \label{sec:Obj4}
+
+Configure a commercial router and implement NAT.
+
 \subsubsection{Main configuration commands} \label{sec:Com4}
 \subsubsection{Logs analysis} \label{sec:Log4}
+
+When running the ping command from tux32 to tux33 without redirects, the packets first arrived on the router and then were redirected to tux34 and after it tux33.
+After enabling the redirects and running ping again, the router sends a ICMP redirect message to tux32 that allows tux32 to directly send packets to tux34, without needing to go first through the router.
+
+NAT is a method to translate IP addresses of computers in a network to a single public IP address.
 
 \subsection{Experiment 5} \label{sec:Exp5}
 \subsubsection{Objectives} \label{sec:Obj5}
