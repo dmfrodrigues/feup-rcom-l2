@@ -216,14 +216,16 @@ Finally, it copies the file from url-path to the current working directory and f
 
 \subsubsection{Objectives} \label{sec:Obj1}
 
-This experiment consisted in connecting two computers by configuring its IPs.
+\begin{enumerate}
+    \item Connect two computers by configuring their IP addresses.
+\end{enumerate}
 
 \subsubsection{Main configuration commands} \label{sec:Com1}
 
 \begin{tabular}{l | p{75mm} | l}
-    \textbf{Cmp.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
+    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
     tux33         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
-    tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \texttt{ifconfig eth0 172.16.30.1/24}   \\
+    tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \texttt{ifconfig eth0 172.16.30.1/24}   \\ \hline
     tux34         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
     tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \texttt{ifconfig eth0 172.16.30.254/24} \\
 \end{tabular}
@@ -289,27 +291,30 @@ It is important for diagnostics.
 
 \subsubsection{Objectives} \label{sec:Obj2}
 
-Implement two virtual LANs in a switch.
+\begin{enumerate}
+    \item Create virtual LAN 30 and add tux33 and tux34 to it.
+    \item Create virtual LAN 31 and add tux23 to it.
+\end{enumerate}
 
 \subsubsection{Main configuration commands} \label{sec:Com2}
 
-- Creates a Ethernet VLAN
-
+\begin{tabular}{l | p{75mm} | l}
+    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
+    switch        & Create virtual LAN 30                                 &
+        \begin{lstlisting}[frame=none, numbers=none, language=sh]
 configure terminal
 vlan 30
 end
-
-- Creates a connection to the computer port 1 to VLAN 30
-
+        \end{lstlisting} \\
+    switch        & Assign port 1 to VLAN 30                              & 
+        \begin{lstlisting}[frame=none, numbers=none, language=sh]
 configure terminal
-
 interface fastethernet 0/1
-
 switchport mode access
-
 switchport access vlan 30
-
 end
+        \end{lstlisting} \\
+\end{tabular}
 
 \subsubsection{Logs analysis} \label{sec:Log2}
 
@@ -357,62 +362,55 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 
 \subsubsection{Objectives} \label{sec:Obj3}
 
-Configure a router in Linux.
+\begin{enumerate}
+    \item Add tux34-E1 to VLAN31.
+    \item Configure computers so that tux34 serves as a router between VLAN30 and VLAN31.
+\end{enumerate}
 
 \subsubsection{Main configuration commands} \label{sec:Com3}
 
-- Configure tuxy4.eth1
-
+\begin{tabular}{l | p{75mm} | l}
+    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
+    tux34         & Configure tux34-E1 (we actually used eth2, as tux34-E1 was strangely associated to eth2) &
+        \begin{lstlisting}[frame=none, numbers=none, language=sh]
 ifconfig eth1 up
-
 ifconfig eth1 172.16.31.253/24
-
-- Add port 4
-
+        \end{lstlisting} \\
+    tux34         & Enable IP forwarding & \\
+    tux34         & Disable ICMP echo-ignore-broadcast & \\ \hline
+    switch        & Add port 4 to VLAN 31 & 
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
 configure terminal
-
 interface fastethernet 0/4
-
 switchport mode access
-
 switchport access vlan 31
-
 end
-
-- Enable IP forwarding
-
-- Disable ICMP echo-ignore-broadcast
+    \end{lstlisting}
+\end{tabular}
 
 \subsubsection{Logs analysis} \label{sec:Log3}
 
------
-
 In tux32:
-
+\begin{lstlisting}[frame=tb, numbers=none]
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
 172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
-
------
-
+\end{lstlisting}
 In tux33:
-
+\begin{lstlisting}[frame=tb, numbers=none]
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
 172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
-
------
-
+\end{lstlisting}
 In tux34:
-
+\begin{lstlisting}[frame=tb, numbers=none]
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
 172.16.31.0     0.0.0.0         255.255.255.0   U     0      0        0 eth1
-
------
+\end{lstlisting}
 
 A forwarding table entry contains the destination address, a gateway where the data will be redirected, genmask, flags, metric, ref, use and iface.
 
