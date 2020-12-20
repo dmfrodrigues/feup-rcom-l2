@@ -235,15 +235,110 @@ It is important for diagnostics.
 
 \subsection{Experiment 2} \label{sec:Exp2}
 \subsubsection{Network architecture} \label{sec:Arc2}
+
+TODO
+
 \subsubsection{Objectives} \label{sec:Obj2}
+
+Implement two virtual LANs in a switch.
+
 \subsubsection{Main configuration commands} \label{sec:Com2}
+
+- Creates a Ethernet VLAN
+
+configure terminal
+vlan 30
+end
+
+- Creates a connection to the computer port 1 to VLAN 30
+
+configure terminal
+
+interface fastethernet 0/1
+
+switchport mode access
+
+switchport access vlan 30
+
+end
+
 \subsubsection{Logs analysis} \label{sec:Log2}
+
+There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 
 \subsection{Experiment 3} \label{sec:Exp3}
 \subsubsection{Network architecture} \label{sec:Arc3}
+
+TODO
+
 \subsubsection{Objectives} \label{sec:Obj3}
+
+Configure a router in Linux.
+
 \subsubsection{Main configuration commands} \label{sec:Com3}
+
+- Configure tuxy4.eth1
+
+ifconfig eth1 up
+
+ifconfig eth1 172.16.31.253/24
+
+- Add port 4
+
+configure terminal
+
+interface fastethernet 0/4
+
+switchport mode access
+
+switchport access vlan 31
+
+end
+
+- Enable IP forwarding
+
+- Disable ICMP echo-ignore-broadcast
+
 \subsubsection{Logs analysis} \label{sec:Log3}
+
+-----
+
+In tux32:
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
+
+-----
+
+In tux33:
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
+
+-----
+
+In tux34:
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+172.16.31.0     0.0.0.0         255.255.255.0   U     0      0        0 eth1
+
+-----
+
+A forwarding table entry contains the destination address, a gateway where the data will be redirected, genmask, flags, metric, ref, use and iface.
+
+It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
+This happens because this is the next hop in the route, through there it can be redirected to the final destination.
+
+We are able to observe ICMP packets between all computers in the network, meaning all of them are connected.
+
+When running the ping command from tux33 to tux32, the source MAC address is from tux33 but the destination MAC address is from tux34. This also happens because tux34
+work as a gateway between both VLANs.
 
 \subsection{Experiment 4} \label{sec:Exp4}
 \subsubsection{Network architecture} \label{sec:Arc4}
