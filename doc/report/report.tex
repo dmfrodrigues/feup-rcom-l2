@@ -48,6 +48,7 @@
 
 % Encodings (to render letters with diacritics and special characters)
 \usepackage[utf8]{inputenc}
+% \DeclareUnicodeCharacter{2192}{\dash}
 
 % Language
 \usepackage[english]{babel}
@@ -612,12 +613,26 @@ It will be made public once all equivalent curricular unit projects have been ev
 \end{landscape}
 
 \section{Experiment 6}
-% \begin{multicols}{2}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux32\_exp6\_item5.txt}]{../../part2/exp6/tux32_exp6_item5.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item5.txt}]{../../part2/exp6/tux33_exp6_item5.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item2\_pic2\_download.txt}]{../../part2/exp6/tux33_exp6_item2_pic2_download.txt}
+\subsection{Item 2}
+\subsubsection{Transferring \texttt{pipe.txt}}
 \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item2\_pipe\_download.txt}]{../../part2/exp6/tux33_exp6_item2_pipe_download.txt}
-% \end{multicols}
+\begin{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{tux33\_exp6\_item2.pcapng.txt}]{../../part2/exp6/tux33_exp6_item2.pcapng.txt}
+\end{landscape}
+
+\subsubsection{Transferring \texttt{pic2.png}}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item2\_pic2\_download.txt}]{../../part2/exp6/tux33_exp6_item2_pic2_download.txt}
+\begin{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny, frame=tbr, caption=\texttt{tux33\_exp6\_item2\_pic2.pcapng.txt}]{../../part2/exp6/tux33_exp6_item2_pic2.pcapng.txt}
+\end{landscape}
+
+\subsection{Item 5}
+
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux32\_exp6\_item5.txt}]{../../part2/exp6/tux32_exp6_item5.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux32\_exp6\_item5.pcapng.txt}]{../../part2/exp6/tux32_exp6_item5.pcapng.txt}
+
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item5.txt}]{../../part2/exp6/tux33_exp6_item5.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{tux33\_exp6\_item5.pcapng.txt}]{../../part2/exp6/tux33_exp6_item5.pcapng.txt}
 
 \restoregeometry
 

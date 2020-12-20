@@ -1,0 +1,60 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      2 2.004913304    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+      3 3.986571029    172.16.30.1           172.16.1.1            DNS      76     Standard query 0x9c8c A netlab1.fe.up.pt
+      4 3.988146586    172.16.1.1            172.16.30.1           DNS      340    Standard query response 0x9c8c A netlab1.fe.up.pt A 192.168.109.136 NS ns4.up.pt NS ns3.up.pt NS ns2.up.pt NS ns1.up.pt A 193.137.55.30 AAAA 2001:690:2200:a10::30 A 193.137.55.31 AAAA 2001:690:2200:a10::31 A 193.137.55.32 AAAA 2001:690:2200:a10::32 A 193.137.55.33 AAAA 2001:690:2200:a10::33
+      5 3.988235145    172.16.30.1           192.168.109.136       TCP      74     46748 -> 21 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=1800525303 TSecr=0 WS=128
+      6 3.989373423    192.168.109.136       172.16.30.1           TCP      74     21 -> 46748 [SYN, ACK] Seq=0 Ack=1 Win=65160 Len=0 MSS=1460 SACK_PERM=1 TSval=3784761821 TSecr=1800525303 WS=128
+      7 3.989394515    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [ACK] Seq=1 Ack=1 Win=64256 Len=0 TSval=1800525304 TSecr=3784761821
+      8 3.991832267    192.168.109.136       172.16.30.1           FTP      100    Response: 220 Welcome to netlab-FTP server
+      9 3.991842604    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [ACK] Seq=1 Ack=35 Win=64256 Len=0 TSval=1800525306 TSecr=3784761824
+     10 3.991858667    172.16.30.1           192.168.109.136       FTP      71     Request: user 
+     11 3.992822062    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=35 Ack=6 Win=65280 Len=0 TSval=3784761825 TSecr=1800525306
+     12 3.992828977    172.16.30.1           192.168.109.136       FTP      71     Request: rcom
+     13 3.993994493    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=35 Ack=11 Win=65280 Len=0 TSval=3784761826 TSecr=1800525307
+     14 3.994057421    192.168.109.136       172.16.30.1           FTP      100    Response: 331 Please specify the password.
+     15 3.994076697    172.16.30.1           192.168.109.136       FTP      71     Request: pass 
+     16 3.995160918    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=69 Ack=16 Win=65280 Len=0 TSval=3784761827 TSecr=1800525309
+     17 3.995167483    172.16.30.1           192.168.109.136       FTP      71     Request: rcom
+     18 3.996103221    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=69 Ack=21 Win=65280 Len=0 TSval=3784761828 TSecr=1800525310
+     19 4.005185843    192.168.109.136       172.16.30.1           FTP      89     Response: 230 Login successful.
+     20 4.005214897    172.16.30.1           192.168.109.136       FTP      71     Request: pasv
+     21 4.006265385    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=92 Ack=26 Win=65280 Len=0 TSval=3784761838 TSecr=1800525320
+     22 4.006449977    192.168.109.136       172.16.30.1           FTP      119    Response: 227 Entering Passive Mode (192,168,109,136,173,20).
+     23 4.006491602    172.16.30.1           192.168.109.136       TCP      74     46648 -> 44308 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=1800525321 TSecr=0 WS=128
+     24 4.007509613    192.168.109.136       172.16.30.1           TCP      74     44308 -> 46648 [SYN, ACK] Seq=0 Ack=1 Win=65160 Len=0 MSS=1460 SACK_PERM=1 TSval=3784761840 TSecr=1800525321 WS=128
+     25 4.007522464    172.16.30.1           192.168.109.136       TCP      66     46648 -> 44308 [ACK] Seq=1 Ack=1 Win=64256 Len=0 TSval=1800525322 TSecr=3784761840
+     26 4.007532033    172.16.30.1           192.168.109.136       FTP      71     Request: retr 
+     27 4.008435085    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=145 Ack=31 Win=65280 Len=0 TSval=3784761840 TSecr=1800525322
+     28 4.008441580    172.16.30.1           192.168.109.136       FTP      75     Request: pipe.txt
+     29 4.009270181    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=145 Ack=40 Win=65280 Len=0 TSval=3784761841 TSecr=1800525323
+     30 4.009648932    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     31 4.010248033    192.168.109.136       172.16.30.1           FTP-DATA 1514   FTP Data: 1448 bytes (PASV) (retr )
+     32 4.010254948    172.16.30.1           192.168.109.136       TCP      66     46648 -> 44308 [ACK] Seq=1 Ack=1449 Win=64128 Len=0 TSval=1800525325 TSecr=3784761842
+     33 4.010303208    192.168.109.136       172.16.30.1           FTP-DATA 481    FTP Data: 415 bytes (PASV) (retr )
+     34 4.010310751    172.16.30.1           192.168.109.136       TCP      66     46648 -> 44308 [ACK] Seq=1 Ack=1864 Win=63744 Len=0 TSval=1800525325 TSecr=3784761842
+     35 4.010313754    192.168.109.136       172.16.30.1           TCP      66     44308 -> 46648 [FIN, ACK] Seq=1864 Ack=1 Win=65280 Len=0 TSval=3784761842 TSecr=1800525322
+     36 4.010319062    192.168.109.136       172.16.30.1           FTP      134    Response: 150 Opening BINARY mode data connection for pipe.txt (1863 bytes).
+     37 4.053869427    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [ACK] Seq=40 Ack=213 Win=64256 Len=0 TSval=1800525368 TSecr=3784761842
+     38 4.053881999    172.16.30.1           192.168.109.136       TCP      66     46648 -> 44308 [ACK] Seq=1 Ack=1865 Win=64128 Len=0 TSval=1800525368 TSecr=3784761842
+     39 4.055145783    192.168.109.136       172.16.30.1           FTP      90     Response: 226 Transfer complete.
+     40 4.055166805    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [ACK] Seq=40 Ack=237 Win=64256 Len=0 TSval=1800525370 TSecr=3784761887
+     41 4.055205567    172.16.30.1           192.168.109.136       FTP      70     Request: quit
+     42 4.056378417    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=237 Ack=44 Win=65280 Len=0 TSval=3784761888 TSecr=1800525370
+     43 4.056387008    172.16.30.1           192.168.109.136       FTP      67     Request: 
+     44 4.057257304    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=237 Ack=45 Win=65280 Len=0 TSval=3784761889 TSecr=1800525371
+     45 4.057313527    192.168.109.136       172.16.30.1           FTP      80     Response: 221 Goodbye.
+     46 4.057341184    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [FIN, ACK] Seq=45 Ack=251 Win=64256 Len=0 TSval=1800525372 TSecr=3784761889
+     47 4.057355152    172.16.30.1           192.168.109.136       TCP      66     46648 -> 44308 [FIN, ACK] Seq=1 Ack=1865 Win=64128 Len=0 TSval=1800525372 TSecr=3784761842
+     48 4.057361508    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [FIN, ACK] Seq=251 Ack=45 Win=65280 Len=0 TSval=3784761889 TSecr=1800525371
+     49 4.057370238    172.16.30.1           192.168.109.136       TCP      66     46748 -> 21 [ACK] Seq=46 Ack=252 Win=64256 Len=0 TSval=1800525372 TSecr=3784761889
+     50 4.058334611    192.168.109.136       172.16.30.1           TCP      66     44308 -> 46648 [ACK] Seq=1865 Ack=2 Win=65280 Len=0 TSval=3784761890 TSecr=1800525372
+     51 4.058442307    192.168.109.136       172.16.30.1           TCP      66     21 -> 46748 [ACK] Seq=252 Ack=46 Win=65280 Len=0 TSval=3784761890 TSecr=1800525372
+     52 4.462758536    Cisco_3a:fa:83        Cisco_3a:fa:83        LOOP     60     Reply
+     53 6.014566427    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     54 7.952710942    Cisco_3a:fa:83        CDP/VTP/DTP/PAgP/UDLD CDP      435    Device ID: tux-sw3  Port ID: FastEthernet0/1  
+     55 8.019433916    Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     56 9.136278520    HewlettP_5a:7d:74     HewlettP_61:24:92     ARP      60     Who has 172.16.30.1? Tell 172.16.30.254
+     57 9.136298355    HewlettP_61:24:92     HewlettP_5a:7d:74     ARP      42     172.16.30.1 is at 00:21:5a:61:24:92
+     58 10.024328503   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
+     59 12.029244810   Cisco_3a:fa:83        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/30/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8003
