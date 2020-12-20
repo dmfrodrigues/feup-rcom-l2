@@ -23,17 +23,14 @@ ping 172.16.30.254
 ```sh
 route -n
 ```
-```txt
-Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
-```
+[tux33_exp1_item5_routes.txt](tux33_exp1_item5_routes.txt)  
+[tux34_exp1_item5_routes.txt](tux34_exp1_item5_routes.txt)
+
 ```sh
 arp -a
 ```
-```txt
-? (172.16.30.254) at 00:21:5a:5a:7d:74 [ether] on eth0
-```
+
+[tux33_exp1_item5_arp.txt](tux33_exp1_item5_arp.txt)  
 
 #### 6. Delete ARP table entries in tuxy3 (arp -d ipaddress)
 ```sh
