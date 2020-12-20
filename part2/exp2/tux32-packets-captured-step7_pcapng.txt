@@ -1,0 +1,42 @@
+No.     Time           Source                Destination           Protocol Length Info
+      1 0.000000000    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      2 2.004907281    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      3 4.009641426    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      4 5.067015868    Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+      5 6.014543119    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      6 8.019401162    Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      7 10.024331350   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      8 12.029231227   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+      9 14.034253885   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     10 15.074857917   Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+     11 16.039093839   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     12 18.044011945   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     13 18.446704127   Cisco_3a:fa:85        CDP/VTP/DTP/PAgP/UDLD DTP      60     Dynamic Trunk Protocol
+     14 18.446806862   Cisco_3a:fa:85        CDP/VTP/DTP/PAgP/UDLD DTP      90     Dynamic Trunk Protocol
+     15 20.048963644   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     16 22.053938322   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     17 24.058787425   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     18 25.082683274   Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+     19 26.063670610   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     20 28.068638233   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     21 30.073529101   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     22 32.078434985   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     23 34.088356704   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     24 35.090487190   Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+     25 36.088292708   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     26 38.093271016   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     27 40.098142119   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     28 42.103051216   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     29 44.108086654   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     30 45.089907891   Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+     31 46.112881980   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     32 48.117803997   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     33 48.453359362   Cisco_3a:fa:85        CDP/VTP/DTP/PAgP/UDLD DTP      60     Dynamic Trunk Protocol
+     34 48.453456790   Cisco_3a:fa:85        CDP/VTP/DTP/PAgP/UDLD DTP      90     Dynamic Trunk Protocol
+     35 50.122720636   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     36 52.127680088   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     37 54.132660003   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     38 55.097730035   Cisco_3a:fa:85        Cisco_3a:fa:85        LOOP     60     Reply
+     39 56.137466364   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     40 58.142402768   Cisco_3a:fa:85        Spanning-tree-(for-bridges)_00 STP      60     Conf. Root = 32768/1/fc:fb:fb:3a:fa:80  Cost = 0  Port = 0x8005
+     41 58.461445715   Cisco_3a:fa:85        CDP/VTP/DTP/PAgP/UDLD CDP      453    Device ID: tux-sw3  Port ID: FastEthernet0/3  
