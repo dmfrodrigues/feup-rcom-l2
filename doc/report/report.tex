@@ -166,15 +166,72 @@ This project was tested in the computers of FEUP, room I321, bench 3, with rack 
 
 \section{Download application} \label{sec:Part1}
 \subsection{Application architecture} \label{sec:Arc}
+
+A download application was created in order to test the network configuration.
+The first step of the application is to parse and verify if URL syntax is the one described in \textbf{RFC1738}: \texttt{ ftp://[<user>:<password>@]<host>/<url-path>}. We used a regular expression for this.
+
+Then it finds the IP address with the support of \textbf{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
+
+After connecting, it makes a login in the server. If no credentials were specified, it will login as anonymous.
+Next, it sends a PASV command to the FTP server so it can transfer data in passive mode, if successful, the server will reply
+6 bytes, the first 4 bytes is the server IP address, the other two is the port in which the server is listening on. 
+
+After entering passive mode, the download application opens another socket, using the port of the server reply, where the data will be transfered.
+Finally, it copies the file from url-path to the current working directory and finish the connection sending the QUIT command and closes the sockets.
+
+
 \subsection{Report of successful download} \label{sec:Dow}
+
+./download ftp://[<user>:<password>@]<host>/<url-path>
 
 \section{Network configuration and analysis} \label{sec:Part2}
 
 \subsection{Experiment 1} \label{sec:Exp1}
 \subsubsection{Network architecture} \label{sec:Arc1}
+
+TODO
+
 \subsubsection{Objectives} \label{sec:Obj1}
+
+This experiment consisted in connecting two computers by configuring its IPs.
+
 \subsubsection{Main configuration commands} \label{sec:Com1}
+
+- Activate eth0 interface:
+
+ifconfig eth0 up
+
+- Configure eth0 with 172.16.30.1 and 24 bits mask in tux33
+
+ifconfig eth0 172.16.30.1/24
+
+- In tux34
+
+ifconfig eth0 172.16.30.254/24
+
+
 \subsubsection{Logs analysis} \label{sec:Log1}
+
+ARP is used to map an IP address to a MAC address.
+Before sending a frame, the computer first needs to know the MAC address of the receiver.
+If the emitter does not have an entry with the receiver IP in its ARP table, it will broadcast a ARP packet with the receiver IP and wait for its response.
+As seen in the logs, ARP broadcasts a request for the desired IP address 172.16.30.254 (tux34).
+Then tux34 identifies itself, sending another ARP packet with its MAC address 00:21:5a:5a:7d:74.
+
+Ping generates ICMP packets.
+
+The MAC and IP addresses of the ping packets are the source addresses MAC: 00:21:5a:61:24:92 IP: 172.16.30.1
+and destination addresses MAC: 00:21:5a:7d:74 IP: 172.16.30.254
+
+It is possible to determine if a receiving Ethernet frame is ICMP by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
+A ARP frame que be identified with the value 0x806 in the Ethernet frame header.
+
+The length of a receiving frame is in its header.
+
+The loopback interface is used by the computer to send and receive packets to itself.
+In the experiment, we could verify loopback packets when the source and destination addresses were equal.
+It is important for diagnostics.
+
 
 \subsection{Experiment 2} \label{sec:Exp2}
 \subsubsection{Network architecture} \label{sec:Arc2}
