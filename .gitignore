@@ -31,3 +31,5 @@ download/README.html
 lib*.a
 *.zip
 COMMIT.tex
+*.ods
+*.ods#
