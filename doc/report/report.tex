@@ -421,7 +421,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     \end{tabular}
 \end{center}
 
-A forwarding table entry contains the destination address, a gateway where the data will be redirected, genmask, flags, metric, ref, use and iface.
+A forwarding table entry contains the destination address, a gateway where the data will be redirected, the netmask used, flags, metric, references, use and the network interface.
 
 It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
 This happens because this is the next hop in the route, through there it can be redirected to the final destination.
