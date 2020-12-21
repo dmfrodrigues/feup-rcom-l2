@@ -23,14 +23,14 @@ ping 172.16.30.254
 ```sh
 route -n
 ```
-[tux33_exp1_item5_routes.txt](tux33_exp1_item5_routes.txt)  
-[tux34_exp1_item5_routes.txt](tux34_exp1_item5_routes.txt)
+[1-5-tux33-routes.txt](1-5-tux33-routes.txt)  
+[1-5-tux34-routes.txt](1-5-tux34-routes.txt)
 
 ```sh
 arp -a
 ```
 
-[tux33_exp1_item5_arp.txt](tux33_exp1_item5_arp.txt)  
+[1-5-tux33-arp.txt](1-5-tux33-arp.txt)  
 
 #### 6. Delete ARP table entries in tuxy3 (arp -d ipaddress)
 ```sh
@@ -41,4 +41,4 @@ arp -d 172.16.30.254
 #### 8. In tuxy3, ping tuxy4 for a few seconds
 #### 9. Stop capturing packets
 #### 10. Save log study it at home
-Check [tux33_exp1_item10.pcapng](tux33_exp1_item10.pcapng)
+Check [1-10-tux33.pcapng](1-10-tux33.pcapng)
