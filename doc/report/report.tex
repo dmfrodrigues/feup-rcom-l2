@@ -244,7 +244,7 @@ IP (Internet Protocol) addresses are a convenient way to refer to interfaces, bu
 ARP (Address Resolution Protocol) is used to map an IP address to a MAC address; these mappings are stored in the ARP table, and each device has one such table.
 Upon sending a frame, if there is not an entry with the receiver IP in its ARP table, the emitter will broadcast an ARP probe packet with the receiver IP and wait for the corresponding device to announce its presence.
 
-As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request for the desired IP address 172.16.30.254 in packet \#9.
+As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
 Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
 
 The ping command generates ICMP (Internet Control Message Protocol) packets. The MAC and IP addresses of the ping packets are the source addresses MAC: 00:21:5a:61:24:92 IP: 172.16.30.1
