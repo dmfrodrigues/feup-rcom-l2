@@ -512,7 +512,23 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 
 \subsection{Experiment 5} \label{sec:Exp5}
 \subsubsection{Objectives} \label{sec:Obj5}
+Configure DNS
 \subsubsection{Main configuration commands} \label{sec:Com5}
+\begin{tabular}{l | p{26mm} | l}
+    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
+    tux32      & Configure DNS                           & 
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
+    \end{lstlisting}                     \\ \hline
+    tux33  &  Configure DNS                                    &
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
+    \end{lstlisting}                 \\ \hline
+    tux34        &  Configure DNS                                   &
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
+    \end{lstlisting} \\
+\end{tabular}
 \subsubsection{Logs analysis} \label{sec:Log5}
 
 \subsection{Experiment 6} \label{sec:Exp6}
