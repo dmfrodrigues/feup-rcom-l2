@@ -252,7 +252,8 @@ and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.3
 
 A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
 It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
-We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer.
+We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
+In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
 
 The loopback interface is used by the computer to send and receive packets to itself.
 In the experiment, we could verify loopback packets every 10 seconds when the source and destination addresses were equal.
