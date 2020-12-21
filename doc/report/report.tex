@@ -175,9 +175,8 @@ The first step of the application is to parse and verify if URL syntax is the on
 
 Then it finds the IP address with the support of \textbf{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
-After connecting, it makes a login in the server. If no credentials were specified, it will login as anonymous.
-Next, it sends a PASV command to the FTP server so it can transfer data in passive mode, if successful, the server will reply
-6 bytes, the first 4 bytes is the server IP address, the other two is the port in which the server is listening on. 
+The application first parses and verifies if the URL abides to \cite{rfc1738} using a regular expression (\texttt{ftp://[<user>:<password>@]<host>/<url-path>}).
+Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
 After entering passive mode, the download application opens another socket, using the port of the server reply, where the data will be transfered.
 Finally, it copies the file from url-path to the current working directory and finish the connection sending the QUIT command and closes the sockets.
