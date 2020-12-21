@@ -84,7 +84,7 @@ ping 172.16.31.1    # tux32.eth0
 ```
 
 #### 7. Stop capture and save logs
-[tux33-packets-capture-step7.pcapng](tux33-packets-capture-step7.pcapng)
+[3-7-tux33.pcapng](3-7-tux33.pcapng)
 
 #### 8. Start capture in tuxy4; use 2 instances of Wireshark, one per network interface
 #### 9. Clean the ARP tables in the 3 tuxes
@@ -106,5 +106,5 @@ arp -d 172.16.31.1
 
 #### 11. Stop captures in tuxy4 and save logs
 
-[tux34-packets-capture-step8-eth0.pcapng](tux34-packets-capture-step8-eth0.pcapng)  
-[tux34-packets-capture-step8-eth1.pcapng](tux34-packets-capture-step8-eth1.pcapng)
+[3-8-tux34-eth0.pcapng](3-8-tux34-eth0.pcapng)  
+[3-8-tux34-eth1.pcapng](3-8-tux34-eth1.pcapng)
