@@ -154,34 +154,36 @@ Class 2, group 4 \vspace{0.5em} \\
 This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
 It concerns the configuration of a computer network, and its test and study through a developed FTP client.
 
-All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the requirements in the guidelines.
+All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the guidelines' requirements.
 
 \section*{Introduction} \label{sec:Introduction}
 
 The present project aims at developing a simple FTP client which is to be tested over a configured network.
-The resulting source code was developed in the C language, targeting Linux devices.
-The network that was configured is composed of three computers, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router; the switch will be used to configure two virtual sub-networks, and the router will provide connectivity to the Internet.
+The source code was developed in the C language, targeting Linux devices.
+The goal network is composed of three computers, a switch that implements two virtual sub-networks, and a router to provide Internet access.
 
-This report has the purpose of guiding the reader through the process used to fulfill the project's goals. As such, this report is divided into two parts.
+This report describes the corresponding project's activities, and is divided into two parts.
 In part 1 we address the design, development and testing of the FTP client.
-In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that build incrementally to finally arrive at the goal network configuration.
-This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4 and the available hardware of that rack.
+In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that incrementally contribute to the final network configuration.
+This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router.
 
 \section{Download application} \label{sec:Part1}
+
+A simple FTP client was developed to test the network configuration.
+
 \subsection{Application architecture} \label{sec:Arc}
-
-A download application was created in order to test the network configuration.
-The first step of the application is to parse and verify if URL syntax is the one described in \textbf{RFC1738}: \texttt{ ftp://[<user>:<password>@]<host>/<url-path>}. We used a regular expression for this.
-
-Then it finds the IP address with the support of \textbf{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
 The application first parses and verifies if the URL abides to \cite{rfc1738} using a regular expression (\texttt{ftp://[<user>:<password>@]<host>/<url-path>}).
 Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
-After entering passive mode, the download application opens another socket, using the port of the server reply, where the data will be transfered.
-Finally, it copies the file from url-path to the current working directory and finish the connection sending the QUIT command and closes the sockets.
+After connecting, it logs in to the server, or otherwise logs in as anonymous if no credentials were provided.
+Next, it sends a \texttt{PASV} command to the FTP server so it can transfer data in passive mode; if successful, the server will reply
+with six bytes, the first four being the server IP address it just opened for transfer, and the other two the port the server is listening on. 
 
-To test the aplication and start a download:
+After entering passive mode, the download application opens another socket, using the port provided by the server, where the data will be transferred.
+Finally, it copies the file from \texttt{<url-path>} to the current working directory and finishes the connection by sending the \texttt{QUIT} command and closing the sockets.
+
+To build the application, run \texttt{make} in directory \texttt{download}. To test the application, run:
 
 \begin{lstlisting}[frame=none, numbers=none, language=sh]
 ./download ftp://[<user>:<password>@]<host>/<url-path>
