@@ -375,31 +375,31 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 
 \subsubsection{Main configuration commands} \label{sec:Com3}
 
-\begin{tabular}{l | p{75mm} | l}
+\begin{tabular}{l | p{43mm} | p{93mm}}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    tux34         & Configure tux34-E1 (we actually used eth2, as tux34-E1 was strangely associated to eth2) &
-        \begin{lstlisting}[frame=none, numbers=none, language=sh]
-ifconfig eth1 up
-ifconfig eth1 172.16.31.253/24
+    tux34         & Configure tux34-E1 [was associated to eth2 (\textbf{?})] &
+        \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+ifconfig eth2 up
+ifconfig eth2 172.16.31.253/24
         \end{lstlisting} \\
     tux34         & Enable IP forwarding & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 echo 1 > /proc/sys/net/ipv4/ip_forward
     \end{lstlisting} \\
     tux34         & Disable ICMP echo-ignore-broadcast &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
     \end{lstlisting} \\ \hline
-    tux32         & Reconfigure route &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+    tux32         & Add route to VLAN30 &  
+    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 route add -net 172.16.30.0/24 gw 172.16.31.253
     \end{lstlisting} \\ \hline
-    tux33         & Reconfigure route &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+    tux33         & Add route to VLAN31 &  
+    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 route add -net 172.16.31.0/24 gw 172.16.30.254
     \end{lstlisting} \\ \hline
     switch        & Add port 4 to VLAN 31 & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 configure terminal
 interface fastethernet 0/4
 switchport mode access
@@ -410,27 +410,17 @@ end
 
 \subsubsection{Logs analysis} \label{sec:Log3}
 
-In tux32:
-\begin{lstlisting}[frame=tb, numbers=none]
-Kernel IP routing table
+\begin{center}
+    \small
+    \begin{tabular}{l | l}
+        \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
-172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
-\end{lstlisting}
-In tux33:
-\begin{lstlisting}[frame=tb, numbers=none]
-Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
-172.16.31.0     172.16.30.254   255.255.255.0   UG    0      0        0 eth0
-\end{lstlisting}
-In tux34:
-\begin{lstlisting}[frame=tb, numbers=none]
-Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-172.16.30.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
-172.16.31.0     0.0.0.0         255.255.255.0   U     0      0        0 eth1
-\end{lstlisting}
+            \end{lstlisting} \\ \hline
+        tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
+        tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
+        tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
+    \end{tabular}
+\end{center}
 
 A forwarding table entry contains the destination address, a gateway where the data will be redirected, genmask, flags, metric, ref, use and iface.
 
@@ -622,6 +612,12 @@ It will be made public once all equivalent curricular unit projects have been ev
 
 \begin{landscape}
 \section{Experiment 3}
+
+\setcounter{subsection}{2}
+\subsection{Item 3}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{3-7-tux32.route.txt}]{../../part2/exp3/3-4-tux32.route.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{3-7-tux33.route.txt}]{../../part2/exp3/3-4-tux33.route.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, caption=\texttt{3-7-tux34.route.txt}]{../../part2/exp3/3-4-tux34.route.txt}
 
 \setcounter{subsection}{6}
 \subsection{Item 7}
