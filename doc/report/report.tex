@@ -498,7 +498,7 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 
 \subsection{Experiment 5} \label{sec:Exp5}
 \subsubsection{Objectives} \label{sec:Obj5}
-Configure DNS
+1. Configure DNS service.
 \subsubsection{Main configuration commands} \label{sec:Com5}
 \begin{tabular}{p{11mm} | p{26mm} | p{112mm}}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
@@ -508,6 +508,10 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
     \end{lstlisting}
 \end{tabular}
 \subsubsection{Logs analysis} \label{sec:Log5}
+
+After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
+in our logs for www.sapo.pt, 172.16.1.1 sent a query response with the corresponding IP address 213.13.146.142.
+This IP address was used afterwards by tux33 to send ICMP packets.
 
 \subsection{Experiment 6} \label{sec:Exp6}
 \subsubsection{Objectives} \label{sec:Obj6}
