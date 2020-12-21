@@ -384,8 +384,22 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 ifconfig eth1 up
 ifconfig eth1 172.16.31.253/24
         \end{lstlisting} \\
-    tux34         & Enable IP forwarding & \\
-    tux34         & Disable ICMP echo-ignore-broadcast & \\ \hline
+    tux34         & Enable IP forwarding & 
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo 1 > /proc/sys/net/ipv4/ip_forward
+    \end{lstlisting} \\
+    tux34         & Disable ICMP echo-ignore-broadcast &  
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+    \end{lstlisting} \\ \hline
+    tux32         & Reconfigure route &  
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+route add -net 172.16.30.0/24 gw 172.16.31.253
+    \end{lstlisting} \\ \hline
+    tux33         & Reconfigure route &  
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+route add -net 172.16.31.0/24 gw 172.16.30.254
+    \end{lstlisting} \\ \hline
     switch        & Add port 4 to VLAN 31 & 
     \begin{lstlisting}[frame=none, numbers=none, language=sh]
 configure terminal
