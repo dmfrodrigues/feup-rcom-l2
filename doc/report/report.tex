@@ -247,8 +247,8 @@ Upon sending a frame, if there is not an entry with the receiver IP in its ARP t
 As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
 Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
 
-The ping command generates ICMP (Internet Control Message Protocol) packets. The MAC and IP addresses of the ping packets are the source addresses MAC: 00:21:5a:61:24:92 IP: 172.16.30.1
-and destination addresses MAC: 00:21:5a:7d:74 IP: 172.16.30.254.
+\texttt{ping} generates ICMP (Internet Control Message Protocol) packets. The MAC/IP addresses of the ping packets are the source addresses \texttt{00:21:5a:61:24:92}/\texttt{172.16.30.1} in bytes 0-5
+and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.30.254}.
 
 It is possible to determine if a receiving Ethernet frame is ICMP by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
 A ARP frame can be identified with the type value 0x806 in the Ethernet II layer. We could also determine the length of a receiving frame by adding all the frame bytes.
