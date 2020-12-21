@@ -9,7 +9,7 @@
 
 int is_valid_url(char *url){
 	regex_t regex_exp;
-	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9]+)$",
+	if(regcomp(&regex_exp, "^ftp://([a-z0-9]+:[a-z0-9]+@)?([\\.a-z0-9-]+)/([\\./a-z0-9-]+)$",
 	  REG_EXTENDED|REG_ICASE)){
 		exit(1);
 	}
