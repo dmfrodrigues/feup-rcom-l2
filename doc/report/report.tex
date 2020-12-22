@@ -240,7 +240,7 @@ Reports can be found in \ref{listing:6-2-tux33-pipe}, \ref{listing:6-2-tux33-pic
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | p{87mm} | l@{}}
+    \begin{tabular}{@{}l | m{87mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 ifconfig eth0 up
@@ -325,7 +325,7 @@ Although CTP was primarily designed for \ref{itm:connectivity} \cite[sec.~8.1]{e
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | p{93mm} | l@{}}
+    \begin{tabular}{@{}l | m{93mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         switch        & Create virtual LAN 30                                 &
             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
@@ -405,7 +405,7 @@ The switch works on the Data Link layer so it can only understand the Ethernet I
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | p{56mm} | l@{}}
+    \begin{tabular}{@{}l | m{56mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux34         & Configure tux34-E1 &
             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
@@ -417,9 +417,9 @@ ifconfig eth1 172.16.31.253/24
 echo 1 > /proc/sys/net/ipv4/ip_forward
         \end{lstlisting} \\
         tux34         & Disable ICMP echo-ignore-broadcast &  
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]
 echo 0 > /proc/sys/net/ipv4/
-        icmp_echo_ignore_broadcasts
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)icmp_echo_ignore_broadcasts
         \end{lstlisting} \\ \hline
         tux32         & Add route to VLAN30 &  
         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
@@ -532,25 +532,43 @@ This means computers tux32 and tux33 build their ARP tables only when they are r
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | p{53mm} | l@{}}
+    \begin{tabular}{@{}l | m{67mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
-        router & Configure interface with VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-interface gigabitethernet 0/0
-ip address 172.16.31.254 255.255.255.0
-no shutdown
-        \end{lstlisting} \\ \hline
-        router & Configure interface with lab router & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-interface gigabitethernet 0/1
-ip address 172.16.1.39 255.255.255.0
-no shutdown 
-        \end{lstlisting} \\
-        router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-ip route 172.16.30.0 255.255.255.0 172.16.31.253
-        \end{lstlisting}\\ \hline
         switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
 interface fastethernet 0/5
 switchport mode access
 switchport access vlan 31
+        \end{lstlisting} \\ \hline
+        router & Configure interface with VLAN31, set it as the inside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/0
+ip address 172.16.31.254 255.255.255.0
+no shutdown
+ip nat inside
+        \end{lstlisting} \\
+        router & Configure interface with lab router, set it as the outside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/1
+ip address 172.16.1.39 255.255.255.0
+no shutdown
+ip nat outside
+        \end{lstlisting} \\
+        router & Define interface with lab router as outside & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip nat pool ovrld
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
+        \end{lstlisting} \\
+        router & Create NAT pool to use in inside interface & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip nat inside source
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
+        \end{lstlisting}\\
+        router & Allow IP addresses 172.16.30.0-.7 and 172.16.31.0-.7 to use NAT & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+access-list 1 permit 172.16.30.0 0.0.0.7
+access-list 1 permit 172.16.31.0 0.0.0.7
+        \end{lstlisting}\\
+        router & Set lab router as default gateway & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+ip route 0.0.0.0 0.0.0.0 172.16.1.254
+        \end{lstlisting}\\
+        router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip route 172.16.30.0 255.255.255.0
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
         \end{lstlisting}
     \end{tabular}
 \end{center}
@@ -623,11 +641,12 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 \subsubsection{Main configuration commands} \label{sec:Com5}
 \begin{center}
     \small
-    \begin{tabular}{@{}p{10mm} | p{33mm} | p{108mm}@{}}
+    \begin{tabular}{@{}m{10mm} | m{39mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux32, tux33, tux34      & Configure DNS & 
-        \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
-echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
+        \begin{lstlisting}[frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]]
+echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)> /etc/resolv.conf
         \end{lstlisting}
     \end{tabular}
 \end{center}
