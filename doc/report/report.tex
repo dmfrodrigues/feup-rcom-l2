@@ -643,17 +643,15 @@ This IP address was used afterwards by tux33 to send ICMP packets.
 
 \textbf{Objectives:} Test the download application in the configured network.
 
-\subsubsection{Main configuration commands} \label{sec:Com6}
 \subsubsection{Logs analysis} \label{sec:Log6}
 
 The download application opened two TCP connections. 
 The first was used through port 21 to send and receive commands to the server, this connection is responsible for the FTP control information.
 The second was opened in the port specified after entering passive mode, this was used to transfer data between the server and the client.
 
-A TCP connection is divided in three phases. 
-In the first phase a connection is stablished with a three-way handshake, a SYN command is sent to the server, the server then replies with a SYN-ACK and the client sends ACK to the server.
-In the second phase happens the data-transfer.
-In the third phase is another three-way handshake, the client sends a FIN, the server replies with FIN-ACK and the client ends with ACK. 
+In the first phase of our TCP connection, a connection was stablished with a three-way handshake, a SYN command is sent to the server, the server then replied with a SYN-ACK and the client sent a ACK to the server.
+In the second phase happened the data-transfer, where FTP-DATA packets were sent by the server and the client replied with ACK for each successful packet received.
+In the third phase, in order to close the connection, the client sent a FIN-ACK, the server replied with FIN-ACK, the client then sent ACK, and the server ended with another ACK. 
 
 The TCP uses the method ARQ (Automatic Repeat Request) to handle errors in the data-transfer.
 This method sends ACK (acknowlegdment message) when the data is received successfully before a timeout occurs.
