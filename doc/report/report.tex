@@ -431,17 +431,17 @@ end
         \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
             \end{lstlisting} \\ \hline
-        tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
-        tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
-        tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
+        tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
+        tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
+        tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
     \end{tabular}
 \end{center}
+
+A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
 Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31.
 In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0}; in this context it means the gateway to reach that subnetwork is unspecified, which usually means no intermediate hops are necessary as the system is directly connected to that destination (i.e., the device belongs to said subnetwork), and as such packets will be directly sent to the destination \cite{routing-basics}.
 As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works in the same way. 
-
-A forwarding table entry contains the destination address, a gateway where the data will be redirected, the netmask used, flags, metric, references, use and the network interface.
 
 It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
 This happens because this is the next hop in the route, through there it can be redirected to the final destination.
