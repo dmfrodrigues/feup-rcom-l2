@@ -518,6 +518,15 @@ This IP address was used afterwards by tux33 to send ICMP packets.
 \subsubsection{Main configuration commands} \label{sec:Com6}
 \subsubsection{Logs analysis} \label{sec:Log6}
 
+The download application opened two TCP connections. 
+The first was used through port 21 to send and receive commands to the server, this connection is responsible for the FTP control information.
+The second was opened in the port specified after entering passive mode, this was used to transfer data between the server and the client.
+
+A TCP connection is divided in three phases. 
+In the first phase a connection is stablished with a three-way handshake, a SYN command is sent to the server, the server then replies with a SYN-ACK and the client sends ACK to the server.
+In the second phase happens the data-transfer.
+In the third phase is another three-way handshake, the client sends a FIN, the server replies with FIN-ACK and the client ends with ACK. 
+
 \section*{Conclusion} \label{sec:Conclusion}
 
 \bibliographystyle{acm}
