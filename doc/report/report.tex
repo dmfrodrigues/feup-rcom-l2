@@ -90,6 +90,7 @@
 \newcommand\clearrow{\global\let\rowmac\relax}
 \clearrow
 \usepackage{multirow}
+\usepackage{longtable}
 
 % Tables with vertical center alignment
 \usepackage{array}
@@ -222,8 +223,8 @@ Reports can be found in \ref{listing:6-2-tux33-pipe}, \ref{listing:6-2-tux33-pic
 	\label{fig:network_exp1}
 \end{figure}
 
-\subsubsection{Objectives} \label{sec:Obj1}
-Connect two computers by configuring their IP addresses.
+\noindent
+\textbf{Objectives:} connect two computers by configuring their IP addresses.
 
 \subsubsection{Main configuration commands} \label{sec:Com1}
 
@@ -296,8 +297,8 @@ Although CTP was primarily designed for \ref{itm:connectivity} \cite[sec.~8.1]{e
 	\label{fig:network_exp2}
 \end{figure}
 
-\subsubsection{Objectives} \label{sec:Obj2}
-Implement two virtual LANs in a switch
+\noindent
+\textbf{Objectives:} implement two virtual LANs in a switch.
 
 \subsubsection{Main configuration commands} \label{sec:Com2}
 
@@ -323,7 +324,10 @@ end
 
 To configure VLAN30, we had to create it in the switch, and then add switch port 1 (tux33-E0) and switch port 2 (tux34-E0) to that VLAN.
 
-From log \ref{listing:2-5-tux33.pcapng} we can infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified from \texttt{ping} output that tux33 cannot ping tux32). From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach both tux33 and tux34, but not tux32. From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32. This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
+From log \ref{listing:2-5-tux33.pcapng} we infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified this outcome from \texttt{ping} output).
+From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach tux33 and tux34, but not tux32.
+From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32.
+This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
 
 Upon close inspection of logs \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng}, it can be seen that the destination of the broadcast issued from tux33 is \texttt{172.16.30.0}.
 We tried to analyse this issue, and concluded the most likely option is that we issued the broadcast from tux33 to the wrong IP address (\texttt{172.16.30.0} instead of the obvious broadcast address \texttt{172.16.30.255} for VLAN30), but that somehow the ping was still considered a broadcast as it is also obvious this ping reached tux34.
@@ -371,40 +375,36 @@ The switch works on the Data Link layer so it can only understand the Ethernet I
 	\label{fig:network_exp3}
 \end{figure}
 
-\subsubsection{Objectives} \label{sec:Obj3}
-
-\begin{enumerate}
-    \item Add tux34-E1 to VLAN31.
-    \item Configure computers so that tux34 serves as a router between VLAN30 and VLAN31.
-\end{enumerate}
+\textbf{Objectives:} configure a router in Linux.
 
 \subsubsection{Main configuration commands} \label{sec:Com3}
 
-\begin{tabular}{l | p{43mm} | p{93mm}}
+\begin{tabular}{l | p{43mm} | l}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
     tux34         & Configure tux34-E1 [was associated to eth2 (\textbf{!})] &
-        \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+        \begin{lstlisting}[frame=none, numbers=none, language=sh]
 ifconfig eth2 up
 ifconfig eth2 172.16.31.253/24
         \end{lstlisting} \\
     tux34         & Enable IP forwarding & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
 echo 1 > /proc/sys/net/ipv4/ip_forward
     \end{lstlisting} \\
     tux34         & Disable ICMP echo-ignore-broadcast &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
-echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+echo 0 > /proc/sys/net/ipv4/
+    icmp_echo_ignore_broadcasts
     \end{lstlisting} \\ \hline
     tux32         & Add route to VLAN30 &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
 route add -net 172.16.30.0/24 gw 172.16.31.253
     \end{lstlisting} \\ \hline
     tux33         & Add route to VLAN31 &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
 route add -net 172.16.31.0/24 gw 172.16.30.254
     \end{lstlisting} \\ \hline
     switch        & Add port 4 to VLAN 31 & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+    \begin{lstlisting}[frame=none, numbers=none, language=sh]
 configure terminal
 interface fastethernet 0/4
 switchport mode access
@@ -490,9 +490,7 @@ work as a gateway between both VLANs.
 	\label{fig:network_exp4}
 \end{figure}
 
-\subsubsection{Objectives} \label{sec:Obj4}
-
-Configure a commercial router and implement NAT.
+\textbf{Objectives:} configure a commercial router and implement NAT.
 
 \subsubsection{Main configuration commands} \label{sec:Com4}
 \subsubsection{Logs analysis} \label{sec:Log4}
@@ -558,8 +556,8 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 	\label{fig:network_exp4}
 \end{figure}
 
-\subsubsection{Objectives} \label{sec:Obj5}
-1. Configure DNS service.
+\textbf{Objectives:} Configure DNS service.
+
 \subsubsection{Main configuration commands} \label{sec:Com5}
 \begin{tabular}{p{11mm} | p{26mm} | p{112mm}}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
@@ -628,9 +626,8 @@ This IP address was used afterwards by tux33 to send ICMP packets.
 	\caption{Network architecture for experiment 5}
 	\label{fig:network_exp4}
 \end{figure}
-\subsubsection{Objectives} \label{sec:Obj6}
 
-1. Test the download application in the configured network.
+\textbf{Objectives:} Test the download application in the configured network.
 
 \subsubsection{Main configuration commands} \label{sec:Com6}
 \subsubsection{Logs analysis} \label{sec:Log6}
