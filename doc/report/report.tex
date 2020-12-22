@@ -437,6 +437,8 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     \end{tabular}
 \end{center}
 
+Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31. In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0}; in this context it means the gateway to reach that subnetwork is unspecified, which usually means no intermediate hops are necessary as the system is directly connected to that destination (i.e., the device belongs to said subnetwork), and as such packets will be directly sent to the destination \cite{routing-basics}.
+
 A forwarding table entry contains the destination address, a gateway where the data will be redirected, the netmask used, flags, metric, references, use and the network interface.
 
 It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
