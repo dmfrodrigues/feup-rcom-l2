@@ -443,13 +443,18 @@ Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31.
 In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0}; in this context it means the gateway to reach that subnetwork is unspecified, which usually means no intermediate hops are necessary as the system is directly connected to that destination (i.e., the device belongs to said subnetwork), and as such packets will be directly sent to the destination \cite{routing-basics}.
 As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works in the same way. 
 
-It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
-This happens because this is the next hop in the route, through there it can be redirected to the final destination.
+ARP tables are all initially empty.
+tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
+Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, it can be seen that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with the MAC address \texttt{00:21:5a:5a:7d:74}.
+By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
 
-We are able to observe ICMP packets between all computers in the network, meaning all of them are connected.
+In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
+tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
+tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0), its final destination;
+tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
+tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0), its final destination.
 
-When running the ping command from tux33 to tux32, the source MAC address is from tux33 but the destination MAC address is from tux34. This also happens because tux34
-work as a gateway between both VLANs.
+This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
 \subsection{Experiment 4} \label{sec:Exp4}
 
@@ -709,7 +714,7 @@ It will be made public once all equivalent curricular unit projects have been ev
 
 \begin{center}
     \begin{tabular}{l | l | l}
-        \textbf{Interface} & \textbf{MAC address}       & \texttt{IP address}    \\ \hline
+        \textbf{Interface} & \textbf{MAC address}       & \textbf{IP address}    \\ \hline
         tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
         tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
         tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
