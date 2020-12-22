@@ -575,10 +575,17 @@ ip route 172.16.30.0 255.255.255.0
 
 \subsubsection{Logs analysis} \label{sec:Log4}
 
+The command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
+
 When running the ping command from tux32 to tux33 without redirects, the packets first arrived on the router and then were redirected to tux34 and after it tux33.
+
 After enabling the redirects and running ping again, the router sends a ICMP redirect message to tux32 that allows tux32 to directly send packets to tux34, without needing to go first through the router.
 
-NAT is a method to translate IP addresses of computers in a network to a single public IP address.
+Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
+NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
+Outbound packets are rewritten to feature the router's public address instead of the device's private address.
+The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
+The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
 
 \subsection{Experiment 5} \label{sec:Exp5}
 
