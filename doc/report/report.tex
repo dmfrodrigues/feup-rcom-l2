@@ -663,59 +663,6 @@ In the logs from wireshark, tux33 sent a query to the DNS Server with 142.146.13
 This could be used, for example, by sapo.pt to keep track of traffic origin.
 
 \subsection{Experiment 6} \label{sec:Exp6}
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
-
-        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
-        
-        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
-
-        \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
-        \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
-        \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
-
-        \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
-
-        \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] (internet) {Internet};
-        \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
-
-        \node at (-6, -0) [rectangle,draw, minimum height=1.0cm, minimum width=1.7cm, align=center, fill=white] (dns_server) {S1\\(ftp.up.pt)};
-
-        \draw   (5, +0.6) rectangle ++(4, -5.2);
-        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-        \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
-        \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
-
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
-                (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
-                (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
-                (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
-
-                (switch_1) edge[] (VLAN30)
-                (switch_2) edge[] (VLAN30)
-                (switch_3) edge[] (VLAN31)
-                (switch_4) edge[] (VLAN31)
-                (switch_5) edge[] (VLAN31)
-                (dns_server) edge[] (internet)
-            ;
-
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 6}
-	\label{fig:network_exp6}
-\end{figure}
 
 \textbf{Objectives:} Test the download application in the configured network.
 
