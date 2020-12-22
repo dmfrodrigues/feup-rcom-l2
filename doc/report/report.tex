@@ -445,7 +445,7 @@ As for the route from tux32 to VLAN31, the IP address of the tux34 interface in 
 
 ARP tables are all initially empty.
 tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
-Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, it can be seen that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with the MAC address \texttt{00:21:5a:5a:7d:74}.
+Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, we see that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with \texttt{00:21:5a:5a:7d:74}.
 By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
 
 In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
@@ -790,8 +790,8 @@ It will be made public once all equivalent curricular unit projects have been ev
 \setcounter{subsection}{7}
 \subsection{Item 8}
 
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth0.pcapng}, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth1.pcapng}, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
 \end{landscape}
 
 \begin{landscape}
