@@ -252,7 +252,8 @@ and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.3
 
 A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
 It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
-We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer.
+We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
+In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
 
 The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[ch.~8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
 \begin{enumerate*}[label=(\arabic*)]
@@ -379,7 +380,7 @@ There are two broadcast domains, 172.16.31.255 and 172.16.30.255.
 
 \begin{tabular}{l | p{43mm} | p{93mm}}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    tux34         & Configure tux34-E1 [was associated to eth2 (\textbf{?})] &
+    tux34         & Configure tux34-E1 [was associated to eth2 (\textbf{!})] &
         \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 ifconfig eth2 up
 ifconfig eth2 172.16.31.253/24
@@ -424,7 +425,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     \end{tabular}
 \end{center}
 
-A forwarding table entry contains the destination address, a gateway where the data will be redirected, genmask, flags, metric, ref, use and iface.
+A forwarding table entry contains the destination address, a gateway where the data will be redirected, the netmask used, flags, metric, references, use and the network interface.
 
 It is possible to observe in the logs the ARP message requesting for the gateway address 172.16.30.254 when running the ping command in tux33 to tux32.
 This happens because this is the next hop in the route, through there it can be redirected to the final destination.
@@ -501,7 +502,7 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 
 \subsection{Experiment 5} \label{sec:Exp5}
 \subsubsection{Objectives} \label{sec:Obj5}
-Configure DNS
+1. Configure DNS service.
 \subsubsection{Main configuration commands} \label{sec:Com5}
 \begin{tabular}{p{11mm} | p{26mm} | p{112mm}}
     \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
@@ -511,6 +512,10 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
     \end{lstlisting}
 \end{tabular}
 \subsubsection{Logs analysis} \label{sec:Log5}
+
+After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
+in our logs for www.sapo.pt, 172.16.1.1 sent a query response with the corresponding IP address 213.13.146.142.
+This IP address was used afterwards by tux33 to send ICMP packets.
 
 \subsection{Experiment 6} \label{sec:Exp6}
 \subsubsection{Objectives} \label{sec:Obj6}
