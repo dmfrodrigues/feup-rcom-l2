@@ -95,7 +95,7 @@
 \usepackage{array}
 
 % Lists and items
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 
 % Math stuff
 \usepackage[mathscr]{euscript}
@@ -254,10 +254,14 @@ A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 resp
 It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
 We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer.
 
-The loopback interface is used by the computer to send and receive packets to itself.
-In the experiment, we could verify loopback packets every 10 seconds when the source and destination addresses were equal.
-It is important for diagnostics.
-
+The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[ch.~8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
+\begin{enumerate*}[label=(\arabic*)]
+    \item \label{itm:connectivity} test connectivity with another station;
+    \item \label{itm:loops} check for network loops;
+    \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
+    \item \label{itm:self-loop} check for self-looped ports.
+\end{enumerate*}
+Although CTP was primarily designed for \ref{itm:connectivity} \cite[sec.~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
 
 \subsection{Experiment 2} \label{sec:Exp2}
 
