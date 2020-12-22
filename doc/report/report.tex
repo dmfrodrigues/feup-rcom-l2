@@ -109,6 +109,16 @@
 \newcommand*\xor{\oplus}
 \newcommand\expected[1]{\mathbf{E}[#1]}
 
+% Bibliography
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\thebibliography}{%
+  \chapter*{\bibname}\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}}{%
+  \section*{Bibliography}}{}{}
+\makeatother
+\apptocmd{\thebibliography}{\setlength{\itemsep}{2pt}}{}{}
+\AtBeginEnvironment{thebibliography}{\small}
+
 % Headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancyplain}
