@@ -533,6 +533,13 @@ In the first phase a connection is stablished with a three-way handshake, a SYN 
 In the second phase happens the data-transfer.
 In the third phase is another three-way handshake, the client sends a FIN, the server replies with FIN-ACK and the client ends with ACK. 
 
+The TCP uses the method ARQ (Automatic Repeat Request) to handle errors in the data-transfer.
+This method sends ACK (acknowlegdment message) when the data is received successfully before a timeout occurs.
+If a timeout does occurs, the data is retransmitted until it is correctly received.
+
+The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
+so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
+
 \section*{Conclusion} \label{sec:Conclusion}
 
 \bibliographystyle{acm}
