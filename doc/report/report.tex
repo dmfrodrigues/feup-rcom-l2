@@ -238,13 +238,24 @@ Reports can be found in \ref{listing:6-2-tux33-pipe}, \ref{listing:6-2-tux33-pic
 
 \subsubsection{Main configuration commands} \label{sec:Com1}
 
-\begin{tabular}{l | p{75mm} | l}
-    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    tux33         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
-    tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \texttt{ifconfig eth0 172.16.30.1/24}   \\ \hline
-    tux34         & Activate \texttt{eth0} interface                     & \texttt{ifconfig eth0 up}               \\
-    tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \texttt{ifconfig eth0 172.16.30.254/24} \\
-\end{tabular}
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | p{87mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 up
+        \end{lstlisting}               \\
+        tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 172.16.30.1/24
+        \end{lstlisting} \\ \hline
+        tux34         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 up
+        \end{lstlisting}\\
+        tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 172.16.30.254/24
+        \end{lstlisting} \\
+    \end{tabular}
+\end{center}
 
 \subsubsection{Logs analysis} \label{sec:Log1}
 
@@ -312,23 +323,26 @@ Although CTP was primarily designed for \ref{itm:connectivity} \cite[sec.~8.1]{e
 
 \subsubsection{Main configuration commands} \label{sec:Com2}
 
-\begin{tabular}{l | p{75mm} | l}
-    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    switch        & Create virtual LAN 30                                 &
-        \begin{lstlisting}[frame=none, numbers=none, language=sh]
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | p{93mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        switch        & Create virtual LAN 30                                 &
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
 configure terminal
 vlan 30
 end
-        \end{lstlisting} \\
-    switch        & Assign port 1 to VLAN 30                              & 
-        \begin{lstlisting}[frame=none, numbers=none, language=sh]
+            \end{lstlisting} \\
+        switch        & Assign port 1 to VLAN 30                              & 
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
 configure terminal
 interface fastethernet 0/1
 switchport mode access
 switchport access vlan 30
 end
-        \end{lstlisting} \\
-\end{tabular}
+            \end{lstlisting} \\
+    \end{tabular}
+\end{center}
 
 \subsubsection{Logs analysis} \label{sec:Log2}
 
@@ -389,39 +403,42 @@ The switch works on the Data Link layer so it can only understand the Ethernet I
 
 \subsubsection{Main configuration commands} \label{sec:Com3}
 
-\begin{tabular}{l | p{43mm} | l}
-    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    tux34         & Configure tux34-E1 [was associated to eth2 (\textbf{!})] &
-        \begin{lstlisting}[frame=none, numbers=none, language=sh]
-ifconfig eth2 up
-ifconfig eth2 172.16.31.253/24
-        \end{lstlisting} \\
-    tux34         & Enable IP forwarding & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | p{56mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        tux34         & Configure tux34-E1 &
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth1 up
+ifconfig eth1 172.16.31.253/24
+            \end{lstlisting} \\
+        tux34         & Enable IP forwarding & 
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 echo 1 > /proc/sys/net/ipv4/ip_forward
-    \end{lstlisting} \\
-    tux34         & Disable ICMP echo-ignore-broadcast &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+        \end{lstlisting} \\
+        tux34         & Disable ICMP echo-ignore-broadcast &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 echo 0 > /proc/sys/net/ipv4/
-    icmp_echo_ignore_broadcasts
-    \end{lstlisting} \\ \hline
-    tux32         & Add route to VLAN30 &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+        icmp_echo_ignore_broadcasts
+        \end{lstlisting} \\ \hline
+        tux32         & Add route to VLAN30 &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 route add -net 172.16.30.0/24 gw 172.16.31.253
-    \end{lstlisting} \\ \hline
-    tux33         & Add route to VLAN31 &  
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+        \end{lstlisting} \\ \hline
+        tux33         & Add route to VLAN31 &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 route add -net 172.16.31.0/24 gw 172.16.30.254
-    \end{lstlisting} \\ \hline
-    switch        & Add port 4 to VLAN 31 & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh]
+        \end{lstlisting} \\ \hline
+        switch        & Add port 4 to VLAN 31 & 
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
 configure terminal
 interface fastethernet 0/4
 switchport mode access
 switchport access vlan 31
 end
-    \end{lstlisting}
-\end{tabular}
+        \end{lstlisting}
+    \end{tabular}
+\end{center}
 
 \subsubsection{Logs analysis} \label{sec:Log3}
 
@@ -512,6 +529,32 @@ This means computers tux32 and tux33 build their ARP tables only when they are r
 \textbf{Objectives:} configure a commercial router and implement NAT.
 
 \subsubsection{Main configuration commands} \label{sec:Com4}
+
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | p{53mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
+        router & Configure interface with VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/0
+ip address 172.16.31.254 255.255.255.0
+no shutdown
+        \end{lstlisting} \\ \hline
+        router & Configure interface with lab router & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/1
+ip address 172.16.1.39 255.255.255.0
+no shutdown 
+        \end{lstlisting} \\
+        router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+ip route 172.16.30.0 255.255.255.0 172.16.31.253
+        \end{lstlisting}\\ \hline
+        switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface fastethernet 0/5
+switchport mode access
+switchport access vlan 31
+        \end{lstlisting}
+    \end{tabular}
+\end{center}
+
 \subsubsection{Logs analysis} \label{sec:Log4}
 
 When running the ping command from tux32 to tux33 without redirects, the packets first arrived on the router and then were redirected to tux34 and after it tux33.
@@ -578,13 +621,16 @@ NAT is a method to translate IP addresses of computers in a network to a single 
 \textbf{Objectives:} Configure DNS service.
 
 \subsubsection{Main configuration commands} \label{sec:Com5}
-\begin{tabular}{p{11mm} | p{26mm} | p{112mm}}
-    \textbf{Dev.} & \textbf{Description}                                  & \textbf{Commands}                       \\ \hline
-    tux32, tux33, tux34      & Configure DNS & 
-    \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
+\begin{center}
+    \small
+    \begin{tabular}{@{}p{10mm} | p{33mm} | p{108mm}@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        tux32, tux33, tux34      & Configure DNS & 
+        \begin{lstlisting}[frame=none, numbers=none, language=sh, aboveskip=-0.5 \baselineskip, belowskip=-0.8 \baselineskip]
 echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1" > /etc/resolv.conf
-    \end{lstlisting}
-\end{tabular}
+        \end{lstlisting}
+    \end{tabular}
+\end{center}
 \subsubsection{Logs analysis} \label{sec:Log5}
 
 After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
