@@ -671,12 +671,14 @@ If a timeout does occurs, the data is retransmitted until it is correctly receiv
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
 
-
 \begin{figure}
     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
     \caption{}
     \label{fig:exp6_item5}
 \end{figure}
+
+In this experiment, we tested a simultaneous download in tux32 and tux33. First a download was started at tux32, and some seconds after another download was started at tux33 as seen in \ref{fig:exp6_item5} .
+When the second download start we can see the throughput converging and then it quickly rises in tux33 when download in tux32 finishes.
 
 \section*{Conclusion} \label{sec:Conclusion}
 
