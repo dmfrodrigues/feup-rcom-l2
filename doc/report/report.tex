@@ -694,7 +694,12 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
 \end{center}
 \subsubsection{Logs analysis} \label{sec:Log5}
 
-Domain Name System (DNS) is a naming system that allows the use of more easily memorizable names to access resources over the Internet instead of IP addresses. It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name. Thus DNS allows a computer to query a predefined name server for the IP corresponding to a domain name.
+Domain Name System (DNS) is a naming system that allows the use of more easily memorizable names to access resources over the Internet instead of IP addresses.
+It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
+Thus DNS allows a computer to query a predefined name server for the IP corresponding to a domain name.
+
+To configure the DNS server at a host, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
+In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
 
 After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
 in our logs for www.sapo.pt, 172.16.1.1 sent a query response with the corresponding IP address 213.13.146.142.
