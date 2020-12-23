@@ -731,8 +731,8 @@ In the second phase happened the data-transfer, where FTP-DATA packets were sent
 In the third phase, in order to close the connection, the client sent a FIN-ACK, the server replied with FIN-ACK, the client then sent ACK, and the server ended with another ACK. 
 
 The TCP uses the method ARQ (Automatic Repeat Request) to handle errors in the data-transfer.
-This method sends ACK (acknowlegdment message) when the data is received successfully before a timeout occurs.
-If a timeout does occurs, the data is retransmitted until it is correctly received.
+This method sends ACK (acknowlegdment message), when the data is received successfully before a timeout occurs, and a acknowlegdment number indicating the next byte expected.
+If a timeout does occurs, the data is retransmitted until it is correctly received. 
 
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
