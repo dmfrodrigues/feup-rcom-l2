@@ -604,7 +604,9 @@ The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a s
     \caption{List of hops for each tux32 configuration; a dark IP address is visited every time, a gray IP address is visited only for the first time.}
 \end{table}
 
-After enabling the redirects and running ping again, the router sends a ICMP redirect message to tux32 that allows tux32 to directly send packets to tux34, without needing to go first through the router.
+When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
+When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
+When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
 
 Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
 NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
