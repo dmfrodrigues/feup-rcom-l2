@@ -415,7 +415,7 @@ The switch works on the Data Link layer so it can only understand the Ethernet I
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | m{56mm} | l@{}}
+    \begin{tabular}{@{}l | m{66mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux34         & Configure tux34-E1 &
             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
@@ -470,8 +470,8 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
 Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
-In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0} (which means \textit{unspecified}), usually implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
-As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works in the same way. 
+In the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is \texttt{0.0.0.0} (which means \textit{unspecified}), implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
+As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works the same way. 
 
 ARP tables are all initially empty.
 tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
@@ -539,18 +539,15 @@ This means computers tux32 and tux33 build their ARP tables only when they are r
 	\label{fig:network_exp4}
 \end{figure}
 
-Before starting this experiment, we noticed there was an issue with communication between tux34-E1 and switch port 4.
-With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
-We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
-This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
-
 \textbf{Objectives:} configure a commercial router and implement NAT.
+
+See issue reported in annex \ref{sec:configuration}.
 
 \subsubsection{Main configuration commands} \label{sec:Com4}
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | m{67mm} | l@{}}
+    \begin{longtable}{@{}l | m{77mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
         switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
 interface fastethernet 0/5
@@ -588,22 +585,22 @@ ip route 0.0.0.0 0.0.0.0 172.16.1.254
 ip route 172.16.30.0 255.255.255.0
     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
         \end{lstlisting}
-    \end{tabular}
+    \end{longtable}
 \end{center}
 
 \subsubsection{Logs analysis} \label{sec:Log4}
 
 \begin{table}[h]
     \centering
+    \small
     \begin{tabular}{@{}l | l | l | l | l@{}}
-        \textbf{Redirect} & \redcross              & \redcross              & \greencheckmark        & \greencheckmark        \\ \hline
-        \textbf{Route   } & \redcross              & \greencheckmark        & \redcross              & \greencheckmark        \\ \hline
-        Hop 0             & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } \\
-        Hop 1             & \texttt{172.16.31.254} & \texttt{172.16.31.253} & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253} \\
-        Hop 2             & \texttt{172.16.31.253} & \texttt{172.16.30.1  } & \texttt{172.16.31.253} & \texttt{172.16.30.1  } \\
-        Hop 3             & \texttt{172.16.30.1  } & \texttt{             } & \texttt{172.16.30.1  } & \texttt{             } \\
+        {\normalfont\textbf{Redirect/Route}} & \redcross/\redcross    & \redcross/\greencheckmark & \greencheckmark/\redcross          & \greencheckmark/\greencheckmark \\ \hline
+        Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
+        Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
+        Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
+        Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
     \end{tabular}
-    \caption{List of hops for each tux32 configuration; a dark IP address is visited every time, a gray IP address is visited only for the first time.}
+    \caption{List of hops for tux32 configs.: dark - address visited every time; gray - visited only the first time.}
     \label{fig:hops}
 \end{table}
 
@@ -634,7 +631,7 @@ These steps are to be performed together with other non-NAT-related commands, li
 \subsubsection{Main configuration commands} \label{sec:Com5}
 \begin{center}
     \small
-    \begin{tabular}{@{}m{10mm} | m{39mm} | l@{}}
+    \begin{tabular}{@{}l | m{29mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux32, tux33, tux34      & Configure DNS & 
         \begin{lstlisting}[frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]]
@@ -648,9 +645,8 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
 Domain Name System (DNS) is a naming system that allows the use of more easily memorized names to access resources over the Internet instead of IP addresses.
 It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
 Thus DNS allows a computer to query a predefined name server for the IP address corresponding to a domain name.
-
-DNS packets are sent inside UDP packets, which are themselves sent inside IPv4 packets and those inside Ethernet II frames.
-There are two main DNS query types: A, asking for an IPv4 address; AAAA, asking for an IPv6 address.
+DNS packets are sent inside UDP packets, which are in turn sent inside IPv4 packets and these in Ethernet II frames.
+The two main DNS query types are: A, asking for an IPv4 address; AAAA, asking for an IPv6 address.
 
 To configure the DNS service, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
 In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
@@ -678,10 +674,10 @@ The first was made through port 21 to send/receive commands to/from the server, 
 The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
 
 Each of the two TCP connections have the following phases:
-\begin{enumerate}
-    \item A reliable, full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal to the server with the client's initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
-    \item \texttt{FTP} packets are sent between the client and the server, and the receiving end replies with \texttt{ACK} signals for each successfully received packet with correct sequence number; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
-    \item The connection is closed; both sides send \texttt{FIN-ACK} signals to notify their will to close the connection on either sides, and then each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file, and in the case of the control connection the client first asks to close the connection because it has no additional requests or commands for the server.
+\begin{enumerate}[leftmargin=*]
+    \item A full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal with its initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
+    \item \texttt{FTP} packets are sent between the client and server, and the receiving end replies with \texttt{ACK} signals to acknowledge packets reception; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
+    \item The connection is closed; both sides send \texttt{FIN-ACK} signals to manifest their will to close the connection, and each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file; in the case of the control connection, the client first asks to close the connection because it has no additional commands for the server.
 \end{enumerate}
 
 TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
@@ -695,7 +691,7 @@ In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listi
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
 
-In this experiment, we tested a simultaneous download in tux32 and tux33, as attested by logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
+We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
 We used a file with approximately $\SI{88.1}{\mega\byte}$, which takes around $\SI{8}{\second}$ to finish download in a network with no additional bandwidth usage.
 First a download was started at tux32, and about 6 seconds later another download was started at tux33 as seen in \ref{fig:exp6_item5}.
 When the second download starts we can see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory throughput regime all downloads should converge to similar throughputs, but in this case there was not enough time for throughputs to stabilize.
@@ -704,9 +700,8 @@ After the first download is complete, the second download takes up all the avail
 \section*{Conclusion} \label{sec:Conclusion}
 
 This project allowed us to study and configure a network that was used to test a download application.
-The results from the download application were successful, being able to connect and establish a data-transfer between FTP servers and the computers from our network. 
-
-Furthermore, we could analyse and discuss the logs from the experiences, which gave us a better understanding of the protocols, methods and the data flow in a network.
+We were able to connect to an FTP server and transfer data through the assembled network.
+Furthermore, we analysed and discussed the experimental results, giving us a better understanding of the protocols, methods and data flow in a network.
 
 \bibliographystyle{acm}
 \addcontentsline{toc}{section}{Bibliography}
@@ -737,7 +732,13 @@ It will be made public once all equivalent curricular unit projects have been ev
 
 \restoregeometry
 
-\chapter{Configuration commands}
+\chapter{Configuration commands} \label{sec:configuration}
+
+Before starting experiment 4, we noticed there was an issue with communication between tux34-E1 and switch port 4.
+With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
+We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
+This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
+
 \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
 \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
 \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
