@@ -690,7 +690,7 @@ In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listi
 
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header.
-In our logs we verified that the receiver buffer nerver overflowed, thus never occuring a congestion followed by a timeout.
+In our logs we verified that the receiver buffer never overflowed, thus never occurring a congestion followed by a timeout.
 This could have happened because the server was not sending data fast enough, limiting the client window that stabilized very fast.
 
 We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
