@@ -33,7 +33,7 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{automata, positioning, shapes, arrows}
-\usepackage[justification=centering,font=small,skip=0.5em]{caption}
+\usepackage[justification=centering,font=small,skip=0.2em]{caption}
 \usepackage{subcaption}
 \usepackage{float}
 
@@ -447,9 +447,7 @@ end
     \end{tabular}
 \end{center}
 
-\subsubsection{Logs analysis} \label{sec:Log3}
-
-\begin{center}
+\begin{table}[H]
     \small
     \begin{tabular}{l | l}
         \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
@@ -459,12 +457,16 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
         tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
         tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
     \end{tabular}
-\end{center}
+    \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
+    \label{tab:summary-routes}
+\end{table}
+
+\subsubsection{Logs analysis} \label{sec:Log3}
 
 A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
-Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31.
-In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0}; in this context it means the gateway to reach that subnetwork is unspecified, which usually means no intermediate hops are necessary as the system is directly connected to that destination (i.e., the device belongs to said subnetwork), and as such packets will be directly sent to the destination \cite{routing-basics}.
+Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
+In the case of the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is set to \texttt{0.0.0.0} (which means \textit{unspecified}), usually implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
 As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works in the same way. 
 
 ARP tables are all initially empty.
@@ -474,9 +476,9 @@ By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tu
 
 In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
 tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
-tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0), its final destination;
+tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0);
 tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
-tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0), its final destination.
+tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0).
 
 This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
@@ -589,18 +591,18 @@ ip route 172.16.30.0 255.255.255.0
 
 The command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
 
-\begin{center}
-    \begin{tabular}{l | l | l | l | l}
-        Redirect & \redcross              & \redcross              & \greencheckmark        & \greencheckmark        \\ \hline
-        Route    & \redcross              & \greencheckmark        & \redcross              & \greencheckmark        \\ \hline
-        Hop 0    & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } \\
-        Hop 1    & \texttt{172.16.31.254} & \texttt{172.16.31.253} & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253} \\
-        Hop 2    & \texttt{172.16.31.253} & \texttt{172.16.30.1  } & \texttt{172.16.31.253} & \texttt{172.16.30.1  } \\
-        Hop 3    & \texttt{172.16.30.1  } & \texttt{             } & \texttt{172.16.30.1  } & \texttt{             } \\
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}l | l | l | l | l@{}}
+        \textbf{Redirect} & \redcross              & \redcross              & \greencheckmark        & \greencheckmark        \\ \hline
+        \textbf{Route   } & \redcross              & \greencheckmark        & \redcross              & \greencheckmark        \\ \hline
+        Hop 0             & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } \\
+        Hop 1             & \texttt{172.16.31.254} & \texttt{172.16.31.253} & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253} \\
+        Hop 2             & \texttt{172.16.31.253} & \texttt{172.16.30.1  } & \texttt{172.16.31.253} & \texttt{172.16.30.1  } \\
+        Hop 3             & \texttt{172.16.30.1  } & \texttt{             } & \texttt{172.16.30.1  } & \texttt{             } \\
     \end{tabular}
-\end{center}
-
-When running the ping command from tux32 to tux33 without redirects, the packets first arrived on the router and then were redirected to tux34 and after it tux33.
+    \caption{List of hops for each tux32 configuration; a dark IP address is visited every time, a gray IP address is visited only for the first time.}
+\end{table}
 
 After enabling the redirects and running ping again, the router sends a ICMP redirect message to tux32 that allows tux32 to directly send packets to tux34, without needing to go first through the router.
 
