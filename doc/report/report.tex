@@ -694,7 +694,7 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
 \end{center}
 \subsubsection{Logs analysis} \label{sec:Log5}
 
-Domain Name System (DNS) is a naming system that allows the use of more easily memorizable names to access resources over the Internet instead of IP addresses.
+Domain Name System (DNS) is a naming system that allows the use of more easily memorized names to access resources over the Internet instead of IP addresses.
 It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
 Thus DNS allows a computer to query a predefined name server for the IP address corresponding to a domain name.
 
@@ -704,7 +704,7 @@ There are two main DNS query types: A, asking for an IPv4 address; AAAA, asking 
 To configure the DNS service, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
 In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
 
-To test the DNS service configuration, we performed a ping to the well-known Portuguese media content and services provider \texttt{www.sapo.pt}, registered in logs \ref{listing:5-3-tux33.ping} and \ref{5-3-tux33.pcapng}.
+To test the DNS service configuration, we performed a ping to the well-known Portuguese media content and services provider \texttt{www.sapo.pt}, registered in logs \ref{listing:5-3-tux33.ping} and \ref{listing:5-3-tux33.pcapng}.
 On pinging \texttt{ww.sapo.pt}, tux33 (\texttt{172.16.30.1}) almost simultaneously sends a type A and a type AAAA DNS query packets to the name server \texttt{services.netlab.fe.up.pt} (\texttt{172.16.1.1}).
 The name server responds to the type A query with one IPv4 address \texttt{213.13.146.142} and responds to the type AAAA query with no IPv6 addresses but with other useful information in case the host wants to try asking another nameserver.
 In this case the host didn't bother with the type AAAA query response as it already had an IPv4 address.
@@ -726,12 +726,12 @@ The download application opened two TCP connections.
 The first was used through port 21 to send and receive commands to the server, this connection is responsible for the FTP control information.
 The second was opened in the port specified after entering passive mode, this was used to transfer data between the server and the client.
 
-In the first phase of our TCP connection, a connection was stablished with a three-way handshake, a SYN command is sent to the server, the server then replied with a SYN-ACK and the client sent a ACK to the server.
+In the first phase of our TCP connection, a connection was established with a three-way handshake, a SYN command is sent to the server, the server then replied with a SYN-ACK and the client sent a ACK to the server.
 In the second phase happened the data-transfer, where FTP-DATA packets were sent by the server and the client replied with ACK for each successful packet received.
 In the third phase, in order to close the connection, the client sent a FIN-ACK, the server replied with FIN-ACK, the client then sent ACK, and the server ended with another ACK. 
 
 The TCP uses the method ARQ (Automatic Repeat Request) to handle errors in the data-transfer.
-This method sends ACK (acknowlegdment message), when the data is received successfully before a timeout occurs, and a acknowlegdment number indicating the next byte expected.
+This method sends ACK (acknowledgment message), when the data is received successfully before a timeout occurs, and a acknowledgment number indicating the next byte expected.
 If a timeout does occurs, the data is retransmitted until it is correctly received. 
 
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
