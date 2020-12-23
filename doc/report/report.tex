@@ -2,7 +2,7 @@
 % Distributed under the terms of the GNU General Public License, version 3
 
 \documentclass[a4paper, 11pt]{report}
-\usepackage[top=30mm,bottom=30mm,left=20mm,right=20mm]{geometry} % Margins
+\usepackage[top=25mm,bottom=25mm,left=20mm,right=20mm]{geometry} % Margins
 
 % Change section numbers
 \renewcommand{\thesection}{\arabic{section}}
@@ -36,6 +36,7 @@
 \usepackage[justification=centering,font=small,skip=0.2em]{caption}
 \usepackage{subcaption}
 \usepackage{float}
+\setlength{\intextsep}{2pt plus 2pt minus 2pt}
 
 \usepackage[binary-units=true]{siunitx} %SI units
 \usepackage{pgfplots}
@@ -217,37 +218,39 @@ Reports can be found in \ref{listing:6-2-tux33-pipe.download}, \ref{listing:6-2-
 
 \subsection{Experiment 1} \label{sec:Exp1}
 
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+\begin{minipage}{0.48\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+            \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+            \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-        \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-        
+            \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
+            \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+            
 
 
-        \draw   (5, +0.6) rectangle ++(2, -2.2);
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+            \draw   (5, +0.6) rectangle ++(2, -2.2);
+            \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+            \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
 
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-            ;
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 1}
-	\label{fig:network_exp1}
-\end{figure}
-
-\noindent
+            \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+                    (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+                ;
+        \end{tikzpicture}
+        \caption{Network architecture for experiment 1}
+        \label{fig:network_exp1}
+    \end{figure}
+\end{minipage}
+\begin{minipage}{0.51\textwidth}
 \textbf{Objectives:} connect two computers by configuring their IP addresses.
+\end{minipage}
 
 \subsubsection{Main configuration commands} \label{sec:Com1}
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | m{87mm} | l@{}}
+    \begin{tabular}{@{}l | m{96mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 ifconfig eth0 up
@@ -332,7 +335,7 @@ Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{eth
 
 \begin{center}
     \small
-    \begin{tabular}{@{}l | m{93mm} | l@{}}
+    \begin{tabular}{@{}l | m{103mm} | l@{}}
         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
         switch        & Create virtual LAN 30                                 &
             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
@@ -447,7 +450,10 @@ end
     \end{tabular}
 \end{center}
 
+\subsubsection{Logs analysis} \label{sec:Log3}
+
 \begin{table}[H]
+    \centering
     \small
     \begin{tabular}{l | l}
         \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
@@ -460,8 +466,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
     \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
     \label{tab:summary-routes}
 \end{table}
-
-\subsubsection{Logs analysis} \label{sec:Log3}
 
 A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
@@ -483,11 +487,6 @@ tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-et
 This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
 \subsection{Experiment 4} \label{sec:Exp4}
-
-Before starting this experiment, we noticed there was an issue with communication between tux34-E1 and switch port 4.
-With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
-We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
-This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
 
 \begin{figure}[H]
 	\centering
@@ -540,6 +539,11 @@ This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-n
 	\label{fig:network_exp4}
 \end{figure}
 
+Before starting this experiment, we noticed there was an issue with communication between tux34-E1 and switch port 4.
+With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
+We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
+This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
+
 \textbf{Objectives:} configure a commercial router and implement NAT.
 
 \subsubsection{Main configuration commands} \label{sec:Com4}
@@ -589,8 +593,6 @@ ip route 172.16.30.0 255.255.255.0
 
 \subsubsection{Logs analysis} \label{sec:Log4}
 
-The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
-
 \begin{table}[h]
     \centering
     \begin{tabular}{@{}l | l | l | l | l@{}}
@@ -602,9 +604,12 @@ The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a s
         Hop 3             & \texttt{172.16.30.1  } & \texttt{             } & \texttt{172.16.30.1  } & \texttt{             } \\
     \end{tabular}
     \caption{List of hops for each tux32 configuration; a dark IP address is visited every time, a gray IP address is visited only for the first time.}
+    \label{fig:hops}
 \end{table}
 
-When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
+The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
+
+When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
 When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
 When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
 
@@ -623,60 +628,6 @@ To configure NAT in a commercial router, one should follow the abovementioned co
 These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
 
 \subsection{Experiment 5} \label{sec:Exp5}
-
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
-
-        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
-        
-        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
-
-        \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
-        \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
-        \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
-
-        \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
-
-        \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] (internet) {Internet};
-        \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
-
-        \node at (-6, -0) [rectangle,draw, minimum height=1.0cm, minimum width=1.7cm, align=center, fill=white] (dns_server) {S1\\(ftp.up.pt)};
-
-        \draw   (5, +0.6) rectangle ++(4, -5.2);
-        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-        \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
-        \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
-
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
-                (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
-                (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
-                (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
-
-                (switch_1) edge[] (VLAN30)
-                (switch_2) edge[] (VLAN30)
-                (switch_3) edge[] (VLAN31)
-                (switch_4) edge[] (VLAN31)
-                (switch_5) edge[] (VLAN31)
-                (dns_server) edge[] (internet)
-            ;
-
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 5}
-	\label{fig:network_exp5}
-\end{figure}
 
 \textbf{Objectives:} Configure DNS service.
 
@@ -743,12 +694,6 @@ In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listi
 
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
-
-\begin{figure}[H]
-    \includegraphics[width=\linewidth]{exp6_item5_hist.png}
-    \caption{Packet transfer rate (Packets/s) plotted against time (s).}
-    \label{fig:exp6_item5}
-\end{figure}
 
 In this experiment, we tested a simultaneous download in tux32 and tux33, as attested by logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
 We used a file with approximately $\SI{88.1}{\mega\byte}$, which takes around $\SI{8}{\second}$ to finish download in a network with no additional bandwidth usage.
@@ -949,5 +894,11 @@ It will be made public once all equivalent curricular unit projects have been ev
 \end{landscape}
 
 \restoregeometry
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{exp6_item5_hist.png}
+    \caption{Packet transfer rate (Packets/s) plotted against time (s).}
+    \label{fig:exp6_item5}
+\end{figure}
 
 \end{document}
