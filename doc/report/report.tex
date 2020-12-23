@@ -281,14 +281,14 @@ It is possible to determine if a receiving Ethernet frame have a ICMP layer by c
 We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
 In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
 
-The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[ch.~8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
+The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[\S8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
 \begin{enumerate*}[label=(\arabic*)]
     \item \label{itm:connectivity} test connectivity with another station;
     \item \label{itm:loops} check for network loops;
     \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
     \item \label{itm:self-loop} check for self-looped ports.
 \end{enumerate*}
-Although CTP was primarily designed for \ref{itm:connectivity} \cite[sec.~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
+Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
 
 \subsection{Experiment 2} \label{sec:Exp2}
 
@@ -723,16 +723,23 @@ This is why tux33 sends a query to the name server with IP address \texttt{142.1
 \subsubsection{Logs analysis} \label{sec:Log6}
 
 The download application opened two TCP connections. 
-The first was used through port 21 to send and receive commands to the server, this connection is responsible for the FTP control information.
-The second was opened in the port specified after entering passive mode, this was used to transfer data between the server and the client.
+The first was made through port 21 to send/receive commands to/from the server, and is used to transport FTP control information such as user credentials and other FTP server commands.
+The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
 
-In the first phase of our TCP connection, a connection was established with a three-way handshake, a SYN command is sent to the server, the server then replied with a SYN-ACK and the client sent a ACK to the server.
-In the second phase happened the data-transfer, where FTP-DATA packets were sent by the server and the client replied with ACK for each successful packet received.
-In the third phase, in order to close the connection, the client sent a FIN-ACK, the server replied with FIN-ACK, the client then sent ACK, and the server ended with another ACK. 
+Each of the two TCP connections have the following phases:
+\begin{enumerate}
+    \item A reliable, full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal to the server with the client's initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
+    \item \texttt{FTP} packets are sent between the client and the server, and the receiving end replies with \texttt{ACK} signals for each successfully received packet with correct sequence number; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
+    \item The connection is closed; both sides send \texttt{FIN-ACK} signals to notify their will to close the connection on either sides, and then each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file, and in the case of the control connection the client first asks to close the connection because it has no additional requests or commands for the server.
+\end{enumerate}
 
-The TCP uses the method ARQ (Automatic Repeat Request) to handle errors in the data-transfer.
-This method sends ACK (acknowledgment message), when the data is received successfully before a timeout occurs, and a acknowledgment number indicating the next byte expected.
-If a timeout does occurs, the data is retransmitted until it is correctly received. 
+TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
+An \texttt{ACK} packet contains a sequence number, which informs the server that the receiver acknowledges all packets with sequence number less than that sequence number.
+This can be seen in \ref{listing:6-2-tux33-pic2.pcapng}, where, starting in packet \#175, the receiver only acknowledges once every two \texttt{FTP-DATA} packets it receives (although it could acknowledge less frequently, as the \texttt{FTP-DATA} packets have length $\SI{1448}{\byte}$ and the calculated window size is $\SI{525824}{\byte}$)
+Additionally a sliding window is used on the receiving end, and is implemented as a set of fields in the TCP packet which indicate the window size, i.e. the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive. If the server detects it is about to send a packet beyond what the receiver is prepared to receive according to the receiver's last \texttt{ACK}, the server assumes there was an error in the packet immediately after the last acknowledged packet and starts retransmission at that packet.
+
+It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver end can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets instead of retransmitting all packets that come after the missing packet \cite{rfc2018}.
+In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as they send \texttt{SYN} signals with the \texttt{SACK\_PERMIT} option enabled.
 
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
