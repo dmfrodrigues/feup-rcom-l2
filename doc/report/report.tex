@@ -50,6 +50,13 @@
 \usepackage[utf8]{inputenc}
 % \DeclareUnicodeCharacter{2192}{\dash}
 
+% Checks and X-marks
+\usepackage{xcolor}
+\usepackage{pifont}
+\definecolor{ForestGreen}{RGB}{34, 139, 34}
+\newcommand\greencheckmark{{\color{ForestGreen}\ding{52}}}
+\newcommand\redcross{{\color{red}\ding{54}}}
+
 % Language
 \usepackage[english]{babel}
 
@@ -551,11 +558,11 @@ ip address 172.16.1.39 255.255.255.0
 no shutdown
 ip nat outside
         \end{lstlisting} \\
-        router & Define interface with lab router as outside & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+        router & Declare interface with lab router as the sole IP of the new NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
 ip nat pool ovrld
     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
         \end{lstlisting} \\
-        router & Create NAT pool to use in inside interface & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+        router & Declare the address list 1 can use the NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
 ip nat inside source
     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
         \end{lstlisting}\\
@@ -577,6 +584,17 @@ ip route 172.16.30.0 255.255.255.0
 
 The command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
 
+\begin{center}
+    \begin{tabular}{l | l | l | l | l}
+        Redirect & \redcross              & \redcross              & \greencheckmark        & \greencheckmark        \\ \hline
+        Route    & \redcross              & \greencheckmark        & \redcross              & \greencheckmark        \\ \hline
+        Hop 0    & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } & \texttt{172.16.31.1  } \\
+        Hop 1    & \texttt{172.16.31.254} & \texttt{172.16.31.253} & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253} \\
+        Hop 2    & \texttt{172.16.31.253} & \texttt{172.16.30.1  } & \texttt{172.16.31.253} & \texttt{172.16.30.1  } \\
+        Hop 3    & \texttt{172.16.30.1  } & \texttt{             } & \texttt{172.16.30.1  } & \texttt{             } \\
+    \end{tabular}
+\end{center}
+
 When running the ping command from tux32 to tux33 without redirects, the packets first arrived on the router and then were redirected to tux34 and after it tux33.
 
 After enabling the redirects and running ping again, the router sends a ICMP redirect message to tux32 that allows tux32 to directly send packets to tux34, without needing to go first through the router.
@@ -586,6 +604,14 @@ NAT has as main advantages to avoid having to issue a worldwide IP address for e
 Outbound packets are rewritten to feature the router's public address instead of the device's private address.
 The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
 The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
+
+To configure NAT in a commercial router, one should follow the abovementioned configuration commands. Generally speaking, setting up NAT requires one to:
+\begin{enumerate*}
+    \item Declare the inside and outside interfaces of the private network;
+    \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
+    \item Declare which private IP addresses can use that NAT pool.
+\end{enumerate*}
+These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
 
 \subsection{Experiment 5} \label{sec:Exp5}
 
@@ -758,7 +784,7 @@ It will be made public once all equivalent curricular unit projects have been ev
         tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
         tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
         tux34-eth2         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
-        Rc-GE0/0           & \texttt{                 } & \texttt{172.16.31.254} \\
+        Rc-GE0/0           & \texttt{68:ef:bd:d6:aa:b8} & \texttt{172.16.31.254} \\
         Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
     \end{tabular}
 \end{center}
