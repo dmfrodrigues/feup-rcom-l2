@@ -192,7 +192,7 @@ A simple FTP client was developed to test the network configuration.
 
 \subsection{Application architecture} \label{sec:Arc}
 
-The application first parses and verifies if the URL abides to \cite{rfc1738} using a regular expression (\texttt{ftp://[<user>:<password>@]<host>/<url-path>}).
+The application first parses and verifies if the URL abides to \cite{rfc1738} (\texttt{ftp://[<user>:<password>@]<host> /<url-path>}) using a regular expression.
 Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
 After connecting, it logs in to the server, or otherwise logs in as anonymous if no credentials were provided.
