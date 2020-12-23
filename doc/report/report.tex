@@ -696,20 +696,25 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
 
 Domain Name System (DNS) is a naming system that allows the use of more easily memorizable names to access resources over the Internet instead of IP addresses.
 It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
-Thus DNS allows a computer to query a predefined name server for the IP corresponding to a domain name.
+Thus DNS allows a computer to query a predefined name server for the IP address corresponding to a domain name.
 
-To configure the DNS server at a host, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
+DNS packets are sent inside UDP packets, which are themselves sent inside IPv4 packets and those inside Ethernet II frames.
+There are two main DNS query types: A, asking for an IPv4 address; AAAA, asking for an IPv6 address.
+
+To configure the DNS service, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
 In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
 
-After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
-in our logs for www.sapo.pt, 172.16.1.1 sent a query response with the corresponding IP address 213.13.146.142.
-This IP address was used afterwards by tux33 to send ICMP packets.
+To test the DNS service configuration, we performed a ping to the well-known Portuguese media content and services provider \texttt{www.sapo.pt}, registered in logs \ref{listing:5-3-tux33.ping} and \ref{5-3-tux33.pcapng}.
+On pinging \texttt{ww.sapo.pt}, tux33 (\texttt{172.16.30.1}) almost simultaneously sends a type A and a type AAAA DNS query packets to the name server \texttt{services.netlab.fe.up.pt} (\texttt{172.16.1.1}).
+The name server responds to the type A query with one IPv4 address \texttt{213.13.146.142} and responds to the type AAAA query with no IPv6 addresses but with other useful information in case the host wants to try asking another nameserver.
+In this case the host didn't bother with the type AAAA query response as it already had an IPv4 address.
+This IP address is then used by tux33 to send ICMP packets.
 
-We could also observe a reverse DNS, this is used to identify a domain name with an IP address. 
-This was done with a dedicated domain \textit{in-add.arpa}.
-Just as DNS domain names are read with the lowest level subdomain occupying the furthest left position and the root at the far right, in-addr.arpa domain IP addresses are read from lowest level to the root. Thus, the IP addresses are read backward \cite{in-addr-arpa}. 
-In the logs from wireshark, tux33 sent a query to the DNS Server with 142.146.13.213.in-addr.arpa.
-This could be used, for example, by sapo.pt to keep track of traffic origin.
+We could also observe the workings of reverse DNS (rDNS), which is used to find the domain name associated to an IP address.
+This functionality can be used for a multitude of purposes, most commonly for logging (as is the case, since the reverse DNS was probably sent by \texttt{ping} to find the domain name), but also for basic whitelisting/blacklisting against spammers and phishers.
+These requests are made to a dedicated domain \texttt{in-add.arpa}.
+Just as DNS domain names are read with the lowest level subdomain occupying the furthest left position and the root at the far right, \texttt{in-addr.arpa} domain IP addresses are read from lowest level to the root. Thus, the IP addresses are read backwards \cite{in-addr-arpa}.
+This is why tux33 sends a query to the name server with IP address \texttt{142.146.13.213.in-addr.arpa}.
 
 \subsection{Experiment 6} \label{sec:Exp6}
 
