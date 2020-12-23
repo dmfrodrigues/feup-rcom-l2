@@ -750,7 +750,7 @@ so it does not send more than the window size field (specified in bytes) that ca
     \label{fig:exp6_item5}
 \end{figure}
 
-In this experiment, we tested a simultaneous download in tux32 and tux33.
+In this experiment, we tested a simultaneous download in tux32 and tux33, as attested by logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
 We used a file with approximately $\SI{88.1}{\mega\byte}$, which takes around $\SI{8}{\second}$ to finish download in a network with no additional bandwidth usage.
 First a download was started at tux32, and about 6 seconds later another download was started at tux33 as seen in \ref{fig:exp6_item5}.
 When the second download starts we can see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory throughput regime all downloads should converge to similar throughputs, but in this case there was not enough time for throughputs to stabilize.
