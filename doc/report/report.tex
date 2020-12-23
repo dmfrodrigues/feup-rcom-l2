@@ -735,7 +735,7 @@ Each of the two TCP connections have the following phases:
 
 TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
 An \texttt{ACK} packet contains a sequence number, which informs the server that the receiver acknowledges all packets with sequence number less than that sequence number.
-This can be seen in \ref{listing:6-2-tux33-pic2.pcapng}, where, starting in packet \#175, the receiver only acknowledges once every two \texttt{FTP-DATA} packets it receives (although it could acknowledge less frequently, as the \texttt{FTP-DATA} packets have length $\SI{1448}{\byte}$ and the calculated window size is $\SI{525824}{\byte}$)
+This can be seen in \ref{listing:6-2-tux33-pic2.pcapng}, where, starting in packet \#175, the receiver only acknowledges once every two \texttt{FTP-DATA} packets it receives (although it could acknowledge less frequently, as the \texttt{FTP-DATA} packets have length $\SI{1448}{\byte}$ and the calculated window size is $\SI{525824}{\byte}$).
 Additionally a sliding window is used on the receiving end, and is implemented as a set of fields in the TCP packet which indicate the window size, i.e. the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive. If the server detects it is about to send a packet beyond what the receiver is prepared to receive according to the receiver's last \texttt{ACK}, the server assumes there was an error in the packet immediately after the last acknowledged packet and starts retransmission at that packet.
 
 It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver end can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets instead of retransmitting all packets that come after the missing packet \cite{rfc2018}.
@@ -744,7 +744,7 @@ In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listi
 The TCP also have a congestion control mechanism, which uses a congestion window that limits the amount of data this protocol can send into the network, 
 so it does not send more than the window size field (specified in bytes) that can be found in the TCP header. 
 
-\begin{figure}
+\begin{figure}[H]
     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
     \caption{}
     \label{fig:exp6_item5}
