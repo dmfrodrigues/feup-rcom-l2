@@ -590,20 +590,6 @@ ip route 172.16.30.0 255.255.255.0
 
 \subsubsection{Logs analysis} \label{sec:Log4}
 
-\begin{table}[h]
-    \centering
-    \small
-    \begin{tabular}{@{}l | l | l | l | l@{}}
-        {\normalfont\textbf{Redirect/Route}} & \redcross/\redcross    & \redcross/\greencheckmark & \greencheckmark/\redcross          & \greencheckmark/\greencheckmark \\ \hline
-        Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
-        Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
-        Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
-        Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
-    \end{tabular}
-    \caption{List of hops for tux32 configs.: dark - address visited every time; gray - visited only the first time.}
-    \label{fig:hops}
-\end{table}
-
 The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
 
 When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
@@ -616,13 +602,13 @@ Outbound packets are rewritten to feature the router's public address instead of
 The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
 The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
 
-To configure NAT in a commercial router, one should follow the aforementioned configuration commands. Generally speaking, setting up NAT requires one to:
+To configure NAT in a commercial router, one should follow the aforementioned configuration commands. The main actions to set up NAT are:
 \begin{enumerate*}
     \item Declare the inside and outside interfaces of the private network;
     \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
     \item Declare which private IP addresses can use that NAT pool.
 \end{enumerate*}
-These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
+% These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
 
 \subsection{Experiment 5} \label{sec:Exp5}
 
@@ -681,35 +667,35 @@ Each of the two TCP connections have the following phases:
 \end{enumerate}
 
 TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
-An \texttt{ACK} packet contains a sequence number, which informs the server that the receiver acknowledges all packets with sequence number less than that sequence number.
-This can be seen in \ref{listing:6-2-tux33-pic2.pcapng}, where, starting in packet \#175, the receiver only acknowledges once every two \texttt{FTP-DATA} packets it receives (although it could acknowledge less frequently, as the \texttt{FTP-DATA} packets have length $\SI{1448}{\byte}$ and the calculated window size is $\SI{525824}{\byte}$).
-Additionally a sliding window is used on the receiving end, and is implemented as a set of fields in the TCP packet which indicate the window size, i.e. the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive. If the server detects it is about to send a packet beyond what the receiver is prepared to receive according to the receiver's last \texttt{ACK}, the server assumes there was an error in the packet immediately after the last acknowledged packet and starts retransmission at that packet.
+An \texttt{ACK} packet contains a sequence number, informing the server of the acknowledgement of all packets with sequence number less than that sequence number.
+A sliding window is used on the receiver; its size \texttt{RWND} is the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive, and it is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}). If the server detects it is about to send a packet beyond what the receiver is prepared to receive, it assumes the packet immediately after the last acknowledged packet failed to transmit, and starts retransmission at that packet.
 
-It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver end can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets instead of retransmitting all packets that come after the missing packet \cite{rfc2018}.
-In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as they send \texttt{SYN} signals with the \texttt{SACK\_PERMIT} option enabled.
+It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets \cite{rfc2018}.
+In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as their \texttt{SYN} signals have \texttt{SACK\_PERMIT} set.
 
-TCP uses a congestion control mechanism, which uses a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
-The congestion window is managed in parallel with the receiver window, and the number of bytes in flight (bytes sent by the server but whose acknowledgement did not reach the server yet) is limited to the minimum between the receiver window size (\texttt{RWND}) and the congestion window size (\texttt{CWND}).
-Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
-One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a very small value and starts over.
+TCP uses a congestion control mechanism consisting of a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
+The congestion window size \texttt{CWND} is managed in parallel with \texttt{RWND}, and the number of bytes in flight (bytes sent but not yet acknowledged) is limited to the minimum between \texttt{RWND} and \texttt{CWND}.
+% Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
+One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a typically small value and starts over.
 
-\texttt{RWND} is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}); on the other hand, \texttt{CWND} is maintained by the sender and is never advertized (the window size advertized by the server on \texttt{FTP-DATA} packets is its receiver window size, but since the server is not receiving much data nor does that number correspond to \texttt{CWND} it bears no importance for this matter).
-Instead, one can try to observe some consequences of the variation of \texttt{CWND}.
-The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver (after all the task of the congestion control mechanism is to restrict throughput to fairly distribute bandwidth over all connections).
-\texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
+Unlike \texttt{RWND}, \texttt{CWND} is maintained by the sender and is never advertized.
+% \footnote{The window size advertized by the server on \texttt{FTP-DATA} packets is its \texttt{RWND}, which bears no importance for this matter.}.
+Instead, one can observe consequences of the variation of \texttt{CWND}.
+The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver.
+% \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
 Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
 
-In our logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to ?, at which point it plateaued until the connection was closed or another download was started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
-We could not exactly track the reason behind this behaviour, although the following possibilities could have a contribution:
-the server was not sending data fast enough;
-it uses an algorithm that stabilizes almost instantly;
-the server somehow already knows the bottleneck bandwidth of the physical path to the receiver.
+In logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to $\SI{100}{\mega\bit/\second}$, at which point it plateaued until the connection was closed or another download started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
+We could not find the reason behind this behaviour, although the following facts could contribute:
+the sender was not sending data fast enough;
+it uses a congestion management algorithm that stabilizes almost instantly;
+the sender somehow already knows the bottleneck bandwidth of the physical path to the receiver.
 
 We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
-We used a file with approximately $\SI{88.1}{\mega\byte}$, which takes around $\SI{8}{\second}$ to finish download in a network with no additional bandwidth usage.
-First a download was started at tux32, and about 6 seconds later another download was started at tux33 as seen in \ref{fig:exp6_item5}.
-When the second download starts we can see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory throughput regime all downloads should converge to similar throughputs, but in this case there was not enough time for throughputs to stabilize.
-After the first download is complete, the second download takes up all the available bandwidth until it is itself finished.
+We used a file with $\SI{88.1}{\mega\byte}$.
+First a download was started at tux32, and about 6 seconds later another download was started at tux33, \ref{fig:exp6_item5}.
+When the second download starts we see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory regime all downloads should have similar throughputs, but in this case there was not enough time for stabilization.
+After the first download is complete, the second download takes up all bandwidth.
 
 \section*{Conclusion} \label{sec:Conclusion}
 
@@ -840,6 +826,21 @@ This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-n
 
 \begin{landscape}
 \section{Experiment 4}
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{@{}l | l | l | l | l@{}}
+        {\normalfont\textbf{Redirect      }} & \redcross    & \redcross & \greencheckmark          & \greencheckmark \\ \hline
+        {\normalfont\textbf{Route         }} & \redcross    & \greencheckmark & \redcross          & \greencheckmark \\ \hline
+        Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
+        Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
+        Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
+        Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
+    \end{tabular}
+    \caption{List of hops for tux32 configurations: dark - address visited every time; gray - address visited only the first time.}
+    \label{fig:hops}
+\end{table}
 
 \setcounter{subsection}{2}
 \subsection{Item 3}
