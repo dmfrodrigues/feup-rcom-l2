@@ -694,6 +694,8 @@ echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
 \end{center}
 \subsubsection{Logs analysis} \label{sec:Log5}
 
+Domain Name System (DNS) is a naming system that allows the use of more easily memorizable names to access resources over the Internet instead of IP addresses. It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name. Thus DNS allows a computer to query a predefined name server for the IP corresponding to a domain name.
+
 After tux33 (172.16.30.1) sent a query to the DNS server services.netlab.fe.up.pt (172.16.1.1),
 in our logs for www.sapo.pt, 172.16.1.1 sent a query response with the corresponding IP address 213.13.146.142.
 This IP address was used afterwards by tux33 to send ICMP packets.
