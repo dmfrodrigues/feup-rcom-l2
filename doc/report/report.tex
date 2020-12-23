@@ -746,12 +746,15 @@ so it does not send more than the window size field (specified in bytes) that ca
 
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
-    \caption{}
+    \caption{Packet transfer rate (Packets/s) plotted against time (s).}
     \label{fig:exp6_item5}
 \end{figure}
 
-In this experiment, we tested a simultaneous download in tux32 and tux33. First a download was started at tux32, and some seconds after another download was started at tux33 as seen in \ref{fig:exp6_item5} .
-When the second download start we can see the throughput converging and then it quickly rises in tux33 when download in tux32 finishes.
+In this experiment, we tested a simultaneous download in tux32 and tux33.
+We used a file with approximately $\SI{88.1}{\mega\byte}$, which takes around $\SI{8}{\second}$ to finish download in a network with no additional bandwidth usage.
+First a download was started at tux32, and about 6 seconds later another download was started at tux33 as seen in \ref{fig:exp6_item5}.
+When the second download starts we can see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory throughput regime all downloads should converge to similar throughputs, but in this case there was not enough time for throughputs to stabilize.
+After the first download is complete, the second download takes up all the available bandwidth until it is itself finished.
 
 \section*{Conclusion} \label{sec:Conclusion}
 
