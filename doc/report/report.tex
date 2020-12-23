@@ -699,7 +699,7 @@ The parameters that are usually expected to be affected by \texttt{CWND} are the
 \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
 Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
 
-In our logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to ?, at which point it plateaued until the connection was closed or another download was started (see graphs TODO).
+In our logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to ?, at which point it plateaued until the connection was closed or another download was started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
 We could not exactly track the reason behind this behaviour, although the following possibilities could have a contribution:
 the server was not sending data fast enough;
 it uses an algorithm that stabilizes almost instantly;
@@ -911,6 +911,14 @@ This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-n
 \restoregeometry
 
 \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{6-2-tux33-pic2-throughput.png}
+    \caption{Throughput during transfer of \texttt{pic2.png} in experiment 6, item 2.}
+    \label{fig:6-2-tux33-pic2-throughput}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
     \caption{Packet transfer rate (Packets/s) plotted against time (s).}
     \label{fig:exp6_item5}
