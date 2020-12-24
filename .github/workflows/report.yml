@@ -22,7 +22,7 @@ jobs:
       run: |
         sudo apt update
         # sudo apt install -y texlive-latex-extra texlive-science latexmk curl
-        sudo apt install -y texlive-full
+        sudo apt install -y texlive-full latexmk curl
     - name: Checkout submodules
       shell: bash
       run: |
