@@ -649,59 +649,59 @@ These requests are made to a dedicated domain \texttt{in-add.arpa}.
 Just as DNS domain names are read with the lowest level subdomain occupying the furthest left position and the root at the far right, \texttt{in-addr.arpa} domain IP addresses are read from lowest level to the root. Thus, the IP addresses are read backwards \cite{in-addr-arpa}.
 This is why tux33 sends a query to the name server with IP address \texttt{142.146.13.213.in-addr.arpa}.
 
-% \subsection{Experiment 6} \label{sec:Exp6}
+\subsection{Experiment 6} \label{sec:Exp6}
 
-% \textbf{Objectives:} Test the download application in the configured network.
+\textbf{Objectives:} Test the download application in the configured network.
 
-% \subsubsection{Logs analysis} \label{sec:Log6}
+\subsubsection{Logs analysis} \label{sec:Log6}
 
-% The download application opened two TCP connections. 
-% The first was made through port 21 to send/receive commands to/from the server, and is used to transport FTP control information such as user credentials and other FTP server commands.
-% The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
+The download application opened two TCP connections. 
+The first was made through port 21 to send/receive commands to/from the server, and is used to transport FTP control information such as user credentials and other FTP server commands.
+The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
 
-% Each of the two TCP connections have the following phases:
-% \begin{enumerate}[leftmargin=*]
-%     \item A full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal with its initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
-%     \item \texttt{FTP} packets are sent between the client and server, and the receiving end replies with \texttt{ACK} signals to acknowledge packets reception; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
-%     \item The connection is closed; both sides send \texttt{FIN-ACK} signals to manifest their will to close the connection, and each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file; in the case of the control connection, the client first asks to close the connection because it has no additional commands for the server.
-% \end{enumerate}
+Each of the two TCP connections have the following phases:
+\begin{enumerate}[leftmargin=*]
+    \item A full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal with its initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
+    \item \texttt{FTP} packets are sent between the client and server, and the receiving end replies with \texttt{ACK} signals to acknowledge packets reception; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
+    \item The connection is closed; both sides send \texttt{FIN-ACK} signals to manifest their will to close the connection, and each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file; in the case of the control connection, the client first asks to close the connection because it has no additional commands for the server.
+\end{enumerate}
 
-% TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
-% An \texttt{ACK} packet contains a sequence number, informing the server of the acknowledgement of all packets with sequence number less than that sequence number.
-% A sliding window is used on the receiver; its size \texttt{RWND} is the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive, and it is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}). If the server detects it is about to send a packet beyond what the receiver is prepared to receive, it assumes the packet immediately after the last acknowledged packet failed to transmit, and starts retransmission at that packet.
+TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
+An \texttt{ACK} packet contains a sequence number, informing the server of the acknowledgement of all packets with sequence number less than that sequence number.
+A sliding window is used on the receiver; its size \texttt{RWND} is the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive, and it is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}). If the server detects it is about to send a packet beyond what the receiver is prepared to receive, it assumes the packet immediately after the last acknowledged packet failed to transmit, and starts retransmission at that packet.
 
-% It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets \cite{rfc2018}.
-% In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as their \texttt{SYN} signals have \texttt{SACK\_PERMIT} set.
+It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets \cite{rfc2018}.
+In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as their \texttt{SYN} signals have \texttt{SACK\_PERMIT} set.
 
-% TCP uses a congestion control mechanism consisting of a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
-% The congestion window size \texttt{CWND} is managed in parallel with \texttt{RWND}, and the number of bytes in flight (bytes sent but not yet acknowledged) is limited to the minimum between \texttt{RWND} and \texttt{CWND}.
-% % Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
-% One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a typically small value and starts over.
+TCP uses a congestion control mechanism consisting of a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
+The congestion window size \texttt{CWND} is managed in parallel with \texttt{RWND}, and the number of bytes in flight (bytes sent but not yet acknowledged) is limited to the minimum between \texttt{RWND} and \texttt{CWND}.
+% Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
+One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a typically small value and starts over.
 
-% Unlike \texttt{RWND}, \texttt{CWND} is maintained by the sender and is never advertized.
-% % \footnote{The window size advertized by the server on \texttt{FTP-DATA} packets is its \texttt{RWND}, which bears no importance for this matter.}.
-% Instead, one can observe consequences of the variation of \texttt{CWND}.
-% The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver.
-% % \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
-% Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
+Unlike \texttt{RWND}, \texttt{CWND} is maintained by the sender and is never advertized.
+% \footnote{The window size advertized by the server on \texttt{FTP-DATA} packets is its \texttt{RWND}, which bears no importance for this matter.}.
+Instead, one can observe consequences of the variation of \texttt{CWND}.
+The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver.
+% \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
+Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
 
-% In logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to $\SI{100}{\mega\bit/\second}$, at which point it plateaued until the connection was closed or another download started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
-% We could not find the reason behind this behaviour, although the following facts could contribute:
-% the sender was not sending data fast enough;
-% it uses a congestion management algorithm that stabilizes almost instantly;
-% the sender somehow already knows the bottleneck bandwidth of the physical path to the receiver.
+In logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to $\SI{100}{\mega\bit/\second}$, at which point it plateaued until the connection was closed or another download started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
+We could not find the reason behind this behaviour, although the following facts could contribute:
+the sender was not sending data fast enough;
+it uses a congestion management algorithm that stabilizes almost instantly;
+the sender somehow already knows the bottleneck bandwidth of the physical path to the receiver.
 
-% We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
-% We used a file with $\SI{88.1}{\mega\byte}$.
-% First a download was started at tux32, and about 6 seconds later another download was started at tux33, \ref{fig:exp6_item5}.
-% When the second download starts we see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory regime all downloads should have similar throughputs, but in this case there was not enough time for stabilization.
-% After the first download is complete, the second download takes up all bandwidth.
+We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
+We used a file with $\SI{88.1}{\mega\byte}$.
+First a download was started at tux32, and about 6 seconds later another download was started at tux33, \ref{fig:exp6_item5}.
+When the second download starts we see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory regime all downloads should have similar throughputs, but in this case there was not enough time for stabilization.
+After the first download is complete, the second download takes up all bandwidth.
 
-% \section*{Conclusion} \label{sec:Conclusion}
+\section*{Conclusion} \label{sec:Conclusion}
 
-% This project allowed us to study and configure a network that was used to test a download application.
-% We were able to connect to an FTP server and transfer data through the assembled network.
-% Furthermore, we analysed and discussed the experimental results, giving us a better understanding of the protocols, methods and data flow in a network.
+This project allowed us to study and configure a network that was used to test a download application.
+We were able to connect to an FTP server and transfer data through the assembled network.
+Furthermore, we analysed and discussed the experimental results, giving us a better understanding of the protocols, methods and data flow in a network.
 
 % \bibliographystyle{acm}
 % \addcontentsline{toc}{section}{Bibliography}
