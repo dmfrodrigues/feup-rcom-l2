@@ -255,43 +255,43 @@ Reports can be found in \ref{listing:6-2-tux33-pipe.download}, \ref{listing:6-2-
         tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
 ifconfig eth0 up
         \end{lstlisting}               \\
-%         tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% ifconfig eth0 172.16.30.1/24
-%         \end{lstlisting} \\ \hline
-%         tux34         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% ifconfig eth0 up
-%         \end{lstlisting}\\
-%         tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% ifconfig eth0 172.16.30.254/24
-%         \end{lstlisting} \\
+        tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 172.16.30.1/24
+        \end{lstlisting} \\ \hline
+        tux34         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 up
+        \end{lstlisting}\\
+        tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth0 172.16.30.254/24
+        \end{lstlisting} \\
     \end{tabular}
 \end{center}
 
-% \subsubsection{Logs analysis} \label{sec:Log1}
+\subsubsection{Logs analysis} \label{sec:Log1}
 
-% IP (Internet Protocol) addresses are a convenient way to refer to interfaces, but to send a frame a device first needs to know the MAC address of the receiving interface.
-% ARP (Address Resolution Protocol) is used to map an IP address to a MAC address; these mappings are stored in the ARP table, and each device has one such table.
-% Upon sending a frame, if there is not an entry with the receiver IP in its ARP table, the emitter will broadcast an ARP probe packet with the receiver IP and wait for the corresponding device to announce its presence.
+IP (Internet Protocol) addresses are a convenient way to refer to interfaces, but to send a frame a device first needs to know the MAC address of the receiving interface.
+ARP (Address Resolution Protocol) is used to map an IP address to a MAC address; these mappings are stored in the ARP table, and each device has one such table.
+Upon sending a frame, if there is not an entry with the receiver IP in its ARP table, the emitter will broadcast an ARP probe packet with the receiver IP and wait for the corresponding device to announce its presence.
 
-% As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
-% Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
+As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
+Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
 
-% \texttt{ping} generates ICMP (Internet Control Message Protocol) packets. The MAC/IP addresses of the ping packets are the source addresses \texttt{00:21:5a:61:24:92}/\texttt{172.16.30.1} in bytes 0-5
-% and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.30.254}.
+\texttt{ping} generates ICMP (Internet Control Message Protocol) packets. The MAC/IP addresses of the ping packets are the source addresses \texttt{00:21:5a:61:24:92}/\texttt{172.16.30.1} in bytes 0-5
+and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.30.254}.
 
-% A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
-% It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
-% We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
-% In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
+A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
+It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
+We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
+In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
 
-% The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[\S8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
-% \begin{enumerate*}[label=(\arabic*)]
-%     \item \label{itm:connectivity} test connectivity with another station;
-%     \item \label{itm:loops} check for network loops;
-%     \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
-%     \item \label{itm:self-loop} check for self-looped ports.
-% \end{enumerate*}
-% Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
+The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[\S8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
+\begin{enumerate*}[label=(\arabic*)]
+    \item \label{itm:connectivity} test connectivity with another station;
+    \item \label{itm:loops} check for network loops;
+    \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
+    \item \label{itm:self-loop} check for self-looped ports.
+\end{enumerate*}
+Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
 
 % \subsection{Experiment 2} \label{sec:Exp2}
 

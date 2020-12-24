@@ -21,10 +21,7 @@ jobs:
     - name: Install latex and related packages
       run: |
         sudo apt update
-        # sudo apt upgrade
-        # sudo apt update
         sudo apt install -y texlive-latex-extra texlive-science latexmk graphviz curl
-        # sudo apt install -y texlive-full latexmk curl
     - name: Checkout submodules
       shell: bash
       run: |
