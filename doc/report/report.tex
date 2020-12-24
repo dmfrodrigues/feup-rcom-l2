@@ -370,121 +370,121 @@ There are some \cite{ping-subnet-address-1}\cite{ping-subnet-address-2} who ment
 On inspecting the ping requests, both broadcasts sent from tux33 and tux32 are Ethernet II frames have their destination set to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}, and only the contained IPv4 destination addresses differ.
 The switch works on the Data Link layer so it can only understand the Ethernet II frames, not the contained IPv4 packet so it broadcasts both pings in exactly the same way, each in its own subnetwork; so apparently, somewhere in the process of converting the destination IP address to a MAC address, tux33 interpreted \texttt{172.16.30.0} as a broadcast address and framed the IPv4 packet in a frame destined to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}. This is further reinforced by the fact even the \texttt{ping} command recognizes a network address as a broadcast address, assumed from its output \texttt{ping: Do you want to ping broadcast? Then -b. If not, check your local firewall rules} when you try to ping a network IP address without using the \texttt{-b} (broadcast) flag. 
 
-% \subsection{Experiment 3} \label{sec:Exp3}
+\subsection{Experiment 3} \label{sec:Exp3}
 
-% \begin{figure}[H]
-% 	\centering
-%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+\begin{figure}[H]
+	\centering
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-%         \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
+        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
+        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
         
-%         \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-%         \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
 
-%         \draw   (5, +0.6) rectangle ++(4, -4.2);
-%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-%         \node at (7.2, -2.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-%         \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+        \draw   (5, +0.6) rectangle ++(4, -4.2);
+        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+        \node at (7.2, -2.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
+        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
 
-%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-%                 (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
+        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
 
-%                 (switch_1) edge[] (VLAN30)
-%                 (switch_2) edge[] (VLAN30)
-%                 (switch_3) edge[] (VLAN31)
-%                 (switch_4) edge[] (VLAN31)
-%             ;
+                (switch_1) edge[] (VLAN30)
+                (switch_2) edge[] (VLAN30)
+                (switch_3) edge[] (VLAN31)
+                (switch_4) edge[] (VLAN31)
+            ;
 
-%     \end{tikzpicture}
-% 	\caption{Network architecture for experiment 3}
-% 	\label{fig:network_exp3}
-% \end{figure}
+    \end{tikzpicture}
+	\caption{Network architecture for experiment 3}
+	\label{fig:network_exp3}
+\end{figure}
 
-% \textbf{Objectives:} configure a router in Linux.
+\textbf{Objectives:} configure a router in Linux.
 
-% \subsubsection{Main configuration commands} \label{sec:Com3}
+\subsubsection{Main configuration commands} \label{sec:Com3}
 
-% \begin{center}
-%     \small
-%     \begin{tabular}{@{}l | m{66mm} | l@{}}
-%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-%         tux34         & Configure tux34-E1 &
-%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% ifconfig eth1 up
-% ifconfig eth1 172.16.31.253/24
-%             \end{lstlisting} \\
-%         tux34         & Enable IP forwarding & 
-%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% echo 1 > /proc/sys/net/ipv4/ip_forward
-%         \end{lstlisting} \\
-%         tux34         & Disable ICMP echo-ignore-broadcast &  
-%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]
-% echo 0 > /proc/sys/net/ipv4/
-%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)icmp_echo_ignore_broadcasts
-%         \end{lstlisting} \\ \hline
-%         tux32         & Add route to VLAN30 &  
-%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% route add -net 172.16.30.0/24 gw 172.16.31.253
-%         \end{lstlisting} \\ \hline
-%         tux33         & Add route to VLAN31 &  
-%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-% route add -net 172.16.31.0/24 gw 172.16.30.254
-%         \end{lstlisting} \\ \hline
-%         switch        & Add port 4 to VLAN 31 & 
-%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% configure terminal
-% interface fastethernet 0/4
-% switchport mode access
-% switchport access vlan 31
-% end
-%         \end{lstlisting}
-%     \end{tabular}
-% \end{center}
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | m{66mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        tux34         & Configure tux34-E1 &
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+ifconfig eth1 up
+ifconfig eth1 172.16.31.253/24
+            \end{lstlisting} \\
+        tux34         & Enable IP forwarding & 
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+echo 1 > /proc/sys/net/ipv4/ip_forward
+        \end{lstlisting} \\
+        tux34         & Disable ICMP echo-ignore-broadcast &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]
+echo 0 > /proc/sys/net/ipv4/
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)icmp_echo_ignore_broadcasts
+        \end{lstlisting} \\ \hline
+        tux32         & Add route to VLAN30 &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+route add -net 172.16.30.0/24 gw 172.16.31.253
+        \end{lstlisting} \\ \hline
+        tux33         & Add route to VLAN31 &  
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+route add -net 172.16.31.0/24 gw 172.16.30.254
+        \end{lstlisting} \\ \hline
+        switch        & Add port 4 to VLAN 31 & 
+        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+configure terminal
+interface fastethernet 0/4
+switchport mode access
+switchport access vlan 31
+end
+        \end{lstlisting}
+    \end{tabular}
+\end{center}
 
-% \subsubsection{Logs analysis} \label{sec:Log3}
+\subsubsection{Logs analysis} \label{sec:Log3}
 
-% \begin{table}[H]
-%     \centering
-%     \small
-%     \begin{tabular}{l | l}
-%         \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
-% Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-%             \end{lstlisting} \\ \hline
-%         tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
-%         tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
-%         tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
-%     \end{tabular}
-%     \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
-%     \label{tab:summary-routes}
-% \end{table}
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{l | l}
+        \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+            \end{lstlisting} \\ \hline
+        tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
+        tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
+        tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
+    \end{tabular}
+    \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
+    \label{tab:summary-routes}
+\end{table}
 
-% A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
+A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
-% Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
-% In the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is \texttt{0.0.0.0} (which means \textit{unspecified}), implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
-% As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works the same way. 
+Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
+In the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is \texttt{0.0.0.0} (which means \textit{unspecified}), implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
+As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works the same way. 
 
-% ARP tables are all initially empty.
-% tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
-% Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, we see that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with \texttt{00:21:5a:5a:7d:74}.
-% By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
+ARP tables are all initially empty.
+tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
+Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, we see that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with \texttt{00:21:5a:5a:7d:74}.
+By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
 
-% In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
-% tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
-% tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0);
-% tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
-% tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0).
+In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
+tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
+tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0);
+tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
+tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0).
 
-% This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
+This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
 % \subsection{Experiment 4} \label{sec:Exp4}
 
