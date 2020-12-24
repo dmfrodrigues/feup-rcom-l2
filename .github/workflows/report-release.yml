@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set version
-      run: echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
+      run: echo "VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Checkout right version
       run: git checkout $(git rev-list -n 1 $VERSION)
