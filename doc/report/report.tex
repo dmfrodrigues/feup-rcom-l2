@@ -486,129 +486,129 @@ tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-et
 
 This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
-% \subsection{Experiment 4} \label{sec:Exp4}
+\subsection{Experiment 4} \label{sec:Exp4}
 
-% \begin{figure}[H]
-% 	\centering
-%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+\begin{figure}[H]
+	\centering
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-%         \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
+        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
+        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
         
-%         \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-%         \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
 
-%         \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
-%         \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
-%         \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
+        \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
+        \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
+        \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
 
-%         \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
+        \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
 
-%         \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] {Internet};
-%         \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
+        \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] {Internet};
+        \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
 
-%         \draw   (5, +0.6) rectangle ++(4, -5.2);
-%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-%         \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-%         \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
-%         \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
+        \draw   (5, +0.6) rectangle ++(4, -5.2);
+        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+        \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
+        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+        \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
 
-%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-%                 (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
-%                 (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
-%                 (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
-%                 (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
+        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
+                (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
+                (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
+                (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
 
-%                 (switch_1) edge[] (VLAN30)
-%                 (switch_2) edge[] (VLAN30)
-%                 (switch_3) edge[] (VLAN31)
-%                 (switch_4) edge[] (VLAN31)
-%                 (switch_5) edge[] (VLAN31)
-%             ;
+                (switch_1) edge[] (VLAN30)
+                (switch_2) edge[] (VLAN30)
+                (switch_3) edge[] (VLAN31)
+                (switch_4) edge[] (VLAN31)
+                (switch_5) edge[] (VLAN31)
+            ;
 
-%     \end{tikzpicture}
-% 	\caption{Network architecture for experiment 4}
-% 	\label{fig:network_exp4}
-% \end{figure}
+    \end{tikzpicture}
+	\caption{Network architecture for experiment 4}
+	\label{fig:network_exp4}
+\end{figure}
 
-% \textbf{Objectives:} configure a commercial router and implement NAT.
+\textbf{Objectives:} configure a commercial router and implement NAT.
 
-% See issue reported in annex \ref{sec:configuration}.
+See issue reported in annex \ref{sec:configuration}.
 
-% \subsubsection{Main configuration commands} \label{sec:Com4}
+\subsubsection{Main configuration commands} \label{sec:Com4}
 
-% \begin{center}
-%     \small
-%     \begin{longtable}{@{}l | m{77mm} | l@{}}
-%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
-%         switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% interface fastethernet 0/5
-% switchport mode access
-% switchport access vlan 31
-%         \end{lstlisting} \\ \hline
-%         router & Configure interface with VLAN31, set it as the inside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% interface gigabitethernet 0/0
-% ip address 172.16.31.254 255.255.255.0
-% no shutdown
-% ip nat inside
-%         \end{lstlisting} \\
-%         router & Configure interface with lab router, set it as the outside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% interface gigabitethernet 0/1
-% ip address 172.16.1.39 255.255.255.0
-% no shutdown
-% ip nat outside
-%         \end{lstlisting} \\
-%         router & Declare interface with lab router as the sole IP of the new NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-% ip nat pool ovrld
-%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
-%         \end{lstlisting} \\
-%         router & Declare the address list 1 can use the NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-% ip nat inside source
-%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
-%         \end{lstlisting}\\
-%         router & Allow IP addresses 172.16.30.0-.7 and 172.16.31.0-.7 to use NAT & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% access-list 1 permit 172.16.30.0 0.0.0.7
-% access-list 1 permit 172.16.31.0 0.0.0.7
-%         \end{lstlisting}\\
-%         router & Set lab router as default gateway & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% ip route 0.0.0.0 0.0.0.0 172.16.1.254
-%         \end{lstlisting}\\
-%         router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-% ip route 172.16.30.0 255.255.255.0
-%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
-%         \end{lstlisting}
-%     \end{longtable}
-% \end{center}
+\begin{center}
+    \small
+    \begin{longtable}{@{}l | m{77mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
+        switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface fastethernet 0/5
+switchport mode access
+switchport access vlan 31
+        \end{lstlisting} \\ \hline
+        router & Configure interface with VLAN31, set it as the inside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/0
+ip address 172.16.31.254 255.255.255.0
+no shutdown
+ip nat inside
+        \end{lstlisting} \\
+        router & Configure interface with lab router, set it as the outside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+interface gigabitethernet 0/1
+ip address 172.16.1.39 255.255.255.0
+no shutdown
+ip nat outside
+        \end{lstlisting} \\
+        router & Declare interface with lab router as the sole IP of the new NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip nat pool ovrld
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
+        \end{lstlisting} \\
+        router & Declare the address list 1 can use the NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip nat inside source
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
+        \end{lstlisting}\\
+        router & Allow IP addresses 172.16.30.0-.7 and 172.16.31.0-.7 to use NAT & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+access-list 1 permit 172.16.30.0 0.0.0.7
+access-list 1 permit 172.16.31.0 0.0.0.7
+        \end{lstlisting}\\
+        router & Set lab router as default gateway & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+ip route 0.0.0.0 0.0.0.0 172.16.1.254
+        \end{lstlisting}\\
+        router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+ip route 172.16.30.0 255.255.255.0
+    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
+        \end{lstlisting}
+    \end{longtable}
+\end{center}
 
-% \subsubsection{Logs analysis} \label{sec:Log4}
+\subsubsection{Logs analysis} \label{sec:Log4}
 
-% The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
+The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
 
-% When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
-% When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
-% When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
+When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
+When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
+When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
 
-% Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
-% NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
-% Outbound packets are rewritten to feature the router's public address instead of the device's private address.
-% The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
-% The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
+Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
+NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
+Outbound packets are rewritten to feature the router's public address instead of the device's private address.
+The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
+The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
 
-% To configure NAT in a commercial router, one should follow the aforementioned configuration commands. The main actions to set up NAT are:
-% \begin{enumerate*}
-%     \item Declare the inside and outside interfaces of the private network;
-%     \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
-%     \item Declare which private IP addresses can use that NAT pool.
-% \end{enumerate*}
-% % These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
+To configure NAT in a commercial router, one should follow the aforementioned configuration commands. The main actions to set up NAT are:
+\begin{enumerate*}
+    \item Declare the inside and outside interfaces of the private network;
+    \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
+    \item Declare which private IP addresses can use that NAT pool.
+\end{enumerate*}
+% These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
 
 % \subsection{Experiment 5} \label{sec:Exp5}
 
