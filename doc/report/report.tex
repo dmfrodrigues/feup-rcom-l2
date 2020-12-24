@@ -155,774 +155,774 @@ Class 2, group 4 \vspace{0.5em} \\
 % Document
 \begin{document}
 \maketitle
-\begin{secondpage}
-    Copyright \copyright 2020--\the\year\ Diogo Rodrigues, Breno Pimentel\par
-    \IfFileExists{VERSION}{Version \input{VERSION}}{Draft version}\par
-    \immediate\write18{./get-commit-info.sh > COMMIT.tex}
-    Built on \today~\currenttime~from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{dmfrodrigues/feup-rcom-l2}, commit \input{COMMIT}\unskip.\par
-    Permission is granted to copy and distribute this document under the terms of the
-    \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
-    public license.
-\end{secondpage}
-\clearpage
+% \begin{secondpage}
+%     Copyright \copyright 2020--\the\year\ Diogo Rodrigues, Breno Pimentel\par
+%     \IfFileExists{VERSION}{Version \input{VERSION}}{Draft version}\par
+%     \immediate\write18{./get-commit-info.sh > COMMIT.tex}
+%     Built on \today~\currenttime~from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{dmfrodrigues/feup-rcom-l2}, commit \input{COMMIT}\unskip.\par
+%     Permission is granted to copy and distribute this document under the terms of the
+%     \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
+%     public license.
+% \end{secondpage}
+% \clearpage
 
-\pagenumbering{arabic}
+% \pagenumbering{arabic}
 
-\section*{Summary}
+% \section*{Summary}
 
-This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
-It concerns the configuration of a computer network, and its test and study through a developed FTP client.
+% This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
+% It concerns the configuration of a computer network, and its test and study through a developed FTP client.
 
-All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the guidelines' requirements.
+% All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the guidelines' requirements.
 
-\section*{Introduction} \label{sec:Introduction}
+% \section*{Introduction} \label{sec:Introduction}
 
-The present project aims at developing a simple FTP client which is to be tested over a configured network.
-The source code was developed in the C language, targeting Linux devices.
-The goal network is composed of three computers, a switch that implements two virtual sub-networks, and a router to provide Internet access.
+% The present project aims at developing a simple FTP client which is to be tested over a configured network.
+% The source code was developed in the C language, targeting Linux devices.
+% The goal network is composed of three computers, a switch that implements two virtual sub-networks, and a router to provide Internet access.
 
-This report describes the corresponding project's activities, and is divided into two parts.
-In part 1 we address the design, development and testing of the FTP client.
-In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that incrementally contribute to the final network configuration.
-This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router.
+% This report describes the corresponding project's activities, and is divided into two parts.
+% In part 1 we address the design, development and testing of the FTP client.
+% In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that incrementally contribute to the final network configuration.
+% This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router.
 
-\section{Download application} \label{sec:Part1}
+% \section{Download application} \label{sec:Part1}
 
-A simple FTP client was developed to test the network configuration.
+% A simple FTP client was developed to test the network configuration.
 
-\subsection{Application architecture} \label{sec:Arc}
+% \subsection{Application architecture} \label{sec:Arc}
 
-The application first parses and verifies if the URL abides to \cite{rfc1738} (\texttt{ftp://[<user>:<password>@]<host> /<url-path>}) using a regular expression.
-Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
+% The application first parses and verifies if the URL abides to \cite{rfc1738} (\texttt{ftp://[<user>:<password>@]<host> /<url-path>}) using a regular expression.
+% Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
 
-After connecting, it logs in to the server, or otherwise logs in as anonymous if no credentials were provided.
-Next, it sends a \texttt{PASV} command to the FTP server so it can transfer data in passive mode; if successful, the server will reply
-with six bytes, the first four being the server IP address it just opened for transfer, and the other two the port the server is listening on. 
+% After connecting, it logs in to the server, or otherwise logs in as anonymous if no credentials were provided.
+% Next, it sends a \texttt{PASV} command to the FTP server so it can transfer data in passive mode; if successful, the server will reply
+% with six bytes, the first four being the server IP address it just opened for transfer, and the other two the port the server is listening on. 
 
-After entering passive mode, the download application opens another socket, using the port provided by the server, where the data will be transferred.
-Finally, it copies the file from \texttt{<url-path>} to the current working directory and finishes the connection by sending the \texttt{QUIT} command and closing the sockets.
+% After entering passive mode, the download application opens another socket, using the port provided by the server, where the data will be transferred.
+% Finally, it copies the file from \texttt{<url-path>} to the current working directory and finishes the connection by sending the \texttt{QUIT} command and closing the sockets.
 
-To build the application, run \texttt{make} in directory \texttt{download}. To test the application, run:
+% To build the application, run \texttt{make} in directory \texttt{download}. To test the application, run:
 
-\begin{lstlisting}[frame=none, numbers=none, language=sh]
-./download ftp://[<user>:<password>@]<host>/<url-path>
-\end{lstlisting}
+% \begin{lstlisting}[frame=none, numbers=none, language=sh]
+% ./download ftp://[<user>:<password>@]<host>/<url-path>
+% \end{lstlisting}
 
 
-\subsection{Report of successful download} \label{sec:Dow}
+% \subsection{Report of successful download} \label{sec:Dow}
 
-The application was tested in different FTP servers, with files varying in size and type, with and without credentials.
-Reports can be found in \ref{listing:6-2-tux33-pipe.download}, \ref{listing:6-2-tux33-pic2.download}, \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
+% The application was tested in different FTP servers, with files varying in size and type, with and without credentials.
+% Reports can be found in \ref{listing:6-2-tux33-pipe.download}, \ref{listing:6-2-tux33-pic2.download}, \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
 
-\section{Network configuration and analysis} \label{sec:Part2}
+% \section{Network configuration and analysis} \label{sec:Part2}
 
-\subsection{Experiment 1} \label{sec:Exp1}
+% \subsection{Experiment 1} \label{sec:Exp1}
 
-\begin{minipage}{0.48\textwidth}
-    \begin{figure}[H]
-        \centering
-        \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-            \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-            \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+% \begin{minipage}{0.48\textwidth}
+%     \begin{figure}[H]
+%         \centering
+%         \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+%             \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+%             \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-            \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
-            \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+%             \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
+%             \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
             
 
 
-            \draw   (5, +0.6) rectangle ++(2, -2.2);
-            \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-            \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+%             \draw   (5, +0.6) rectangle ++(2, -2.2);
+%             \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+%             \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
 
-            \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                    (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                ;
-        \end{tikzpicture}
-        \caption{Network architecture for experiment 1}
-        \label{fig:network_exp1}
-    \end{figure}
-\end{minipage}
-\begin{minipage}{0.51\textwidth}
-\textbf{Objectives:} connect two computers by configuring their IP addresses.
-\end{minipage}
+%             \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+%                     (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+%                 ;
+%         \end{tikzpicture}
+%         \caption{Network architecture for experiment 1}
+%         \label{fig:network_exp1}
+%     \end{figure}
+% \end{minipage}
+% \begin{minipage}{0.51\textwidth}
+% \textbf{Objectives:} connect two computers by configuring their IP addresses.
+% \end{minipage}
 
-\subsubsection{Main configuration commands} \label{sec:Com1}
+% \subsubsection{Main configuration commands} \label{sec:Com1}
 
-\begin{center}
-    \small
-    \begin{tabular}{@{}l | m{96mm} | l@{}}
-        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-        tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-ifconfig eth0 up
-        \end{lstlisting}               \\
-        tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-ifconfig eth0 172.16.30.1/24
-        \end{lstlisting} \\ \hline
-        tux34         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-ifconfig eth0 up
-        \end{lstlisting}\\
-        tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-ifconfig eth0 172.16.30.254/24
-        \end{lstlisting} \\
-    \end{tabular}
-\end{center}
+% \begin{center}
+%     \small
+%     \begin{tabular}{@{}l | m{96mm} | l@{}}
+%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+%         tux33         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% ifconfig eth0 up
+%         \end{lstlisting}               \\
+%         tux33         & Set \texttt{eth0} IP 172.16.30.1, with 24-bit mask   & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% ifconfig eth0 172.16.30.1/24
+%         \end{lstlisting} \\ \hline
+%         tux34         & Activate \texttt{eth0} interface                     & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% ifconfig eth0 up
+%         \end{lstlisting}\\
+%         tux34         & Set \texttt{eth0} IP 172.16.30.254, with 24-bit mask & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% ifconfig eth0 172.16.30.254/24
+%         \end{lstlisting} \\
+%     \end{tabular}
+% \end{center}
 
-\subsubsection{Logs analysis} \label{sec:Log1}
+% \subsubsection{Logs analysis} \label{sec:Log1}
 
-IP (Internet Protocol) addresses are a convenient way to refer to interfaces, but to send a frame a device first needs to know the MAC address of the receiving interface.
-ARP (Address Resolution Protocol) is used to map an IP address to a MAC address; these mappings are stored in the ARP table, and each device has one such table.
-Upon sending a frame, if there is not an entry with the receiver IP in its ARP table, the emitter will broadcast an ARP probe packet with the receiver IP and wait for the corresponding device to announce its presence.
+% IP (Internet Protocol) addresses are a convenient way to refer to interfaces, but to send a frame a device first needs to know the MAC address of the receiving interface.
+% ARP (Address Resolution Protocol) is used to map an IP address to a MAC address; these mappings are stored in the ARP table, and each device has one such table.
+% Upon sending a frame, if there is not an entry with the receiver IP in its ARP table, the emitter will broadcast an ARP probe packet with the receiver IP and wait for the corresponding device to announce its presence.
 
-As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
-Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
+% As per log \ref{listing:1-10-tux33.pcapng}, tux33 broadcasts an ARP request in packet \#9 for the desired IP address \texttt{172.16.30.254}.
+% Then tux34 identifies itself, sending to tux33 another ARP packet with its MAC address \texttt{00:21:5a:5a:7d:74} in packet \#10.
 
-\texttt{ping} generates ICMP (Internet Control Message Protocol) packets. The MAC/IP addresses of the ping packets are the source addresses \texttt{00:21:5a:61:24:92}/\texttt{172.16.30.1} in bytes 0-5
-and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.30.254}.
+% \texttt{ping} generates ICMP (Internet Control Message Protocol) packets. The MAC/IP addresses of the ping packets are the source addresses \texttt{00:21:5a:61:24:92}/\texttt{172.16.30.1} in bytes 0-5
+% and destination addresses in bytes 6-11 \texttt{00:21:5a:7d:74}/\texttt{172.16.30.254}.
 
-A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
-It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
-We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
-In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
+% A ARP and IPv4 frames can be identified with the type value 0x806 and 0x800 respectively in the Ethernet II layer.
+% It is possible to determine if a receiving Ethernet frame have a ICMP layer by checking its IPv4 field and verifying the value 0x01 in the protocol byte.
+% We could also determine the length of a Ethernet frame by adding the 14 bytes of the Ethernet II layer to the total length described in the IPv4 layer for ICMP packets.
+% In the case of a ARP packet, the request length is found by adding the Ethernet II layer length and the ARP layer length, the reply length is the previous sum but with a additional padding length. 
 
-The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[\S8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
-\begin{enumerate*}[label=(\arabic*)]
-    \item \label{itm:connectivity} test connectivity with another station;
-    \item \label{itm:loops} check for network loops;
-    \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
-    \item \label{itm:self-loop} check for self-looped ports.
-\end{enumerate*}
-Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
+% The loopback interface allows access to the almost-discontinued Ethernet Configuration Testing Protocol (CTP)\cite{how-ethernet-keepalive-works}\cite[\S8]{ethernet}, with provides services similar to \texttt{ping} but on the Data Link layer \cite{jhawk}. It is implemented at least in Cisco routers \cite{jhawk}\cite{whats-a-loop-traffic-in-ethereal} and the switch software configuration guide \cite{cisco-switch-manual} does mention the loopback interface although it does not clearly explain what it is. Due to its specifications, this interface/protocol can serve any of the following purposes:
+% \begin{enumerate*}[label=(\arabic*)]
+%     \item \label{itm:connectivity} test connectivity with another station;
+%     \item \label{itm:loops} check for network loops;
+%     \item \label{itm:own-issues} check for hardware issues by sending a request to itself \cite{whats-a-loop-traffic-in-ethereal};
+%     \item \label{itm:self-loop} check for self-looped ports.
+% \end{enumerate*}
+% Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
 
-\subsection{Experiment 2} \label{sec:Exp2}
+% \subsection{Experiment 2} \label{sec:Exp2}
 
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+% \begin{figure}[H]
+% 	\centering
+%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-        \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+%         \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
+%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
         
-        \node at (0,-2) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-        \node at (1.0, -2) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+%         \node at (0,-2) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
 
-        \draw   (5, +0.6) rectangle ++(4, -3.4);
-        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-        \node at (7.2, -2.0) [ellipse, draw, minimum height = 1.0cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+%         \draw   (5, +0.6) rectangle ++(4, -3.4);
+%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+%         \node at (7.2, -2.0) [ellipse, draw, minimum height = 1.0cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
 
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
                 
-                (switch_1) edge[] (VLAN30)
-                (switch_2) edge[] (VLAN30)
-                (switch_3) edge[] (VLAN31)
-            ;
+%                 (switch_1) edge[] (VLAN30)
+%                 (switch_2) edge[] (VLAN30)
+%                 (switch_3) edge[] (VLAN31)
+%             ;
 
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 2}
-	\label{fig:network_exp2}
-\end{figure}
+%     \end{tikzpicture}
+% 	\caption{Network architecture for experiment 2}
+% 	\label{fig:network_exp2}
+% \end{figure}
 
-\noindent
-\textbf{Objectives:} implement two virtual LANs in a switch.
+% \noindent
+% \textbf{Objectives:} implement two virtual LANs in a switch.
 
-\subsubsection{Main configuration commands} \label{sec:Com2}
+% \subsubsection{Main configuration commands} \label{sec:Com2}
 
-\begin{center}
-    \small
-    \begin{tabular}{@{}l | m{103mm} | l@{}}
-        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-        switch        & Create virtual LAN 30                                 &
-            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-configure terminal
-vlan 30
-end
-            \end{lstlisting} \\
-        switch        & Assign port 1 to VLAN 30                              & 
-            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-configure terminal
-interface fastethernet 0/1
-switchport mode access
-switchport access vlan 30
-end
-            \end{lstlisting} \\
-    \end{tabular}
-\end{center}
+% \begin{center}
+%     \small
+%     \begin{tabular}{@{}l | m{103mm} | l@{}}
+%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+%         switch        & Create virtual LAN 30                                 &
+%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% configure terminal
+% vlan 30
+% end
+%             \end{lstlisting} \\
+%         switch        & Assign port 1 to VLAN 30                              & 
+%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% configure terminal
+% interface fastethernet 0/1
+% switchport mode access
+% switchport access vlan 30
+% end
+%             \end{lstlisting} \\
+%     \end{tabular}
+% \end{center}
 
-\subsubsection{Logs analysis} \label{sec:Log2}
+% \subsubsection{Logs analysis} \label{sec:Log2}
 
-To configure VLAN30, we had to create it in the switch, and then add switch port 1 (tux33-E0) and switch port 2 (tux34-E0) to that VLAN.
+% To configure VLAN30, we had to create it in the switch, and then add switch port 1 (tux33-E0) and switch port 2 (tux34-E0) to that VLAN.
 
-From log \ref{listing:2-5-tux33.pcapng} we infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified this outcome from \texttt{ping} output).
-From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach tux33 and tux34, but not tux32.
-From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32.
-This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
+% From log \ref{listing:2-5-tux33.pcapng} we infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified this outcome from \texttt{ping} output).
+% From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach tux33 and tux34, but not tux32.
+% From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32.
+% This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
 
-Upon close inspection of logs \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng}, it can be seen that the destination of the broadcast issued from tux33 is \texttt{172.16.30.0}.
-We tried to analyse this issue, and concluded the most likely option is that we issued the broadcast from tux33 to the wrong IP address (\texttt{172.16.30.0} instead of the obvious broadcast address \texttt{172.16.30.255} for VLAN30), but that somehow the ping was still considered a broadcast as it is also obvious this ping reached tux34.
-There are some \cite{ping-subnet-address-1}\cite{ping-subnet-address-2} who mention that historically some devices treat the subnet IP address as a broadcast address.
+% Upon close inspection of logs \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng}, it can be seen that the destination of the broadcast issued from tux33 is \texttt{172.16.30.0}.
+% We tried to analyse this issue, and concluded the most likely option is that we issued the broadcast from tux33 to the wrong IP address (\texttt{172.16.30.0} instead of the obvious broadcast address \texttt{172.16.30.255} for VLAN30), but that somehow the ping was still considered a broadcast as it is also obvious this ping reached tux34.
+% There are some \cite{ping-subnet-address-1}\cite{ping-subnet-address-2} who mention that historically some devices treat the subnet IP address as a broadcast address.
 
-On inspecting the ping requests, both broadcasts sent from tux33 and tux32 are Ethernet II frames have their destination set to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}, and only the contained IPv4 destination addresses differ.
-The switch works on the Data Link layer so it can only understand the Ethernet II frames, not the contained IPv4 packet so it broadcasts both pings in exactly the same way, each in its own subnetwork; so apparently, somewhere in the process of converting the destination IP address to a MAC address, tux33 interpreted \texttt{172.16.30.0} as a broadcast address and framed the IPv4 packet in a frame destined to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}. This is further reinforced by the fact even the \texttt{ping} command recognizes a network address as a broadcast address, assumed from its output \texttt{ping: Do you want to ping broadcast? Then -b. If not, check your local firewall rules} when you try to ping a network IP address without using the \texttt{-b} (broadcast) flag. 
+% On inspecting the ping requests, both broadcasts sent from tux33 and tux32 are Ethernet II frames have their destination set to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}, and only the contained IPv4 destination addresses differ.
+% The switch works on the Data Link layer so it can only understand the Ethernet II frames, not the contained IPv4 packet so it broadcasts both pings in exactly the same way, each in its own subnetwork; so apparently, somewhere in the process of converting the destination IP address to a MAC address, tux33 interpreted \texttt{172.16.30.0} as a broadcast address and framed the IPv4 packet in a frame destined to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}. This is further reinforced by the fact even the \texttt{ping} command recognizes a network address as a broadcast address, assumed from its output \texttt{ping: Do you want to ping broadcast? Then -b. If not, check your local firewall rules} when you try to ping a network IP address without using the \texttt{-b} (broadcast) flag. 
 
-\subsection{Experiment 3} \label{sec:Exp3}
+% \subsection{Experiment 3} \label{sec:Exp3}
 
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+% \begin{figure}[H]
+% 	\centering
+%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
+%         \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
+%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
         
-        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+%         \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+%         \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
 
-        \draw   (5, +0.6) rectangle ++(4, -4.2);
-        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-        \node at (7.2, -2.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+%         \draw   (5, +0.6) rectangle ++(4, -4.2);
+%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+%         \node at (7.2, -2.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
+%         \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
 
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
+%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+%                 (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
 
-                (switch_1) edge[] (VLAN30)
-                (switch_2) edge[] (VLAN30)
-                (switch_3) edge[] (VLAN31)
-                (switch_4) edge[] (VLAN31)
-            ;
+%                 (switch_1) edge[] (VLAN30)
+%                 (switch_2) edge[] (VLAN30)
+%                 (switch_3) edge[] (VLAN31)
+%                 (switch_4) edge[] (VLAN31)
+%             ;
 
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 3}
-	\label{fig:network_exp3}
-\end{figure}
+%     \end{tikzpicture}
+% 	\caption{Network architecture for experiment 3}
+% 	\label{fig:network_exp3}
+% \end{figure}
 
-\textbf{Objectives:} configure a router in Linux.
+% \textbf{Objectives:} configure a router in Linux.
 
-\subsubsection{Main configuration commands} \label{sec:Com3}
+% \subsubsection{Main configuration commands} \label{sec:Com3}
 
-\begin{center}
-    \small
-    \begin{tabular}{@{}l | m{66mm} | l@{}}
-        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-        tux34         & Configure tux34-E1 &
-            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-ifconfig eth1 up
-ifconfig eth1 172.16.31.253/24
-            \end{lstlisting} \\
-        tux34         & Enable IP forwarding & 
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-echo 1 > /proc/sys/net/ipv4/ip_forward
-        \end{lstlisting} \\
-        tux34         & Disable ICMP echo-ignore-broadcast &  
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]
-echo 0 > /proc/sys/net/ipv4/
-    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)icmp_echo_ignore_broadcasts
-        \end{lstlisting} \\ \hline
-        tux32         & Add route to VLAN30 &  
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-route add -net 172.16.30.0/24 gw 172.16.31.253
-        \end{lstlisting} \\ \hline
-        tux33         & Add route to VLAN31 &  
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
-route add -net 172.16.31.0/24 gw 172.16.30.254
-        \end{lstlisting} \\ \hline
-        switch        & Add port 4 to VLAN 31 & 
-        \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-configure terminal
-interface fastethernet 0/4
-switchport mode access
-switchport access vlan 31
-end
-        \end{lstlisting}
-    \end{tabular}
-\end{center}
+% \begin{center}
+%     \small
+%     \begin{tabular}{@{}l | m{66mm} | l@{}}
+%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+%         tux34         & Configure tux34-E1 &
+%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% ifconfig eth1 up
+% ifconfig eth1 172.16.31.253/24
+%             \end{lstlisting} \\
+%         tux34         & Enable IP forwarding & 
+%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% echo 1 > /proc/sys/net/ipv4/ip_forward
+%         \end{lstlisting} \\
+%         tux34         & Disable ICMP echo-ignore-broadcast &  
+%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]
+% echo 0 > /proc/sys/net/ipv4/
+%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)icmp_echo_ignore_broadcasts
+%         \end{lstlisting} \\ \hline
+%         tux32         & Add route to VLAN30 &  
+%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% route add -net 172.16.30.0/24 gw 172.16.31.253
+%         \end{lstlisting} \\ \hline
+%         tux33         & Add route to VLAN31 &  
+%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=sh]
+% route add -net 172.16.31.0/24 gw 172.16.30.254
+%         \end{lstlisting} \\ \hline
+%         switch        & Add port 4 to VLAN 31 & 
+%         \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% configure terminal
+% interface fastethernet 0/4
+% switchport mode access
+% switchport access vlan 31
+% end
+%         \end{lstlisting}
+%     \end{tabular}
+% \end{center}
 
-\subsubsection{Logs analysis} \label{sec:Log3}
+% \subsubsection{Logs analysis} \label{sec:Log3}
 
-\begin{table}[H]
-    \centering
-    \small
-    \begin{tabular}{l | l}
-        \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-            \end{lstlisting} \\ \hline
-        tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
-        tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
-        tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
-    \end{tabular}
-    \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
-    \label{tab:summary-routes}
-\end{table}
+% \begin{table}[H]
+%     \centering
+%     \small
+%     \begin{tabular}{l | l}
+%         \textbf{Dev.} & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none]
+% Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+%             \end{lstlisting} \\ \hline
+%         tux32 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux32.route.txt} \\ \hline
+%         tux33 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux33.route.txt} \\ \hline
+%         tux34 & \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\footnotesize, frame=, numbers=none, firstline=3]{../../part2/exp3/3-4-tux34.route.txt}
+%     \end{tabular}
+%     \caption{Summary of routing tables for computer tux32, tux33 and tux34.}
+%     \label{tab:summary-routes}
+% \end{table}
 
-A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
+% A forwarding table entry contains the destination IP address, a gateway IP address where data will be sent for routing to the destination IP address, netmask, route flags (the most important flags are \texttt{U} - up and \texttt{G} - gateway), a metric used to choose the fastest route and representing the number of hops to the target, number of references to the route (not used by the Linux kernel), count of route lookups and the interface to which packets will be sent \cite{man-route}.
 
-Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
-In the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is \texttt{0.0.0.0} (which means \textit{unspecified}), implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
-As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works the same way. 
+% Each tux has two \textit{routes}, one for VLAN30 and another for VLAN31, Table \ref{tab:summary-routes}.
+% In the routes from tux32 to VLAN31, tux33 to VLAN30 and tux34 to both VLANs, the gateway is \texttt{0.0.0.0} (which means \textit{unspecified}), implying no intermediate hops are necessary as the system is directly connected to that destination, and as such packets will be directly sent to the destination \cite{routing-basics}.
+% As for the route from tux32 to VLAN31, the IP address of the tux34 interface in VLAN30 is specified as the gateway to access VLAN31, as a request sent to \texttt{172.16.31.253} and directed at an IP address in VLAN30 will be routed by tux34 through \texttt{172.16.30.254}; the route from tux33 to VLAN30 works the same way. 
 
-ARP tables are all initially empty.
-tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
-Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, we see that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with \texttt{00:21:5a:5a:7d:74}.
-By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
+% ARP tables are all initially empty.
+% tux33 knows requests to VLAN31 must be made through gateway \texttt{172.16.30.254} (tux33-eth0), but it does not know which MAC address is associated to that IP address.
+% Thus, in logs \ref{listing:3-8-tux34-eth0.pcapng} and \ref{listing:3-8-tux34-eth1.pcapng}, we see that tux33 broadcasts an ARP request asking for the MAC address of \texttt{172.16.30.254} (tux33-eth0), to which tux34 answers with \texttt{00:21:5a:5a:7d:74}.
+% By the time tux34 receives its first ping from tux33 to \texttt{172.16.31.1} (tux32-eth0), it does not yet know the MAC address to forward the request to, so because tux34 knows eth1 is connected to VLAN31 it broadcasts an ARP request from \texttt{172.16.31.253} (tux34-eth1) asking for \texttt{172.16.31.1}, to which tux32 answers with its MAC address.
 
-In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
-tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
-tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0);
-tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
-tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0).
+% In the same logs, we can see that the ICMP packets being transmitted are ping requests and replies. For each ping sent from tux32, the following sequence of communications is observed:
+% tux33 sends to \texttt{00:21:5a:5a:7d:74} (tux34-eth0) the ping request to \texttt{172.16.31.1} (tux32-eth0), as tux33 already knows the MAC address for tux34-eth0 and it also knows that requests to VLAN31 must use tux34-eth0 as gateway;
+% tux34 forwards the ping to \texttt{00:21:5a:61:30:63} (tux32-eth0);
+% tux32 replies to IP address \texttt{172.16.30.1} (\texttt{tux33-eth0}) but sending the reply to MAC address \texttt{00:c0:df:25:26:0a} (\texttt{tux34-eth1}) because this is the MAC address the request came from;
+% tux34 subsequently forwards the response to \texttt{00:21:5a:5a:7d:74} (tux33-eth0).
 
-This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
+% This means computers tux32 and tux33 build their ARP tables only when they are requested to communicate with the corresponding IP addresses, by means of ARP broadcasts and replies. Additionally, packets carry the final IP addresses they should be sent to, but the frames they are contained in bear the MAC addresses of the immediate destination; this is because IP addresses are used by routers which work with the Network layer and use them to route requests between networks, but frames are managed by the switch which works with the Data Link layer and must be transmitted to MAC addresses within the same network. Thus, the switch only understands what frames are, and tux34 is the responsible for understanding to which network it should route the contained IPv4 request as it acts as a router.
 
-\subsection{Experiment 4} \label{sec:Exp4}
+% \subsection{Experiment 4} \label{sec:Exp4}
 
-\begin{figure}[H]
-	\centering
-    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+% \begin{figure}[H]
+% 	\centering
+%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-        \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
-        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
-        \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
+%         \node at (0,-1.5) [rectangle,draw, minimum height=1.8cm, minimum width=2cm] (tux34) {tux34};
+%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux34_E1){ \scriptsize E1 };
         
-        \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-        \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
-
-        \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
-        \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
-        \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
-
-        \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
-
-        \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] {Internet};
-        \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
-
-        \draw   (5, +0.6) rectangle ++(4, -5.2);
-        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-        \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
-        \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
-        \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
-
-        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
-                (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
-                (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
-                (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
-                (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
-
-                (switch_1) edge[] (VLAN30)
-                (switch_2) edge[] (VLAN30)
-                (switch_3) edge[] (VLAN31)
-                (switch_4) edge[] (VLAN31)
-                (switch_5) edge[] (VLAN31)
-            ;
-
-    \end{tikzpicture}
-	\caption{Network architecture for experiment 4}
-	\label{fig:network_exp4}
-\end{figure}
-
-\textbf{Objectives:} configure a commercial router and implement NAT.
-
-See issue reported in annex \ref{sec:configuration}.
-
-\subsubsection{Main configuration commands} \label{sec:Com4}
-
-\begin{center}
-    \small
-    \begin{longtable}{@{}l | m{77mm} | l@{}}
-        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
-        switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-interface fastethernet 0/5
-switchport mode access
-switchport access vlan 31
-        \end{lstlisting} \\ \hline
-        router & Configure interface with VLAN31, set it as the inside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-interface gigabitethernet 0/0
-ip address 172.16.31.254 255.255.255.0
-no shutdown
-ip nat inside
-        \end{lstlisting} \\
-        router & Configure interface with lab router, set it as the outside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-interface gigabitethernet 0/1
-ip address 172.16.1.39 255.255.255.0
-no shutdown
-ip nat outside
-        \end{lstlisting} \\
-        router & Declare interface with lab router as the sole IP of the new NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-ip nat pool ovrld
-    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
-        \end{lstlisting} \\
-        router & Declare the address list 1 can use the NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-ip nat inside source
-    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
-        \end{lstlisting}\\
-        router & Allow IP addresses 172.16.30.0-.7 and 172.16.31.0-.7 to use NAT & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-access-list 1 permit 172.16.30.0 0.0.0.7
-access-list 1 permit 172.16.31.0 0.0.0.7
-        \end{lstlisting}\\
-        router & Set lab router as default gateway & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-ip route 0.0.0.0 0.0.0.0 172.16.1.254
-        \end{lstlisting}\\
-        router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
-ip route 172.16.30.0 255.255.255.0
-    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
-        \end{lstlisting}
-    \end{longtable}
-\end{center}
-
-\subsubsection{Logs analysis} \label{sec:Log4}
-
-The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
-
-When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
-When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
-When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
-
-Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
-NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
-Outbound packets are rewritten to feature the router's public address instead of the device's private address.
-The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
-The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
-
-To configure NAT in a commercial router, one should follow the aforementioned configuration commands. The main actions to set up NAT are:
-\begin{enumerate*}
-    \item Declare the inside and outside interfaces of the private network;
-    \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
-    \item Declare which private IP addresses can use that NAT pool.
-\end{enumerate*}
-% These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
-
-\subsection{Experiment 5} \label{sec:Exp5}
-
-\textbf{Objectives:} Configure DNS service.
-
-\subsubsection{Main configuration commands} \label{sec:Com5}
-\begin{center}
-    \small
-    \begin{tabular}{@{}l | m{29mm} | l@{}}
-        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-        tux32, tux33, tux34      & Configure DNS & 
-        \begin{lstlisting}[frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]]
-echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
-    (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)> /etc/resolv.conf
-        \end{lstlisting}
-    \end{tabular}
-\end{center}
-\subsubsection{Logs analysis} \label{sec:Log5}
-
-Domain Name System (DNS) is a naming system that allows the use of more easily memorized names to access resources over the Internet instead of IP addresses.
-It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
-Thus DNS allows a computer to query a predefined name server for the IP address corresponding to a domain name.
-DNS packets are sent inside UDP packets, which are in turn sent inside IPv4 packets and these in Ethernet II frames.
-The two main DNS query types are: A, asking for an IPv4 address; AAAA, asking for an IPv6 address.
-
-To configure the DNS service, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
-In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
-
-To test the DNS service configuration, we performed a ping to the well-known Portuguese media content and services provider \texttt{www.sapo.pt}, registered in logs \ref{listing:5-3-tux33.ping} and \ref{listing:5-3-tux33.pcapng}.
-On pinging \texttt{ww.sapo.pt}, tux33 (\texttt{172.16.30.1}) almost simultaneously sends a type A and a type AAAA DNS query packets to the name server \texttt{services.netlab.fe.up.pt} (\texttt{172.16.1.1}).
-The name server responds to the type A query with one IPv4 address \texttt{213.13.146.142} and responds to the type AAAA query with no IPv6 addresses but with other useful information in case the host wants to try asking another nameserver.
-In this case the host didn't bother with the type AAAA query response as it already had an IPv4 address.
-This IP address is then used by tux33 to send ICMP packets.
-
-We could also observe the workings of reverse DNS (rDNS), which is used to find the domain name associated to an IP address.
-This functionality can be used for a multitude of purposes, most commonly for logging (as is the case, since the reverse DNS was probably sent by \texttt{ping} to find the domain name), but also for basic whitelisting/blacklisting against spammers and phishers.
-These requests are made to a dedicated domain \texttt{in-add.arpa}.
-Just as DNS domain names are read with the lowest level subdomain occupying the furthest left position and the root at the far right, \texttt{in-addr.arpa} domain IP addresses are read from lowest level to the root. Thus, the IP addresses are read backwards \cite{in-addr-arpa}.
-This is why tux33 sends a query to the name server with IP address \texttt{142.146.13.213.in-addr.arpa}.
-
-\subsection{Experiment 6} \label{sec:Exp6}
-
-\textbf{Objectives:} Test the download application in the configured network.
-
-\subsubsection{Logs analysis} \label{sec:Log6}
-
-The download application opened two TCP connections. 
-The first was made through port 21 to send/receive commands to/from the server, and is used to transport FTP control information such as user credentials and other FTP server commands.
-The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
-
-Each of the two TCP connections have the following phases:
-\begin{enumerate}[leftmargin=*]
-    \item A full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal with its initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
-    \item \texttt{FTP} packets are sent between the client and server, and the receiving end replies with \texttt{ACK} signals to acknowledge packets reception; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
-    \item The connection is closed; both sides send \texttt{FIN-ACK} signals to manifest their will to close the connection, and each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file; in the case of the control connection, the client first asks to close the connection because it has no additional commands for the server.
-\end{enumerate}
-
-TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
-An \texttt{ACK} packet contains a sequence number, informing the server of the acknowledgement of all packets with sequence number less than that sequence number.
-A sliding window is used on the receiver; its size \texttt{RWND} is the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive, and it is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}). If the server detects it is about to send a packet beyond what the receiver is prepared to receive, it assumes the packet immediately after the last acknowledged packet failed to transmit, and starts retransmission at that packet.
-
-It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets \cite{rfc2018}.
-In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as their \texttt{SYN} signals have \texttt{SACK\_PERMIT} set.
-
-TCP uses a congestion control mechanism consisting of a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
-The congestion window size \texttt{CWND} is managed in parallel with \texttt{RWND}, and the number of bytes in flight (bytes sent but not yet acknowledged) is limited to the minimum between \texttt{RWND} and \texttt{CWND}.
-% Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
-One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a typically small value and starts over.
-
-Unlike \texttt{RWND}, \texttt{CWND} is maintained by the sender and is never advertized.
-% \footnote{The window size advertized by the server on \texttt{FTP-DATA} packets is its \texttt{RWND}, which bears no importance for this matter.}.
-Instead, one can observe consequences of the variation of \texttt{CWND}.
-The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver.
-% \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
-Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
-
-In logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to $\SI{100}{\mega\bit/\second}$, at which point it plateaued until the connection was closed or another download started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
-We could not find the reason behind this behaviour, although the following facts could contribute:
-the sender was not sending data fast enough;
-it uses a congestion management algorithm that stabilizes almost instantly;
-the sender somehow already knows the bottleneck bandwidth of the physical path to the receiver.
-
-We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
-We used a file with $\SI{88.1}{\mega\byte}$.
-First a download was started at tux32, and about 6 seconds later another download was started at tux33, \ref{fig:exp6_item5}.
-When the second download starts we see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory regime all downloads should have similar throughputs, but in this case there was not enough time for stabilization.
-After the first download is complete, the second download takes up all bandwidth.
-
-\section*{Conclusion} \label{sec:Conclusion}
-
-This project allowed us to study and configure a network that was used to test a download application.
-We were able to connect to an FTP server and transfer data through the assembled network.
-Furthermore, we analysed and discussed the experimental results, giving us a better understanding of the protocols, methods and data flow in a network.
-
-\bibliographystyle{acm}
-\addcontentsline{toc}{section}{Bibliography}
-\bibliography{report}
-
-\appendix
-\appendixpage
-\addappheadtotoc
-\chapter{Source code}
-
-The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}.
-The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
-
-During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons.
-It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
-
-\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
-\fancyhfoffset{0pt}
-
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.h}, language=C]{../../download/include/url_parser.h}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.c}, language=C]{../../download/src/url_parser.c}
-
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.h}, language=C]{../../download/include/server_cmds.h}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.c}, language=C]{../../download/src/server_cmds.c}
-
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.h}, language=C]{../../download/include/download.h}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.c}, language=C]{../../download/src/download.c}
-
-\restoregeometry
-
-\chapter{Configuration commands} \label{sec:configuration}
-
-Before starting experiment 4, we noticed there was an issue with communication between tux34-E1 and switch port 4.
-With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
-We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
-This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
-
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
-\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
-
-\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
-\fancyhfoffset{0pt}
-\chapter{Logs}
-
-\counterwithin{lstlisting}{subsection}
-\renewcommand{\thelstlisting}{%
-  \thechapter.\thesubsection(\arabic{lstlisting})%
-}
-
-\begin{center}
-    \begin{tabular}{l | l | l}
-        \textbf{Interface} & \textbf{MAC address}       & \textbf{IP address}    \\ \hline
-        tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
-        tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
-        tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
-        tux34-eth1         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
-        tux34-eth2         & \texttt{00:01:02:21:83:0e} & \texttt{172.16.31.253} \\
-        Rc-GE0/0           & \texttt{68:ef:bd:d6:aa:b8} & \texttt{172.16.31.254} \\
-        Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
-    \end{tabular}
-\end{center}
-
-\section{Experiment 1}
-\setcounter{subsection}{4}
-\subsection{Item 5}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-routes}, caption=\texttt{1-5-tux33-routes.txt}]{../../part2/exp1/1-5-tux33-routes.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-arp},    caption=\texttt{1-5-tux33-arp.txt}   ]{../../part2/exp1/1-5-tux33-arp.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-routes}, caption=\texttt{1-5-tux34-routes.txt}]{../../part2/exp1/1-5-tux34-routes.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-arp},    caption=\texttt{1-5-tux34-arp.txt}   ]{../../part2/exp1/1-5-tux34-arp.txt}
-
-\begin{landscape}
-\setcounter{subsection}{9}
-\subsection{Item 10}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:1-10-tux33.pcapng}, caption=\texttt{1-10-tux33.pcapng.txt}]{../../part2/exp1/1-10-tux33.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\section{Experiment 2}
-
-\setcounter{subsection}{4}
-\subsection{Item 5}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-5-tux33.pcapng}, caption=\texttt{2-5-tux33.pcapng.txt}]{../../part2/exp2/2-5-tux33.pcapng.txt} \pagebreak
-
-\setcounter{subsection}{6}
-\subsection{Item 7}
-
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux32.pcapng}, caption=\texttt{2-7-tux32.pcapng.txt}]{../../part2/exp2/2-7-tux32.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux33.pcapng}, caption=\texttt{2-7-tux33.pcapng.txt}]{../../part2/exp2/2-7-tux33.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux34.pcapng}, caption=\texttt{2-7-tux34.pcapng.txt}]{../../part2/exp2/2-7-tux34.pcapng.txt} \pagebreak
-
-\setcounter{subsection}{9}
-\subsection{Item 10}
-
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux32.pcapng}, caption=\texttt{2-10-tux32.pcapng.txt}]{../../part2/exp2/2-10-tux32.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux33.pcapng}, caption=\texttt{2-10-tux33.pcapng.txt}]{../../part2/exp2/2-10-tux33.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux34.pcapng}, caption=\texttt{2-10-tux34.pcapng.txt}]{../../part2/exp2/2-10-tux34.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\section{Experiment 3}
-
-\setcounter{subsection}{2}
-\subsection{Item 3}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux32.route}, caption=\texttt{3-7-tux32.route.txt}]{../../part2/exp3/3-4-tux32.route.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux33.route}, caption=\texttt{3-7-tux33.route.txt}]{../../part2/exp3/3-4-tux33.route.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux34.route}, caption=\texttt{3-7-tux34.route.txt}]{../../part2/exp3/3-4-tux34.route.txt}
-
-\setcounter{subsection}{6}
-\subsection{Item 7}
-
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-7-tux33.pcapng}, caption=\texttt{3-7-tux33.pcapng.txt}]{../../part2/exp3/3-7-tux33.pcapng.txt} \pagebreak
-
-\setcounter{subsection}{7}
-\subsection{Item 8}
-
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth0.pcapng}, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth1.pcapng}, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\section{Experiment 4}
-
-\begin{table}[h]
-    \centering
-    \small
-    \begin{tabular}{@{}l | l | l | l | l@{}}
-        {\normalfont\textbf{Redirect      }} & \redcross    & \redcross & \greencheckmark          & \greencheckmark \\ \hline
-        {\normalfont\textbf{Route         }} & \redcross    & \greencheckmark & \redcross          & \greencheckmark \\ \hline
-        Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
-        Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
-        Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
-        Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
-    \end{tabular}
-    \caption{List of hops for tux32 configurations: dark - address visited every time; gray - address visited only the first time.}
-    \label{fig:hops}
-\end{table}
-
-\setcounter{subsection}{2}
-\subsection{Item 3}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-3-tux33.pcapng}, caption=\texttt{4-3-tux33.pcapng.txt}]{../../part2/exp4/4-3-tux33.pcapng.txt}
-
-\setcounter{subsection}{3}
-\subsection{Item 4}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.ping},   caption=\texttt{4-4c-tux32-noredirect-noroute.ping.txt}       ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.ping.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.pcapng}, caption=\texttt{4-4c-tux32-noredirect-noroute.pcapng.txt}     ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4e-tux32-noredirect-noroute.traceroute},  caption=\texttt{4-4e-tux32-noredirect-noroute.traceroute.txt} ]{../../part2/exp4/4-4e-tux32-noredirect-noroute.traceroute.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4f-tux32-noredirect-yesroute.traceroute}, caption=\texttt{4-4f-tux32-noredirect-yesroute.traceroute.txt}]{../../part2/exp4/4-4f-tux32-noredirect-yesroute.traceroute.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.ping},       caption=\texttt{4-4g-tux32-yesredirect-noroute.ping.txt}      ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.ping.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.pcapng},     caption=\texttt{4-4g-tux32-yesredirect-noroute.pcapng.txt}    ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\setcounter{subsection}{4}
-\subsection{Item 5}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-5-tux33.ping},   caption=\texttt{4-5-tux33.ping.txt}  ]{../../part2/exp4/4-5-tux33.ping.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-5-tux33.pcapng}, caption=\texttt{4-5-tux33.pcapng.txt}]{../../part2/exp4/4-5-tux33.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\setcounter{subsection}{6}
-\subsection{Item 7}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-7-tux33.ping},   caption=\texttt{4-7-tux33.ping.txt}  ]{../../part2/exp4/4-7-tux33.ping.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-7-tux33.pcapng}, caption=\texttt{4-7-tux33.pcapng.txt}]{../../part2/exp4/4-7-tux33.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\section{Experiment 5}
-\setcounter{subsection}{2}
-\subsection{Item 3}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:5-3-tux33.ping},   caption=\texttt{5-3-tux33.ping.txt}  ]{../../part2/exp5/5-3-tux33.ping.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:5-3-tux33.pcapng}, caption=\texttt{5-3-tux33.pcapng.txt}]{../../part2/exp5/5-3-tux33.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\section{Experiment 6}
-
-\setcounter{subsection}{1}
-\subsection{Item 2}
-\subsubsection{Transferring \texttt{pipe.txt}}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pipe.download}, caption=\texttt{6-2-tux33-pipe.download.txt}]{../../part2/exp6/6-2-tux33-pipe.download.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pipe.pcapng},   caption=\texttt{6-2-tux33-pipe.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pipe.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\subsubsection{Transferring \texttt{pic2.png}}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pic2.download}, caption=\texttt{6-2-tux33-pic2.download.txt}]{../../part2/exp6/6-2-tux33-pic2.download.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pic2.pcapng},   caption=\texttt{6-2-tux33-pic2.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pic2.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\setcounter{subsection}{4}
-\subsection{Item 5}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux32}, caption=\texttt{6-5-tux32.download.txt}]{../../part2/exp6/6-5-tux32.download.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux32.pcapng.txt}  ]{../../part2/exp6/6-5-tux32.pcapng.txt}
-\end{landscape}
-
-\begin{landscape}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux33}, caption=\texttt{6-5-tux33.download.txt}]{../../part2/exp6/6-5-tux33.download.txt}
-\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux33.pcapng.txt}  ]{../../part2/exp6/6-5-tux33.pcapng.txt}
-\end{landscape}
-
-\restoregeometry
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{6-2-tux33-pic2-throughput.png}
-    \caption{Throughput during transfer of \texttt{pic2.png} in experiment 6, item 2.}
-    \label{fig:6-2-tux33-pic2-throughput}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{exp6_item5_hist.png}
-    \caption{Throughput of tux32 and tux33 during overlapping downloads (experiment 6, item 5).}
-    \label{fig:exp6_item5}
-\end{figure}
+%         \node at (0,-3) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+%         \node at (1.0, -3) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+
+%         \node at (0,-4) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (Rc) {Rc};
+%         \node at (1.0, -4) [rectangle, draw, fill=white] (Rc_GE0){ \scriptsize GE0/0 };
+%         \node at (-1.0, -4) [rectangle, draw, fill=white] (Rc_GE1){ \scriptsize GE0/1 };
+
+%         \node at (-3.2, -4) [rectangle, draw, fill=white] (3_1){ \scriptsize 3.1 };
+
+%         \node at (-6,-2.7) [cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=1.8, inner ysep=1.2em] {Internet};
+%         \node at (-6,-4) [rectangle,draw, minimum height=1.2cm, minimum width=1.7cm, align=center, fill=white] (lab_router) {Lab\\router};
+
+%         \draw   (5, +0.6) rectangle ++(4, -5.2);
+%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+%         \node at (7.2, -3.0) [ellipse, draw, minimum height = 2.5cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_4){ \scriptsize 4 };
+%         \node at (5.0, -3.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+%         \node at (5.0, -4.00) [rectangle, draw, fill=white] (switch_5){ \scriptsize 5 };
+
+%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+%                 (tux34_E1)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.253}}          (switch_4)
+%                 (Rc_GE0)      edge[above, align=left]     node[xshift=-0.30cm]{\footnotesize \texttt{172.16.31.254}}          (switch_5)
+%                 (Rc_GE1)      edge[above, align=right]    node[xshift=+0.10cm, yshift=+0.25cm]{\footnotesize \texttt{172.16.1.39}}            (3_1)
+%                 (3_1)         edge[below, align=left]     node[xshift=+0.35cm, yshift=-0.25cm]{\footnotesize \texttt{172.16.1.254}}          (lab_router)
+
+%                 (switch_1) edge[] (VLAN30)
+%                 (switch_2) edge[] (VLAN30)
+%                 (switch_3) edge[] (VLAN31)
+%                 (switch_4) edge[] (VLAN31)
+%                 (switch_5) edge[] (VLAN31)
+%             ;
+
+%     \end{tikzpicture}
+% 	\caption{Network architecture for experiment 4}
+% 	\label{fig:network_exp4}
+% \end{figure}
+
+% \textbf{Objectives:} configure a commercial router and implement NAT.
+
+% See issue reported in annex \ref{sec:configuration}.
+
+% \subsubsection{Main configuration commands} \label{sec:Com4}
+
+% \begin{center}
+%     \small
+%     \begin{longtable}{@{}l | m{77mm} | l@{}}
+%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}} \\ \hline
+%         switch & Add port 5 to VLAN31 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% interface fastethernet 0/5
+% switchport mode access
+% switchport access vlan 31
+%         \end{lstlisting} \\ \hline
+%         router & Configure interface with VLAN31, set it as the inside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% interface gigabitethernet 0/0
+% ip address 172.16.31.254 255.255.255.0
+% no shutdown
+% ip nat inside
+%         \end{lstlisting} \\
+%         router & Configure interface with lab router, set it as the outside of private network & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% interface gigabitethernet 0/1
+% ip address 172.16.1.39 255.255.255.0
+% no shutdown
+% ip nat outside
+%         \end{lstlisting} \\
+%         router & Declare interface with lab router as the sole IP of the new NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+% ip nat pool ovrld
+%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.1.39 172.16.1.39 prefix 24
+%         \end{lstlisting} \\
+%         router & Declare the address list 1 can use the NAT pool & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+% ip nat inside source
+%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)list 1 pool ovrld overload
+%         \end{lstlisting}\\
+%         router & Allow IP addresses 172.16.30.0-.7 and 172.16.31.0-.7 to use NAT & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% access-list 1 permit 172.16.30.0 0.0.0.7
+% access-list 1 permit 172.16.31.0 0.0.0.7
+%         \end{lstlisting}\\
+%         router & Set lab router as default gateway & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+% ip route 0.0.0.0 0.0.0.0 172.16.1.254
+%         \end{lstlisting}\\
+%         router & Add route to VLAN30 via tux34 & \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco, escapeinside={(*}{*)}]
+% ip route 172.16.30.0 255.255.255.0
+%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)172.16.31.253
+%         \end{lstlisting}
+%     \end{longtable}
+% \end{center}
+
+% \subsubsection{Logs analysis} \label{sec:Log4}
+
+% The router command \texttt{ip route <dest> <mask> <gw>} is used to configure a static route in a commercial router, where \texttt{<dest>/<mask>} describes the set of IP addresses that can be routed using this rule and \texttt{<gw>} the gateway IP address to route requests to these IP addresses.
+
+% When running the ping command from tux32 to tux33 without redirects nor the route to VLAN30, the packets are sent to the router as it is the default gateway, which redirects them to tux34 and after it tux33, Table \ref{fig:hops}; because the router knows tux32 can directly communicate with tux34-eth2, for every packet it receives from tux32 it immediately sends a redirect packet to tux32, which is an ICMP packet notifying tux32 that it can avoid a hop by using the MAC address of tux34-eth2, but since redirects are disabled tux32 just ignores the Redirects.
+% When the route to VLAN30 through tux33-eth2 is added in tux32, it obviously avoids sending it to the router as sending the packets directly to tux34 results in one less hop; this is true regardless of whether redirects are enabled or not.
+% When redirects are enabled and the route is removed, the first packet sent by tux32 goes through the same path as if redirects were disabled, but this time tux32 takes notice and processes the Redirect packet the router sent to it; thus tux32 can create a new route to VLAN30 through tux32-eth2 that it did not know of previously. From this point on, tux32 knows of a more efficient path to VLAN30/tux33 so it no longer sends the packets through the router, but instead through the gateway of the new route.
+
+% Network Address Translation (NAT) is a method used by routers for mapping a large private IP address space into usually a single public IP address issued by the ISP to the router \cite{rfc2663}.
+% NAT has as main advantages to avoid having to issue a worldwide IP address for each interface on the Internet, as well as hide the private network from the rest of the Internet to some extent.
+% Outbound packets are rewritten to feature the router's public address instead of the device's private address.
+% The destination of inbound packets is disambiguated using information stored by the router during the outbound phase, thus allowing inbound packets to be rewritten to feature the proper private address.
+% The most common implementation of NAT is Network Address and Port Translation (NAPT), which disambiguates private IP addresses by mapping each of them to an arbitrary, large port number that is sent in the rewritten outbound packet along with the router's public address; this port number is also featured in the response, thus allowing disambiguation on response reception.
+
+% To configure NAT in a commercial router, one should follow the aforementioned configuration commands. The main actions to set up NAT are:
+% \begin{enumerate*}
+%     \item Declare the inside and outside interfaces of the private network;
+%     \item Create a NAT pool from which the router can get a public IP address (usually the pool only has one public IP address);
+%     \item Declare which private IP addresses can use that NAT pool.
+% \end{enumerate*}
+% % These steps are to be performed together with other non-NAT-related commands, like setting IP addresses for the router interfaces, creating the required routes to subnets of the private network, and set the default gateway as the interface the router uses to connect to the Internet, which in our case has IP address \texttt{172.16.1.254}. 
+
+% \subsection{Experiment 5} \label{sec:Exp5}
+
+% \textbf{Objectives:} Configure DNS service.
+
+% \subsubsection{Main configuration commands} \label{sec:Com5}
+% \begin{center}
+%     \small
+%     \begin{tabular}{@{}l | m{29mm} | l@{}}
+%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+%         tux32, tux33, tux34      & Configure DNS & 
+%         \begin{lstlisting}[frame=none, numbers=none, language=sh, escapeinside={(*}{*)}]]
+% echo -e "search netlab.fe.up.pt\nnameserver 172.16.1.1"
+%     (*\mbox{\textcolor{red}{$\hookrightarrow$}\space}*)> /etc/resolv.conf
+%         \end{lstlisting}
+%     \end{tabular}
+% \end{center}
+% \subsubsection{Logs analysis} \label{sec:Log5}
+
+% Domain Name System (DNS) is a naming system that allows the use of more easily memorized names to access resources over the Internet instead of IP addresses.
+% It is implemented as a hierarchy of name servers, where each name server maps a name to an IP address or otherwise points at other name servers that can be searched for the domain name.
+% Thus DNS allows a computer to query a predefined name server for the IP address corresponding to a domain name.
+% DNS packets are sent inside UDP packets, which are in turn sent inside IPv4 packets and these in Ethernet II frames.
+% The two main DNS query types are: A, asking for an IPv4 address; AAAA, asking for an IPv6 address.
+
+% To configure the DNS service, you should add \texttt{nameserver <ip>} to file \texttt{/etc/resolv.conf}; this means the host will try to resolve a domain name by first asking the server at IP address \texttt{<ip>} for the IP corresponding to that domain name.
+% In the above configuration commands, line \texttt{search netlab.fe.up.pt} is generally used when the device is in a LAN with its own DNS server (which is the case), so that resources can be more easily reached using simple names, as the \texttt{search} parameter is automatically used as the domain if there was a query to an URL without a domain.
+
+% To test the DNS service configuration, we performed a ping to the well-known Portuguese media content and services provider \texttt{www.sapo.pt}, registered in logs \ref{listing:5-3-tux33.ping} and \ref{listing:5-3-tux33.pcapng}.
+% On pinging \texttt{ww.sapo.pt}, tux33 (\texttt{172.16.30.1}) almost simultaneously sends a type A and a type AAAA DNS query packets to the name server \texttt{services.netlab.fe.up.pt} (\texttt{172.16.1.1}).
+% The name server responds to the type A query with one IPv4 address \texttt{213.13.146.142} and responds to the type AAAA query with no IPv6 addresses but with other useful information in case the host wants to try asking another nameserver.
+% In this case the host didn't bother with the type AAAA query response as it already had an IPv4 address.
+% This IP address is then used by tux33 to send ICMP packets.
+
+% We could also observe the workings of reverse DNS (rDNS), which is used to find the domain name associated to an IP address.
+% This functionality can be used for a multitude of purposes, most commonly for logging (as is the case, since the reverse DNS was probably sent by \texttt{ping} to find the domain name), but also for basic whitelisting/blacklisting against spammers and phishers.
+% These requests are made to a dedicated domain \texttt{in-add.arpa}.
+% Just as DNS domain names are read with the lowest level subdomain occupying the furthest left position and the root at the far right, \texttt{in-addr.arpa} domain IP addresses are read from lowest level to the root. Thus, the IP addresses are read backwards \cite{in-addr-arpa}.
+% This is why tux33 sends a query to the name server with IP address \texttt{142.146.13.213.in-addr.arpa}.
+
+% \subsection{Experiment 6} \label{sec:Exp6}
+
+% \textbf{Objectives:} Test the download application in the configured network.
+
+% \subsubsection{Logs analysis} \label{sec:Log6}
+
+% The download application opened two TCP connections. 
+% The first was made through port 21 to send/receive commands to/from the server, and is used to transport FTP control information such as user credentials and other FTP server commands.
+% The second was made through the port specified after entering passive mode, in our case port \texttt{44308} as indicated by the two last bytes \texttt{173,20} of packet \#22 in log \ref{listing:6-2-tux33-pipe.pcapng} (everything applies similarly for \ref{listing:6-2-tux33-pic2.pcapng}, except this log refers to a larger file); this was used to transfer data between the server and the client.
+
+% Each of the two TCP connections have the following phases:
+% \begin{enumerate}[leftmargin=*]
+%     \item A full-duplex connection is established with a TCP three-way handshake: the client sends a \texttt{SYN} signal with its initial sequence number; the server replies with \texttt{SYN-ACK}, simultaneously acknowledging the client \texttt{SYN} and sending a \texttt{SYN} signal with its own initial sequence number; finally the client sends \texttt{ACK} to the server.
+%     \item \texttt{FTP} packets are sent between the client and server, and the receiving end replies with \texttt{ACK} signals to acknowledge packets reception; in the case of the first connection, \texttt{FTP} packets are sent in both directions to configure the connections, and in the second connection the server sends \texttt{FTP-DATA} packets to the client which contain the file contents the client asked for.
+%     \item The connection is closed; both sides send \texttt{FIN-ACK} signals to manifest their will to close the connection, and each side sends an \texttt{ACK} in response to the other side's \texttt{FIN-ACK}, closing the connection on both directions. In the case of the data connection, the server first asks to close the connection because it knows when it reaches the end of file; in the case of the control connection, the client first asks to close the connection because it has no additional commands for the server.
+% \end{enumerate}
+
+% TCP uses a variation of Go-Back-N Automatic Repeat Request (ARQ) method, called \textit{cumulative acknowledgement}, to handle data transfer errors \cite{rfc793}.
+% An \texttt{ACK} packet contains a sequence number, informing the server of the acknowledgement of all packets with sequence number less than that sequence number.
+% A sliding window is used on the receiver; its size \texttt{RWND} is the number of octets, starting with the acknowledgement number, that the receiver is prepared to receive, and it is advertized in every \texttt{ACK} the receiver sends (displayed by Wireshark as \texttt{WIN}). If the server detects it is about to send a packet beyond what the receiver is prepared to receive, it assumes the packet immediately after the last acknowledged packet failed to transmit, and starts retransmission at that packet.
+
+% It is nowadays very common for TCP stacks to implement selective acknowledgement (SACK), where the receiver can acknowledge a range of packets without acknowledging a previous packet, so the server only has to retransmit missing packets \cite{rfc2018}.
+% In fact, both parties in logs \ref{listing:6-2-tux33-pipe.pcapng} and \ref{listing:6-2-tux33-pic2.pcapng} support SACK, as their \texttt{SYN} signals have \texttt{SACK\_PERMIT} set.
+
+% TCP uses a congestion control mechanism consisting of a congestion window to limit the bandwidth of simultaneous connections to avoid a severe decline in network performance.
+% The congestion window size \texttt{CWND} is managed in parallel with \texttt{RWND}, and the number of bytes in flight (bytes sent but not yet acknowledged) is limited to the minimum between \texttt{RWND} and \texttt{CWND}.
+% % Since computers usually process data much faster than they can transmit it, and because \texttt{RWND} can be almost arbitrarily increased by taking up more RAM, \texttt{RWND} is not usually an issue.
+% One popular method to implement this mechanism is Slow Start, where the server exponentially increases \texttt{CWND} until it reaches a certain threshold, and then enters a congestion management phase where \texttt{CWND} is linearly increased; this process is stopped when the sender detects packet loss (this is the congestion point), at which point it sets the threshold as half the congestion point, resets \texttt{CWND} to a typically small value and starts over.
+
+% Unlike \texttt{RWND}, \texttt{CWND} is maintained by the sender and is never advertized.
+% % \footnote{The window size advertized by the server on \texttt{FTP-DATA} packets is its \texttt{RWND}, which bears no importance for this matter.}.
+% Instead, one can observe consequences of the variation of \texttt{CWND}.
+% The parameters that are usually expected to be affected by \texttt{CWND} are the number of bytes in flight perceived by the sender, and the throughput perceived by sender/receiver.
+% % \texttt{CWND} can also be estimated for instant $t$ from the number of packets received by the receiver in interval $[t-RTT/2, t+RTT/2)$ (which is linearly related with throughput, since during the data transfer phase the receiver almost only receives data packets, and these data packets all have the same size except for the last one).
+% Since we do not have logs on sender traffic, we will focus on analyzing receiver traffic.
+
+% In logs \ref{listing:6-2-tux33-pic2.pcapng}, \ref{listing:6-5-tux32} we were unable to detect any influence of the congestion control mechanism, since in all connections the throughput instantly grew to $\SI{100}{\mega\bit/\second}$, at which point it plateaued until the connection was closed or another download started (see graphs \ref{fig:6-2-tux33-pic2-throughput}, \ref{fig:exp6_item5}).
+% We could not find the reason behind this behaviour, although the following facts could contribute:
+% the sender was not sending data fast enough;
+% it uses a congestion management algorithm that stabilizes almost instantly;
+% the sender somehow already knows the bottleneck bandwidth of the physical path to the receiver.
+
+% We also tested a simultaneous download in tux32 and tux33, logs \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
+% We used a file with $\SI{88.1}{\mega\byte}$.
+% First a download was started at tux32, and about 6 seconds later another download was started at tux33, \ref{fig:exp6_item5}.
+% When the second download starts we see the total throughput is conserved but the throughput of each download varies considerably; theoretically, after a transitory regime all downloads should have similar throughputs, but in this case there was not enough time for stabilization.
+% After the first download is complete, the second download takes up all bandwidth.
+
+% \section*{Conclusion} \label{sec:Conclusion}
+
+% This project allowed us to study and configure a network that was used to test a download application.
+% We were able to connect to an FTP server and transfer data through the assembled network.
+% Furthermore, we analysed and discussed the experimental results, giving us a better understanding of the protocols, methods and data flow in a network.
+
+% \bibliographystyle{acm}
+% \addcontentsline{toc}{section}{Bibliography}
+% \bibliography{report}
+
+% \appendix
+% \appendixpage
+% \addappheadtotoc
+% \chapter{Source code}
+
+% The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}.
+% The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
+
+% During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons.
+% It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
+
+% \newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+% \fancyhfoffset{0pt}
+
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.h}, language=C]{../../download/include/url_parser.h}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.c}, language=C]{../../download/src/url_parser.c}
+
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.h}, language=C]{../../download/include/server_cmds.h}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.c}, language=C]{../../download/src/server_cmds.c}
+
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.h}, language=C]{../../download/include/download.h}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.c}, language=C]{../../download/src/download.c}
+
+% \restoregeometry
+
+% \chapter{Configuration commands} \label{sec:configuration}
+
+% Before starting experiment 4, we noticed there was an issue with communication between tux34-E1 and switch port 4.
+% With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
+% We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
+% This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
+
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
+% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
+
+% \newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+% \fancyhfoffset{0pt}
+% \chapter{Logs}
+
+% \counterwithin{lstlisting}{subsection}
+% \renewcommand{\thelstlisting}{%
+%   \thechapter.\thesubsection(\arabic{lstlisting})%
+% }
+
+% \begin{center}
+%     \begin{tabular}{l | l | l}
+%         \textbf{Interface} & \textbf{MAC address}       & \textbf{IP address}    \\ \hline
+%         tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
+%         tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
+%         tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
+%         tux34-eth1         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
+%         tux34-eth2         & \texttt{00:01:02:21:83:0e} & \texttt{172.16.31.253} \\
+%         Rc-GE0/0           & \texttt{68:ef:bd:d6:aa:b8} & \texttt{172.16.31.254} \\
+%         Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
+%     \end{tabular}
+% \end{center}
+
+% \section{Experiment 1}
+% \setcounter{subsection}{4}
+% \subsection{Item 5}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-routes}, caption=\texttt{1-5-tux33-routes.txt}]{../../part2/exp1/1-5-tux33-routes.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-arp},    caption=\texttt{1-5-tux33-arp.txt}   ]{../../part2/exp1/1-5-tux33-arp.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-routes}, caption=\texttt{1-5-tux34-routes.txt}]{../../part2/exp1/1-5-tux34-routes.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-arp},    caption=\texttt{1-5-tux34-arp.txt}   ]{../../part2/exp1/1-5-tux34-arp.txt}
+
+% \begin{landscape}
+% \setcounter{subsection}{9}
+% \subsection{Item 10}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:1-10-tux33.pcapng}, caption=\texttt{1-10-tux33.pcapng.txt}]{../../part2/exp1/1-10-tux33.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \section{Experiment 2}
+
+% \setcounter{subsection}{4}
+% \subsection{Item 5}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-5-tux33.pcapng}, caption=\texttt{2-5-tux33.pcapng.txt}]{../../part2/exp2/2-5-tux33.pcapng.txt} \pagebreak
+
+% \setcounter{subsection}{6}
+% \subsection{Item 7}
+
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux32.pcapng}, caption=\texttt{2-7-tux32.pcapng.txt}]{../../part2/exp2/2-7-tux32.pcapng.txt} \pagebreak
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux33.pcapng}, caption=\texttt{2-7-tux33.pcapng.txt}]{../../part2/exp2/2-7-tux33.pcapng.txt} \pagebreak
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux34.pcapng}, caption=\texttt{2-7-tux34.pcapng.txt}]{../../part2/exp2/2-7-tux34.pcapng.txt} \pagebreak
+
+% \setcounter{subsection}{9}
+% \subsection{Item 10}
+
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux32.pcapng}, caption=\texttt{2-10-tux32.pcapng.txt}]{../../part2/exp2/2-10-tux32.pcapng.txt} \pagebreak
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux33.pcapng}, caption=\texttt{2-10-tux33.pcapng.txt}]{../../part2/exp2/2-10-tux33.pcapng.txt} \pagebreak
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux34.pcapng}, caption=\texttt{2-10-tux34.pcapng.txt}]{../../part2/exp2/2-10-tux34.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \section{Experiment 3}
+
+% \setcounter{subsection}{2}
+% \subsection{Item 3}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux32.route}, caption=\texttt{3-7-tux32.route.txt}]{../../part2/exp3/3-4-tux32.route.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux33.route}, caption=\texttt{3-7-tux33.route.txt}]{../../part2/exp3/3-4-tux33.route.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux34.route}, caption=\texttt{3-7-tux34.route.txt}]{../../part2/exp3/3-4-tux34.route.txt}
+
+% \setcounter{subsection}{6}
+% \subsection{Item 7}
+
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-7-tux33.pcapng}, caption=\texttt{3-7-tux33.pcapng.txt}]{../../part2/exp3/3-7-tux33.pcapng.txt} \pagebreak
+
+% \setcounter{subsection}{7}
+% \subsection{Item 8}
+
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth0.pcapng}, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth1.pcapng}, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \section{Experiment 4}
+
+% \begin{table}[h]
+%     \centering
+%     \small
+%     \begin{tabular}{@{}l | l | l | l | l@{}}
+%         {\normalfont\textbf{Redirect      }} & \redcross    & \redcross & \greencheckmark          & \greencheckmark \\ \hline
+%         {\normalfont\textbf{Route         }} & \redcross    & \greencheckmark & \redcross          & \greencheckmark \\ \hline
+%         Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
+%         Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
+%         Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
+%         Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
+%     \end{tabular}
+%     \caption{List of hops for tux32 configurations: dark - address visited every time; gray - address visited only the first time.}
+%     \label{fig:hops}
+% \end{table}
+
+% \setcounter{subsection}{2}
+% \subsection{Item 3}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-3-tux33.pcapng}, caption=\texttt{4-3-tux33.pcapng.txt}]{../../part2/exp4/4-3-tux33.pcapng.txt}
+
+% \setcounter{subsection}{3}
+% \subsection{Item 4}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.ping},   caption=\texttt{4-4c-tux32-noredirect-noroute.ping.txt}       ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.ping.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.pcapng}, caption=\texttt{4-4c-tux32-noredirect-noroute.pcapng.txt}     ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4e-tux32-noredirect-noroute.traceroute},  caption=\texttt{4-4e-tux32-noredirect-noroute.traceroute.txt} ]{../../part2/exp4/4-4e-tux32-noredirect-noroute.traceroute.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4f-tux32-noredirect-yesroute.traceroute}, caption=\texttt{4-4f-tux32-noredirect-yesroute.traceroute.txt}]{../../part2/exp4/4-4f-tux32-noredirect-yesroute.traceroute.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.ping},       caption=\texttt{4-4g-tux32-yesredirect-noroute.ping.txt}      ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.ping.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.pcapng},     caption=\texttt{4-4g-tux32-yesredirect-noroute.pcapng.txt}    ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \setcounter{subsection}{4}
+% \subsection{Item 5}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-5-tux33.ping},   caption=\texttt{4-5-tux33.ping.txt}  ]{../../part2/exp4/4-5-tux33.ping.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-5-tux33.pcapng}, caption=\texttt{4-5-tux33.pcapng.txt}]{../../part2/exp4/4-5-tux33.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \setcounter{subsection}{6}
+% \subsection{Item 7}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-7-tux33.ping},   caption=\texttt{4-7-tux33.ping.txt}  ]{../../part2/exp4/4-7-tux33.ping.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-7-tux33.pcapng}, caption=\texttt{4-7-tux33.pcapng.txt}]{../../part2/exp4/4-7-tux33.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \section{Experiment 5}
+% \setcounter{subsection}{2}
+% \subsection{Item 3}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:5-3-tux33.ping},   caption=\texttt{5-3-tux33.ping.txt}  ]{../../part2/exp5/5-3-tux33.ping.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:5-3-tux33.pcapng}, caption=\texttt{5-3-tux33.pcapng.txt}]{../../part2/exp5/5-3-tux33.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \section{Experiment 6}
+
+% \setcounter{subsection}{1}
+% \subsection{Item 2}
+% \subsubsection{Transferring \texttt{pipe.txt}}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pipe.download}, caption=\texttt{6-2-tux33-pipe.download.txt}]{../../part2/exp6/6-2-tux33-pipe.download.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pipe.pcapng},   caption=\texttt{6-2-tux33-pipe.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pipe.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \subsubsection{Transferring \texttt{pic2.png}}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pic2.download}, caption=\texttt{6-2-tux33-pic2.download.txt}]{../../part2/exp6/6-2-tux33-pic2.download.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pic2.pcapng},   caption=\texttt{6-2-tux33-pic2.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pic2.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \setcounter{subsection}{4}
+% \subsection{Item 5}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux32}, caption=\texttt{6-5-tux32.download.txt}]{../../part2/exp6/6-5-tux32.download.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux32.pcapng.txt}  ]{../../part2/exp6/6-5-tux32.pcapng.txt}
+% \end{landscape}
+
+% \begin{landscape}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux33}, caption=\texttt{6-5-tux33.download.txt}]{../../part2/exp6/6-5-tux33.download.txt}
+% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux33.pcapng.txt}  ]{../../part2/exp6/6-5-tux33.pcapng.txt}
+% \end{landscape}
+
+% \restoregeometry
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.6\linewidth]{6-2-tux33-pic2-throughput.png}
+%     \caption{Throughput during transfer of \texttt{pic2.png} in experiment 6, item 2.}
+%     \label{fig:6-2-tux33-pic2-throughput}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
+%     \caption{Throughput of tux32 and tux33 during overlapping downloads (experiment 6, item 5).}
+%     \label{fig:exp6_item5}
+% \end{figure}
 
 \end{document}
