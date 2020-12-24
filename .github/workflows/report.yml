@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
 
@@ -20,6 +20,8 @@ jobs:
 
     - name: Install latex and related packages
       run: |
+        sudo apt update
+        sudo apt upgrade
         sudo apt update
         sudo apt install -y texlive-latex-extra texlive-science latexmk graphviz curl
         # sudo apt install -y texlive-full latexmk curl
