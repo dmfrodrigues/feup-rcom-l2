@@ -214,34 +214,34 @@ To build the application, run \texttt{make} in directory \texttt{download}. To t
 The application was tested in different FTP servers, with files varying in size and type, with and without credentials.
 Reports can be found in \ref{listing:6-2-tux33-pipe.download}, \ref{listing:6-2-tux33-pic2.download}, \ref{listing:6-5-tux32} and \ref{listing:6-5-tux33}.
 
-% \section{Network configuration and analysis} \label{sec:Part2}
+\section{Network configuration and analysis} \label{sec:Part2}
 
-% \subsection{Experiment 1} \label{sec:Exp1}
+\subsection{Experiment 1} \label{sec:Exp1}
 
-% \begin{minipage}{0.48\textwidth}
-%     \begin{figure}[H]
-%         \centering
-%         \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-%             \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-%             \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+\begin{minipage}{0.48\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+            \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+            \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-%             \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
-%             \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+            \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
+            \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
             
 
 
-%             \draw   (5, +0.6) rectangle ++(2, -2.2);
-%             \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-%             \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+            \draw   (5, +0.6) rectangle ++(2, -2.2);
+            \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+            \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
 
-%             \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-%                     (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-%                 ;
-%         \end{tikzpicture}
-%         \caption{Network architecture for experiment 1}
-%         \label{fig:network_exp1}
-%     \end{figure}
-% \end{minipage}
+            \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+                    (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+                ;
+        \end{tikzpicture}
+        \caption{Network architecture for experiment 1}
+        \label{fig:network_exp1}
+    \end{figure}
+\end{minipage}
 % \begin{minipage}{0.51\textwidth}
 % \textbf{Objectives:} connect two computers by configuring their IP addresses.
 % \end{minipage}
