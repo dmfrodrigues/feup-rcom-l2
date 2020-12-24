@@ -293,82 +293,82 @@ The loopback interface allows access to the almost-discontinued Ethernet Configu
 \end{enumerate*}
 Although CTP was primarily designed for \ref{itm:connectivity} \cite[\S~8.1]{ethernet}, Cisco now only implements CTP for purposes \ref{itm:own-issues} and \ref{itm:self-loop}\cite{whats-a-loop-traffic-in-ethereal}. In our case it probably serves \ref{itm:self-loop}, as the loopback packets in \ref{listing:1-10-tux33.pcapng} have their source and destination MAC addresses set to those of the device which is consistent with \cite{whats-a-loop-traffic-in-ethereal}. We assume that if the packets were to serve purpose \ref{itm:own-issues} they would not actually be sent down the line, but rather through some internal physical or software medium. As such, computers should just ignore that specific packet, whether or not they implement CTP (if a device does not implement CTP, which is the case for most devices and all mainstream OSs, it will ignore all LOOP requests either way). These packets are sent every 10 seconds.
 
-% \subsection{Experiment 2} \label{sec:Exp2}
+\subsection{Experiment 2} \label{sec:Exp2}
 
-% \begin{figure}[H]
-% 	\centering
-%     \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
-%         \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
-%         \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
+\begin{figure}[H]
+	\centering
+    \begin{tikzpicture}[-,>=stealth',node distance=2cm,initial text=$ $,scale=0.95]
+        \node at (0,-0) [rectangle,draw,minimum height=0.8cm, minimum width=2cm] (tux33) {tux33};
+        \node at (1.0, -0) [rectangle, draw, fill=white] (tux33_E0){ \scriptsize E0 };
 
-%         \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
-%         \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
+        \node at (0,-1.0) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux34) {tux34};
+        \node at (1.0, -1) [rectangle, draw, fill=white] (tux34_E0){ \scriptsize E0 };
         
-%         \node at (0,-2) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
-%         \node at (1.0, -2) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
+        \node at (0,-2) [rectangle,draw, minimum height=0.8cm, minimum width=2cm] (tux32) {tux32};
+        \node at (1.0, -2) [rectangle, draw, fill=white] (tux32_E0){ \scriptsize E0 };
 
-%         \draw   (5, +0.6) rectangle ++(4, -3.4);
-%         \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
-%         \node at (7.2, -2.0) [ellipse, draw, minimum height = 1.0cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
-%         \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
-%         \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
-%         \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
+        \draw   (5, +0.6) rectangle ++(4, -3.4);
+        \node at (7.2, -0.5) [ellipse, draw, minimum height = 1.5cm, minimum width = 2.0cm, align=center] (VLAN30) {\small VLAN 30};
+        \node at (7.2, -2.0) [ellipse, draw, minimum height = 1.0cm, minimum width = 2.0cm, align=center] (VLAN31) {\small VLAN 31};
+        \node at (5.0, -0.00) [rectangle, draw, fill=white] (switch_1){ \scriptsize 1 };
+        \node at (5.0, -1.00) [rectangle, draw, fill=white] (switch_2){ \scriptsize 2 };
+        \node at (5.0, -2.00) [rectangle, draw, fill=white] (switch_3){ \scriptsize 3 };
 
-%         \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
-%                 (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
-%                 (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
+        \draw   (tux33_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.1  }}          (switch_1)
+                (tux34_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.30.254}}          (switch_2)
+                (tux32_E0)    edge[above, align=left]     node[xshift=-0.45cm]{\footnotesize \texttt{172.16.31.1  }}          (switch_3)
                 
-%                 (switch_1) edge[] (VLAN30)
-%                 (switch_2) edge[] (VLAN30)
-%                 (switch_3) edge[] (VLAN31)
-%             ;
+                (switch_1) edge[] (VLAN30)
+                (switch_2) edge[] (VLAN30)
+                (switch_3) edge[] (VLAN31)
+            ;
 
-%     \end{tikzpicture}
-% 	\caption{Network architecture for experiment 2}
-% 	\label{fig:network_exp2}
-% \end{figure}
+    \end{tikzpicture}
+	\caption{Network architecture for experiment 2}
+	\label{fig:network_exp2}
+\end{figure}
 
-% \noindent
-% \textbf{Objectives:} implement two virtual LANs in a switch.
+\noindent
+\textbf{Objectives:} implement two virtual LANs in a switch.
 
-% \subsubsection{Main configuration commands} \label{sec:Com2}
+\subsubsection{Main configuration commands} \label{sec:Com2}
 
-% \begin{center}
-%     \small
-%     \begin{tabular}{@{}l | m{103mm} | l@{}}
-%         {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
-%         switch        & Create virtual LAN 30                                 &
-%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% configure terminal
-% vlan 30
-% end
-%             \end{lstlisting} \\
-%         switch        & Assign port 1 to VLAN 30                              & 
-%             \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
-% configure terminal
-% interface fastethernet 0/1
-% switchport mode access
-% switchport access vlan 30
-% end
-%             \end{lstlisting} \\
-%     \end{tabular}
-% \end{center}
+\begin{center}
+    \small
+    \begin{tabular}{@{}l | m{103mm} | l@{}}
+        {\normalfont\textbf{Dev.}} & {\normalfont\textbf{Description}} & {\normalfont\textbf{Commands}}  \\ \hline
+        switch        & Create virtual LAN 30                                 &
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+configure terminal
+vlan 30
+end
+            \end{lstlisting} \\
+        switch        & Assign port 1 to VLAN 30                              & 
+            \begin{lstlisting}[basicstyle=\linespread{0.85}\ttfamily\small, frame=none, numbers=none, language=cisco]
+configure terminal
+interface fastethernet 0/1
+switchport mode access
+switchport access vlan 30
+end
+            \end{lstlisting} \\
+    \end{tabular}
+\end{center}
 
-% \subsubsection{Logs analysis} \label{sec:Log2}
+\subsubsection{Logs analysis} \label{sec:Log2}
 
-% To configure VLAN30, we had to create it in the switch, and then add switch port 1 (tux33-E0) and switch port 2 (tux34-E0) to that VLAN.
+To configure VLAN30, we had to create it in the switch, and then add switch port 1 (tux33-E0) and switch port 2 (tux34-E0) to that VLAN.
 
-% From log \ref{listing:2-5-tux33.pcapng} we infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified this outcome from \texttt{ping} output).
-% From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach tux33 and tux34, but not tux32.
-% From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32.
-% This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
+From log \ref{listing:2-5-tux33.pcapng} we infer tux33 can ping tux34 but cannot ping tux32 (the failed pings to tux32 are not in the log, but we have experimentally verified this outcome from \texttt{ping} output).
+From logs \ref{listing:2-7-tux32.pcapng}, \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng} we see that a broadcast from tux33 can reach tux33 and tux34, but not tux32.
+From logs \ref{listing:2-10-tux32.pcapng}, \ref{listing:2-10-tux33.pcapng} and \ref{listing:2-10-tux34.pcapng} we see that a broadcast from tux32 can only reach tux32.
+This leads us to conclude there are two virtual networks, VLAN30 which includes tux33 and tux34, and VLAN31 which includes tux32, as well as that there are two different broadcast domains, one for each subnet: \texttt{172.16.31.255} and \texttt{172.16.30.255}.
 
-% Upon close inspection of logs \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng}, it can be seen that the destination of the broadcast issued from tux33 is \texttt{172.16.30.0}.
-% We tried to analyse this issue, and concluded the most likely option is that we issued the broadcast from tux33 to the wrong IP address (\texttt{172.16.30.0} instead of the obvious broadcast address \texttt{172.16.30.255} for VLAN30), but that somehow the ping was still considered a broadcast as it is also obvious this ping reached tux34.
-% There are some \cite{ping-subnet-address-1}\cite{ping-subnet-address-2} who mention that historically some devices treat the subnet IP address as a broadcast address.
+Upon close inspection of logs \ref{listing:2-7-tux33.pcapng} and \ref{listing:2-7-tux34.pcapng}, it can be seen that the destination of the broadcast issued from tux33 is \texttt{172.16.30.0}.
+We tried to analyse this issue, and concluded the most likely option is that we issued the broadcast from tux33 to the wrong IP address (\texttt{172.16.30.0} instead of the obvious broadcast address \texttt{172.16.30.255} for VLAN30), but that somehow the ping was still considered a broadcast as it is also obvious this ping reached tux34.
+There are some \cite{ping-subnet-address-1}\cite{ping-subnet-address-2} who mention that historically some devices treat the subnet IP address as a broadcast address.
 
-% On inspecting the ping requests, both broadcasts sent from tux33 and tux32 are Ethernet II frames have their destination set to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}, and only the contained IPv4 destination addresses differ.
-% The switch works on the Data Link layer so it can only understand the Ethernet II frames, not the contained IPv4 packet so it broadcasts both pings in exactly the same way, each in its own subnetwork; so apparently, somewhere in the process of converting the destination IP address to a MAC address, tux33 interpreted \texttt{172.16.30.0} as a broadcast address and framed the IPv4 packet in a frame destined to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}. This is further reinforced by the fact even the \texttt{ping} command recognizes a network address as a broadcast address, assumed from its output \texttt{ping: Do you want to ping broadcast? Then -b. If not, check your local firewall rules} when you try to ping a network IP address without using the \texttt{-b} (broadcast) flag. 
+On inspecting the ping requests, both broadcasts sent from tux33 and tux32 are Ethernet II frames have their destination set to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}, and only the contained IPv4 destination addresses differ.
+The switch works on the Data Link layer so it can only understand the Ethernet II frames, not the contained IPv4 packet so it broadcasts both pings in exactly the same way, each in its own subnetwork; so apparently, somewhere in the process of converting the destination IP address to a MAC address, tux33 interpreted \texttt{172.16.30.0} as a broadcast address and framed the IPv4 packet in a frame destined to the MAC broadcast address \texttt{ff:ff:ff:ff:ff:ff}. This is further reinforced by the fact even the \texttt{ping} command recognizes a network address as a broadcast address, assumed from its output \texttt{ping: Do you want to ping broadcast? Then -b. If not, check your local firewall rules} when you try to ping a network IP address without using the \texttt{-b} (broadcast) flag. 
 
 % \subsection{Experiment 3} \label{sec:Exp3}
 
