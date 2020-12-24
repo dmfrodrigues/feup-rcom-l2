@@ -1,0 +1,40 @@
+name: Compile report
+
+on:
+  push:
+    branches: [ master , dev ]
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+
+
+
+
+
+
+    - name: Install latex and related packages
+      run: |
+        sudo apt update
+        sudo apt install -y texlive-latex-extra texlive-science latexmk curl
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+        # git config --global url."https://github.com/".insteadOf "git@github.com:"
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+    - name: report
+      run: |
+        make -C doc/report report.pdf
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        name: report.pdf
+        path: doc/report/report.pdf

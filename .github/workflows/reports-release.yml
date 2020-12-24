@@ -1,0 +1,38 @@
+name: Reports release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set version
+      run: echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
+
+    - name: Checkout right version
+      run: git checkout $(git rev-list -n 1 $VERSION)
+
+    - name: Install latex and related packages
+      run: sudo apt install -y latexmk texlive-latex-extra texlive-science
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+        # git config --global url."https://github.com/".insteadOf "git@github.com:"
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+    - name: report
+      run: |
+        make -C doc/report report.pdf VERSION=${VERSION:1:100}
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        name: report.pdf
+        path: doc/report/report.pdf
