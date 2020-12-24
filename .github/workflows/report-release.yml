@@ -36,3 +36,19 @@ jobs:
       with:
         name: report.pdf
         path: doc/report/report.pdf
+    - name: zip
+      run: |
+        make zip
+    - name: Upload zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: RCOM_T2G4_Proj2.zip
+        path: RCOM_T2G4_Proj2.zip
+    - name: zipsmall
+      run: |
+        make zipsmall
+    - name: Upload zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: RCOM_T2G4_Proj2_small.zip
+        path: RCOM_T2G4_Proj2_small.zip
