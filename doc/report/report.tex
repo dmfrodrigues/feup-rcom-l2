@@ -164,33 +164,33 @@ Class 2, group 4 \vspace{0.5em} \\
     \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International}
     public license.
 \end{secondpage}
-% \clearpage
+\clearpage
 
-% \pagenumbering{arabic}
+\pagenumbering{arabic}
 
-% \section*{Summary}
+\section*{Summary}
 
-% This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
-% It concerns the configuration of a computer network, and its test and study through a developed FTP client.
+This project was elaborated as the second project in the context of the curricular unit Computer Networks (RCOM), part of the Integrated Master in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP).
+It concerns the configuration of a computer network, and its test and study through a developed FTP client.
 
-% All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the guidelines' requirements.
+All objectives were fulfilled, as we successfully implemented in C a simple FTP client for file retrieval over the Internet, and the configured network abided to the guidelines' requirements.
 
-% \section*{Introduction} \label{sec:Introduction}
+\section*{Introduction} \label{sec:Introduction}
 
-% The present project aims at developing a simple FTP client which is to be tested over a configured network.
-% The source code was developed in the C language, targeting Linux devices.
-% The goal network is composed of three computers, a switch that implements two virtual sub-networks, and a router to provide Internet access.
+The present project aims at developing a simple FTP client which is to be tested over a configured network.
+The source code was developed in the C language, targeting Linux devices.
+The goal network is composed of three computers, a switch that implements two virtual sub-networks, and a router to provide Internet access.
 
-% This report describes the corresponding project's activities, and is divided into two parts.
-% In part 1 we address the design, development and testing of the FTP client.
-% In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that incrementally contribute to the final network configuration.
-% This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router.
+This report describes the corresponding project's activities, and is divided into two parts.
+In part 1 we address the design, development and testing of the FTP client.
+In part 2 we describe the steps on configuring the computer network, over the course of seven short experiments that incrementally contribute to the final network configuration.
+This project was tested in the computers of FEUP, room I321, bench 3, with rack computers 2, 3 and 4, a Cisco Catalyst 3560 Series switch and a Cisco 2900 Series router.
 
-% \section{Download application} \label{sec:Part1}
+\section{Download application} \label{sec:Part1}
 
-% A simple FTP client was developed to test the network configuration.
+A simple FTP client was developed to test the network configuration.
 
-% \subsection{Application architecture} \label{sec:Arc}
+\subsection{Application architecture} \label{sec:Arc}
 
 % The application first parses and verifies if the URL abides to \cite{rfc1738} (\texttt{ftp://[<user>:<password>@]<host> /<url-path>}) using a regular expression.
 % Then it finds the IP address with a call to \texttt{gethostbyname} and the application opens a connection using a socket through port 21 to the FTP server. 
