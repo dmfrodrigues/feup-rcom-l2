@@ -707,222 +707,222 @@ To build the application, run \texttt{make} in directory \texttt{download}. To t
 % \addcontentsline{toc}{section}{Bibliography}
 % \bibliography{report}
 
-% \appendix
-% \appendixpage
-% \addappheadtotoc
-% \chapter{Source code}
+\appendix
+\appendixpage
+\addappheadtotoc
+\chapter{Source code}
 
-% The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}.
-% The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
+The source code of this project can be obtained from \href{https://github.com/dmfrodrigues/feup-rcom-l2}{github.com/dmfrodrigues/feup-rcom-l2}.
+The source code is made available by \textcopyright~Diogo Rodrigues and Breno Pimentel under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License v3} (GPLv3), which you should have received together with the source code, or that you can otherwise obtain online.
 
-% During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons.
-% It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
+During project development and evaluation the repository remained private, although it can be shared with evaluators on request to clarify the development process or due to other justifiable reasons.
+It will be made public once all equivalent curricular unit projects have been evaluated in the present school year.
 
-% \newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
-% \fancyhfoffset{0pt}
+\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+\fancyhfoffset{0pt}
 
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.h}, language=C]{../../download/include/url_parser.h}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.c}, language=C]{../../download/src/url_parser.c}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.h}, language=C]{../../download/include/url_parser.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{url\_parser.c}, language=C]{../../download/src/url_parser.c}
 
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.h}, language=C]{../../download/include/server_cmds.h}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.c}, language=C]{../../download/src/server_cmds.c}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.h}, language=C]{../../download/include/server_cmds.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{server\_cmds.c}, language=C]{../../download/src/server_cmds.c}
 
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.h}, language=C]{../../download/include/download.h}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.c}, language=C]{../../download/src/download.c}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.h}, language=C]{../../download/include/download.h}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{download.c}, language=C]{../../download/src/download.c}
 
-% \restoregeometry
+\restoregeometry
 
-% \chapter{Configuration commands} \label{sec:configuration}
+\chapter{Configuration commands} \label{sec:configuration}
 
-% Before starting experiment 4, we noticed there was an issue with communication between tux34-E1 and switch port 4.
-% With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
-% We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
-% This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
+Before starting experiment 4, we noticed there was an issue with communication between tux34-E1 and switch port 4.
+With the help of a teacher we were able to track the issue down to the tux34-eth1 interface and were told to use tux34-eth2 without much explanation, although the cable should remain connected to rack port tux34-E1.
+We narrowed down the options until the only one left was that the cable connecting tux34-eth2 in the back of the computer to the front ports of the rack was wrongly connected to the rack port tux34-E1.
+This is supported by the fact that, in log \ref{listing:4-4g-tux32-yesredirect-noroute.pcapng}, packet \#4, where tux32 was expected to receive the response packet from tux34-eth1 (MAC address \texttt{00:c0:df:25:26:0a}), it instead received the response from MAC address \texttt{00:01:02:21:83:0e}; our only option is thus to assume this is the MAC address of tux34-eth2.
 
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
-% \lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy2\_config.sh}, language=bash]{../../part2/config/tuxy2_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy3\_config.sh}, language=bash]{../../part2/config/tuxy3_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{tuxy4\_config.sh}, language=bash]{../../part2/config/tuxy4_config.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{switch.sh}, language=cisco]{../../part2/config/switch.sh}
+\lstinputlisting[basicstyle=\ttfamily\small, caption=\texttt{router.sh}, language=cisco]{../../part2/config/router.sh}
 
-% \newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
-% \fancyhfoffset{0pt}
-% \chapter{Logs}
+\newgeometry{top=24mm,bottom=24mm,left=14mm,right=14mm}
+\fancyhfoffset{0pt}
+\chapter{Logs}
 
-% \counterwithin{lstlisting}{subsection}
-% \renewcommand{\thelstlisting}{%
-%   \thechapter.\thesubsection(\arabic{lstlisting})%
-% }
+\counterwithin{lstlisting}{subsection}
+\renewcommand{\thelstlisting}{%
+  \thechapter.\thesubsection(\arabic{lstlisting})%
+}
 
-% \begin{center}
-%     \begin{tabular}{l | l | l}
-%         \textbf{Interface} & \textbf{MAC address}       & \textbf{IP address}    \\ \hline
-%         tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
-%         tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
-%         tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
-%         tux34-eth1         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
-%         tux34-eth2         & \texttt{00:01:02:21:83:0e} & \texttt{172.16.31.253} \\
-%         Rc-GE0/0           & \texttt{68:ef:bd:d6:aa:b8} & \texttt{172.16.31.254} \\
-%         Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
-%     \end{tabular}
-% \end{center}
+\begin{center}
+    \begin{tabular}{l | l | l}
+        \textbf{Interface} & \textbf{MAC address}       & \textbf{IP address}    \\ \hline
+        tux32-eth0         & \texttt{00:21:5a:61:30:63} & \texttt{172.16.31.1  } \\
+        tux33-eth0         & \texttt{00:21:5a:61:24:92} & \texttt{172.16.30.1  } \\
+        tux34-eth0         & \texttt{00:21:5a:5a:7d:74} & \texttt{172.16.30.254} \\
+        tux34-eth1         & \texttt{00:c0:df:25:26:0a} & \texttt{172.16.31.253} \\
+        tux34-eth2         & \texttt{00:01:02:21:83:0e} & \texttt{172.16.31.253} \\
+        Rc-GE0/0           & \texttt{68:ef:bd:d6:aa:b8} & \texttt{172.16.31.254} \\
+        Rc-GE0/1           & \texttt{                 } & \texttt{172.16.1.39  } \\
+    \end{tabular}
+\end{center}
 
-% \section{Experiment 1}
-% \setcounter{subsection}{4}
-% \subsection{Item 5}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-routes}, caption=\texttt{1-5-tux33-routes.txt}]{../../part2/exp1/1-5-tux33-routes.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-arp},    caption=\texttt{1-5-tux33-arp.txt}   ]{../../part2/exp1/1-5-tux33-arp.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-routes}, caption=\texttt{1-5-tux34-routes.txt}]{../../part2/exp1/1-5-tux34-routes.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-arp},    caption=\texttt{1-5-tux34-arp.txt}   ]{../../part2/exp1/1-5-tux34-arp.txt}
+\section{Experiment 1}
+\setcounter{subsection}{4}
+\subsection{Item 5}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-routes}, caption=\texttt{1-5-tux33-routes.txt}]{../../part2/exp1/1-5-tux33-routes.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux33-arp},    caption=\texttt{1-5-tux33-arp.txt}   ]{../../part2/exp1/1-5-tux33-arp.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-routes}, caption=\texttt{1-5-tux34-routes.txt}]{../../part2/exp1/1-5-tux34-routes.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:1-5-tux34-arp},    caption=\texttt{1-5-tux34-arp.txt}   ]{../../part2/exp1/1-5-tux34-arp.txt}
 
-% \begin{landscape}
-% \setcounter{subsection}{9}
-% \subsection{Item 10}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:1-10-tux33.pcapng}, caption=\texttt{1-10-tux33.pcapng.txt}]{../../part2/exp1/1-10-tux33.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\setcounter{subsection}{9}
+\subsection{Item 10}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:1-10-tux33.pcapng}, caption=\texttt{1-10-tux33.pcapng.txt}]{../../part2/exp1/1-10-tux33.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \section{Experiment 2}
+\begin{landscape}
+\section{Experiment 2}
 
-% \setcounter{subsection}{4}
-% \subsection{Item 5}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-5-tux33.pcapng}, caption=\texttt{2-5-tux33.pcapng.txt}]{../../part2/exp2/2-5-tux33.pcapng.txt} \pagebreak
+\setcounter{subsection}{4}
+\subsection{Item 5}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-5-tux33.pcapng}, caption=\texttt{2-5-tux33.pcapng.txt}]{../../part2/exp2/2-5-tux33.pcapng.txt} \pagebreak
 
-% \setcounter{subsection}{6}
-% \subsection{Item 7}
+\setcounter{subsection}{6}
+\subsection{Item 7}
 
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux32.pcapng}, caption=\texttt{2-7-tux32.pcapng.txt}]{../../part2/exp2/2-7-tux32.pcapng.txt} \pagebreak
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux33.pcapng}, caption=\texttt{2-7-tux33.pcapng.txt}]{../../part2/exp2/2-7-tux33.pcapng.txt} \pagebreak
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux34.pcapng}, caption=\texttt{2-7-tux34.pcapng.txt}]{../../part2/exp2/2-7-tux34.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux32.pcapng}, caption=\texttt{2-7-tux32.pcapng.txt}]{../../part2/exp2/2-7-tux32.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux33.pcapng}, caption=\texttt{2-7-tux33.pcapng.txt}]{../../part2/exp2/2-7-tux33.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-7-tux34.pcapng}, caption=\texttt{2-7-tux34.pcapng.txt}]{../../part2/exp2/2-7-tux34.pcapng.txt} \pagebreak
 
-% \setcounter{subsection}{9}
-% \subsection{Item 10}
+\setcounter{subsection}{9}
+\subsection{Item 10}
 
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux32.pcapng}, caption=\texttt{2-10-tux32.pcapng.txt}]{../../part2/exp2/2-10-tux32.pcapng.txt} \pagebreak
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux33.pcapng}, caption=\texttt{2-10-tux33.pcapng.txt}]{../../part2/exp2/2-10-tux33.pcapng.txt} \pagebreak
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux34.pcapng}, caption=\texttt{2-10-tux34.pcapng.txt}]{../../part2/exp2/2-10-tux34.pcapng.txt}
-% \end{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux32.pcapng}, caption=\texttt{2-10-tux32.pcapng.txt}]{../../part2/exp2/2-10-tux32.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux33.pcapng}, caption=\texttt{2-10-tux33.pcapng.txt}]{../../part2/exp2/2-10-tux33.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:2-10-tux34.pcapng}, caption=\texttt{2-10-tux34.pcapng.txt}]{../../part2/exp2/2-10-tux34.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \section{Experiment 3}
+\begin{landscape}
+\section{Experiment 3}
 
-% \setcounter{subsection}{2}
-% \subsection{Item 3}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux32.route}, caption=\texttt{3-7-tux32.route.txt}]{../../part2/exp3/3-4-tux32.route.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux33.route}, caption=\texttt{3-7-tux33.route.txt}]{../../part2/exp3/3-4-tux33.route.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux34.route}, caption=\texttt{3-7-tux34.route.txt}]{../../part2/exp3/3-4-tux34.route.txt}
+\setcounter{subsection}{2}
+\subsection{Item 3}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux32.route}, caption=\texttt{3-7-tux32.route.txt}]{../../part2/exp3/3-4-tux32.route.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux33.route}, caption=\texttt{3-7-tux33.route.txt}]{../../part2/exp3/3-4-tux33.route.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:3-7-tux34.route}, caption=\texttt{3-7-tux34.route.txt}]{../../part2/exp3/3-4-tux34.route.txt}
 
-% \setcounter{subsection}{6}
-% \subsection{Item 7}
+\setcounter{subsection}{6}
+\subsection{Item 7}
 
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-7-tux33.pcapng}, caption=\texttt{3-7-tux33.pcapng.txt}]{../../part2/exp3/3-7-tux33.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-7-tux33.pcapng}, caption=\texttt{3-7-tux33.pcapng.txt}]{../../part2/exp3/3-7-tux33.pcapng.txt} \pagebreak
 
-% \setcounter{subsection}{7}
-% \subsection{Item 8}
+\setcounter{subsection}{7}
+\subsection{Item 8}
 
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth0.pcapng}, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth1.pcapng}, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
-% \end{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth0.pcapng}, caption=\texttt{3-8-tux34-eth0.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth0.pcapng.txt} \pagebreak
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:3-8-tux34-eth1.pcapng}, caption=\texttt{3-8-tux34-eth1.pcapng.txt}]{../../part2/exp3/3-8-tux34-eth1.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \section{Experiment 4}
+\begin{landscape}
+\section{Experiment 4}
 
-% \begin{table}[h]
-%     \centering
-%     \small
-%     \begin{tabular}{@{}l | l | l | l | l@{}}
-%         {\normalfont\textbf{Redirect      }} & \redcross    & \redcross & \greencheckmark          & \greencheckmark \\ \hline
-%         {\normalfont\textbf{Route         }} & \redcross    & \greencheckmark & \redcross          & \greencheckmark \\ \hline
-%         Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
-%         Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
-%         Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
-%         Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
-%     \end{tabular}
-%     \caption{List of hops for tux32 configurations: dark - address visited every time; gray - address visited only the first time.}
-%     \label{fig:hops}
-% \end{table}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{@{}l | l | l | l | l@{}}
+        {\normalfont\textbf{Redirect      }} & \redcross    & \redcross & \greencheckmark          & \greencheckmark \\ \hline
+        {\normalfont\textbf{Route         }} & \redcross    & \greencheckmark & \redcross          & \greencheckmark \\ \hline
+        Hop 0                                & \texttt{172.16.31.1  } & \texttt{172.16.31.1  }    & \texttt{172.16.31.1  }             & \texttt{172.16.31.1  }          \\
+        Hop 1                                & \texttt{172.16.31.254} & \texttt{172.16.31.253}    & \texttt{\color{gray}172.16.31.254} & \texttt{172.16.31.253}          \\
+        Hop 2                                & \texttt{172.16.31.253} & \texttt{172.16.30.1  }    & \texttt{172.16.31.253}             & \texttt{172.16.30.1  }          \\
+        Hop 3                                & \texttt{172.16.30.1  } & \texttt{             }    & \texttt{172.16.30.1  }             & \texttt{             }          
+    \end{tabular}
+    \caption{List of hops for tux32 configurations: dark - address visited every time; gray - address visited only the first time.}
+    \label{fig:hops}
+\end{table}
 
-% \setcounter{subsection}{2}
-% \subsection{Item 3}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-3-tux33.pcapng}, caption=\texttt{4-3-tux33.pcapng.txt}]{../../part2/exp4/4-3-tux33.pcapng.txt}
+\setcounter{subsection}{2}
+\subsection{Item 3}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-3-tux33.pcapng}, caption=\texttt{4-3-tux33.pcapng.txt}]{../../part2/exp4/4-3-tux33.pcapng.txt}
 
-% \setcounter{subsection}{3}
-% \subsection{Item 4}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.ping},   caption=\texttt{4-4c-tux32-noredirect-noroute.ping.txt}       ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.ping.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.pcapng}, caption=\texttt{4-4c-tux32-noredirect-noroute.pcapng.txt}     ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.pcapng.txt}
-% \end{landscape}
+\setcounter{subsection}{3}
+\subsection{Item 4}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.ping},   caption=\texttt{4-4c-tux32-noredirect-noroute.ping.txt}       ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.ping.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4c-tux32-noredirect-noroute.pcapng}, caption=\texttt{4-4c-tux32-noredirect-noroute.pcapng.txt}     ]{../../part2/exp4/4-4c-tux32-noredirect-noroute.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4e-tux32-noredirect-noroute.traceroute},  caption=\texttt{4-4e-tux32-noredirect-noroute.traceroute.txt} ]{../../part2/exp4/4-4e-tux32-noredirect-noroute.traceroute.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4f-tux32-noredirect-yesroute.traceroute}, caption=\texttt{4-4f-tux32-noredirect-yesroute.traceroute.txt}]{../../part2/exp4/4-4f-tux32-noredirect-yesroute.traceroute.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.ping},       caption=\texttt{4-4g-tux32-yesredirect-noroute.ping.txt}      ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.ping.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.pcapng},     caption=\texttt{4-4g-tux32-yesredirect-noroute.pcapng.txt}    ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4e-tux32-noredirect-noroute.traceroute},  caption=\texttt{4-4e-tux32-noredirect-noroute.traceroute.txt} ]{../../part2/exp4/4-4e-tux32-noredirect-noroute.traceroute.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4f-tux32-noredirect-yesroute.traceroute}, caption=\texttt{4-4f-tux32-noredirect-yesroute.traceroute.txt}]{../../part2/exp4/4-4f-tux32-noredirect-yesroute.traceroute.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.ping},       caption=\texttt{4-4g-tux32-yesredirect-noroute.ping.txt}      ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.ping.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-4g-tux32-yesredirect-noroute.pcapng},     caption=\texttt{4-4g-tux32-yesredirect-noroute.pcapng.txt}    ]{../../part2/exp4/4-4g-tux32-yesredirect-noroute.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \setcounter{subsection}{4}
-% \subsection{Item 5}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-5-tux33.ping},   caption=\texttt{4-5-tux33.ping.txt}  ]{../../part2/exp4/4-5-tux33.ping.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-5-tux33.pcapng}, caption=\texttt{4-5-tux33.pcapng.txt}]{../../part2/exp4/4-5-tux33.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\setcounter{subsection}{4}
+\subsection{Item 5}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-5-tux33.ping},   caption=\texttt{4-5-tux33.ping.txt}  ]{../../part2/exp4/4-5-tux33.ping.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-5-tux33.pcapng}, caption=\texttt{4-5-tux33.pcapng.txt}]{../../part2/exp4/4-5-tux33.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \setcounter{subsection}{6}
-% \subsection{Item 7}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-7-tux33.ping},   caption=\texttt{4-7-tux33.ping.txt}  ]{../../part2/exp4/4-7-tux33.ping.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-7-tux33.pcapng}, caption=\texttt{4-7-tux33.pcapng.txt}]{../../part2/exp4/4-7-tux33.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\setcounter{subsection}{6}
+\subsection{Item 7}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:4-7-tux33.ping},   caption=\texttt{4-7-tux33.ping.txt}  ]{../../part2/exp4/4-7-tux33.ping.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:4-7-tux33.pcapng}, caption=\texttt{4-7-tux33.pcapng.txt}]{../../part2/exp4/4-7-tux33.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \section{Experiment 5}
-% \setcounter{subsection}{2}
-% \subsection{Item 3}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:5-3-tux33.ping},   caption=\texttt{5-3-tux33.ping.txt}  ]{../../part2/exp5/5-3-tux33.ping.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:5-3-tux33.pcapng}, caption=\texttt{5-3-tux33.pcapng.txt}]{../../part2/exp5/5-3-tux33.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\section{Experiment 5}
+\setcounter{subsection}{2}
+\subsection{Item 3}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small     , frame=tbr, label={listing:5-3-tux33.ping},   caption=\texttt{5-3-tux33.ping.txt}  ]{../../part2/exp5/5-3-tux33.ping.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\scriptsize, frame=tbr, label={listing:5-3-tux33.pcapng}, caption=\texttt{5-3-tux33.pcapng.txt}]{../../part2/exp5/5-3-tux33.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \section{Experiment 6}
+\begin{landscape}
+\section{Experiment 6}
 
-% \setcounter{subsection}{1}
-% \subsection{Item 2}
-% \subsubsection{Transferring \texttt{pipe.txt}}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pipe.download}, caption=\texttt{6-2-tux33-pipe.download.txt}]{../../part2/exp6/6-2-tux33-pipe.download.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pipe.pcapng},   caption=\texttt{6-2-tux33-pipe.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pipe.pcapng.txt}
-% \end{landscape}
+\setcounter{subsection}{1}
+\subsection{Item 2}
+\subsubsection{Transferring \texttt{pipe.txt}}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pipe.download}, caption=\texttt{6-2-tux33-pipe.download.txt}]{../../part2/exp6/6-2-tux33-pipe.download.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pipe.pcapng},   caption=\texttt{6-2-tux33-pipe.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pipe.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \subsubsection{Transferring \texttt{pic2.png}}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pic2.download}, caption=\texttt{6-2-tux33-pic2.download.txt}]{../../part2/exp6/6-2-tux33-pic2.download.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pic2.pcapng},   caption=\texttt{6-2-tux33-pic2.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pic2.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\subsubsection{Transferring \texttt{pic2.png}}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-2-tux33-pic2.download}, caption=\texttt{6-2-tux33-pic2.download.txt}]{../../part2/exp6/6-2-tux33-pic2.download.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr, label={listing:6-2-tux33-pic2.pcapng},   caption=\texttt{6-2-tux33-pic2.pcapng.txt}  ]{../../part2/exp6/6-2-tux33-pic2.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \setcounter{subsection}{4}
-% \subsection{Item 5}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux32}, caption=\texttt{6-5-tux32.download.txt}]{../../part2/exp6/6-5-tux32.download.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux32.pcapng.txt}  ]{../../part2/exp6/6-5-tux32.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\setcounter{subsection}{4}
+\subsection{Item 5}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux32}, caption=\texttt{6-5-tux32.download.txt}]{../../part2/exp6/6-5-tux32.download.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux32.pcapng.txt}  ]{../../part2/exp6/6-5-tux32.pcapng.txt}
+\end{landscape}
 
-% \begin{landscape}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux33}, caption=\texttt{6-5-tux33.download.txt}]{../../part2/exp6/6-5-tux33.download.txt}
-% \lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux33.pcapng.txt}  ]{../../part2/exp6/6-5-tux33.pcapng.txt}
-% \end{landscape}
+\begin{landscape}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\small, frame=tbr, label={listing:6-5-tux33}, caption=\texttt{6-5-tux33.download.txt}]{../../part2/exp6/6-5-tux33.download.txt}
+\lstinputlisting[basicstyle=\linespread{0.85}\ttfamily\tiny , frame=tbr,                            caption=\texttt{6-5-tux33.pcapng.txt}  ]{../../part2/exp6/6-5-tux33.pcapng.txt}
+\end{landscape}
 
-% \restoregeometry
+\restoregeometry
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.6\linewidth]{6-2-tux33-pic2-throughput.png}
-%     \caption{Throughput during transfer of \texttt{pic2.png} in experiment 6, item 2.}
-%     \label{fig:6-2-tux33-pic2-throughput}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{6-2-tux33-pic2-throughput.png}
+    \caption{Throughput during transfer of \texttt{pic2.png} in experiment 6, item 2.}
+    \label{fig:6-2-tux33-pic2-throughput}
+\end{figure}
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=\linewidth]{exp6_item5_hist.png}
-%     \caption{Throughput of tux32 and tux33 during overlapping downloads (experiment 6, item 5).}
-%     \label{fig:exp6_item5}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{exp6_item5_hist.png}
+    \caption{Throughput of tux32 and tux33 during overlapping downloads (experiment 6, item 5).}
+    \label{fig:exp6_item5}
+\end{figure}
 
 \end{document}
