@@ -1,4 +1,4 @@
-LATEXMK=latexmk -f -interaction=nonstopmode --shell-escape -pdf #-quiet -silent
+LATEXMK=latexmk -f -interaction=nonstopmode --shell-escape -pdf -quiet -silent
 
 all: report.pdf
 
