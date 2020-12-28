@@ -30,6 +30,7 @@ download/README.html
 *.lof
 lib*.a
 *.zip
+*.7z
 COMMIT.tex
 *.ods
 *.ods#

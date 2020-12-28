@@ -7,8 +7,11 @@ doc/report/report.pdf: FORCE
 
 $(ZIP): doc/report/report.pdf
 	mkdir -p $(ZIP)
+	mkdir -p $(ZIP)/download
+	mkdir -p $(ZIP)/part2
 	cp doc/report/report.pdf $(ZIP)
-	cp -r part2/* $(ZIP)
+	cp -r download/* $(ZIP)/download/
+	cp -r part2/* $(ZIP)/part2/
 	rm -rf $(ZIP)/config
 	rm -f $(ZIP)/*.md
 	rm -f $(ZIP)/*/*.md
